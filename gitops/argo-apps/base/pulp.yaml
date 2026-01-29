@@ -1,0 +1,69 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_pulp_argocd_app_name}
+  namespace: ${ARGOCD_ENV_pulp_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_pulp_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jqPathExpressions:
+        - '.spec.template.metadata.annotations."checksum/secret"'
+        - '.spec.template.metadata.annotations."checksum/secret-core"'
+        - '.spec.template.metadata.annotations."checksum/secret-jobservice"'
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_pulp_app_namespace}
+
+  source:
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    targetRevision: ${ARGOCD_ENV_pulp_application_gitrepo_tag}
+    path: gitops/applications/base/pulp
+    plugin:
+      name: envsubst
+      env:
+        - name: "pulp_namespace"
+          value: "${ARGOCD_ENV_pulp_pulp_namespace}"
+
+        - name: "vault_namespace"
+          value: "${ARGOCD_ENV_vault_vault_namespace}"
+
+        - name: "pulp_app_name"
+          value: "${ARGOCD_ENV_pulp_pulp_app_name}"
+
+        - name: "pulp_helm_version"
+          value: "${ARGOCD_ENV_pulp_pulp_helm_version}"
+
+        - name: "pulp_istio_gateway_namespace"
+          value: "${ARGOCD_ENV_pulp_pulp_istio_gateway_namespace}"
+
+        - name: "pulp_istio_wildcard_gateway_name"
+          value: "${ARGOCD_ENV_pulp_pulp_istio_wildcard_gateway_name}"
+
+        - name: "pulp_dns_subdomain"
+          value: "${ARGOCD_ENV_pulp_pulp_dns_subdomain}"
+
+        - name: "pulp_storage_size"
+          value: "${ARGOCD_ENV_pulp_pulp_storage_size}"
+

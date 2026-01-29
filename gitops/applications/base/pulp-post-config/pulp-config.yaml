@@ -1,0 +1,75 @@
+apiVersion: pulp.pulpproject.org/v1beta2
+kind: Pulp
+metadata:
+  name: pulp-pull-through-cache
+spec:
+  # Minimal resource footprint
+  api:
+    replicas: 1
+    resources:
+      requests:
+        memory: "512Mi"
+        cpu: "250m"
+  
+  content:
+    replicas: 1
+    resources:
+      requests:
+        memory: "512Mi"
+        cpu: "250m"
+  
+  worker:
+    replicas: 2
+    resources:
+      requests:
+        memory: "512Mi"
+        cpu: "250m"
+  
+  # Database (required, operator-managed)
+  database:
+    type: postgres
+    postgres_secret: pulp-database-password
+    persistence:
+      enabled: true
+      size: 10Gi
+      access_mode: ReadWriteOnce
+  
+  # Redis for caching (operator-managed)
+  redis:
+    enabled: true
+    persistence:
+      enabled: true
+      size: 5Gi
+      access_mode: ReadWriteOnce
+  
+  # Content storage - grows as cache is populated
+  storage:
+    type: persistent
+    pulp_storage:
+      access_mode: ReadWriteOnce
+      size: 100Gi
+  
+  pulp_settings:
+    secret_key_secret: pulp-password
+    telemetry:
+      enabled: false
+---
+# 13. Service for access (UPDATED for Istio)
+apiVersion: v1
+kind: Service
+metadata:
+  name: pulp-pull-through-service
+spec:
+  ports:
+  - name: http-web  # Container registry endpoint
+    port: 8080
+    targetPort: 8080
+    protocol: TCP
+  - name: http-api  # API endpoint for management
+    port: 24817
+    targetPort: 24817
+    protocol: TCP
+  selector:
+    pulpproject.org/component: api
+  type: ClusterIP  # Default, change to LoadBalancer if needed
+

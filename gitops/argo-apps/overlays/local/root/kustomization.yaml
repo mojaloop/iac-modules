@@ -75,3 +75,8 @@ resources:
 
   # k8s
   - ../../../base/k8s-post-config.yaml
+
+  # harbor
+  - ../../../base/pulp.yaml
+  - ../../../base/pulp-pre.yaml
+  - ../../../base/pulp-post-config.yaml

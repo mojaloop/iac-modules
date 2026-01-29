@@ -1,0 +1,98 @@
+# 15. VIRTUAL SERVICE (Istio routing)
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: pulp-virtual-service
+  namespace: pulp-system
+spec:
+  gateways:
+    - ${ARGOCD_ENV_pulp_istio_gateway_namespace}/${ARGOCD_ENV_pulp_istio_wildcard_gateway_name}
+  hosts:
+    - "pulp.${ARGOCD_ENV_pulp_dns_subdomain}"
+  http:
+  # Container registry routes
+  - match:
+    - uri:
+        prefix: "/containers/"
+    rewrite:
+      uri: "/"
+    route:
+    - destination:
+        host: pulp-pull-through-service.pulp-system.svc.cluster.local
+        port:
+          number: 8080
+    # Optional: Add timeout, retry, CORS policies
+    timeout: 300s  # Long timeout for large image pulls
+    retries:
+      attempts: 3
+      perTryTimeout: 60s
+    corsPolicy:
+      allowOrigins:
+      - "*"
+      allowMethods:
+      - GET
+      - HEAD
+      - POST
+      allowHeaders:
+      - "*"
+  
+  # Helm repository routes
+  - match:
+    - uri:
+        prefix: "/helm/"
+    rewrite:
+      uri: "/"
+    route:
+    - destination:
+        host: pulp-pull-through-service.pulp-system.svc.cluster.local
+        port:
+          number: 8080
+    timeout: 60s
+  
+  # Ansible Galaxy routes
+  - match:
+    - uri:
+        prefix: "/ansible/"
+    rewrite:
+      uri: "/"
+    route:
+    - destination:
+        host: pulp-pull-through-service.pulp-system.svc.cluster.local
+        port:
+          number: 8080
+    timeout: 60s
+  
+  # API/management routes (optional)
+  - match:
+    - uri:
+        prefix: "/pulp/api/"
+    route:
+    - destination:
+        host: pulp-pull-through-service.pulp-system.svc.cluster.local
+        port:
+          number: 24817
+    timeout: 30s
+---
+# # 17. SERVICE ENTRY (Optional, if you need to access external registries through Istio)
+# apiVersion: networking.istio.io/v1beta1
+# kind: ServiceEntry
+# metadata:
+#   name: external-registries
+#   namespace: pulp-system
+# spec:
+#   hosts:
+#   - "registry-1.docker.io"
+#   - "quay.io"
+#   - "registry.k8s.io"
+#   - "charts.helm.sh"
+#   - "charts.bitnami.com"
+#   - "galaxy.ansible.com"
+#   ports:
+#   - number: 443
+#     name: https
+#     protocol: HTTPS
+#   - number: 80
+#     name: http
+#     protocol: HTTP
+#   resolution: DNS
+#   location: MESH_EXTERNAL

@@ -1,0 +1,2 @@
+namespace: ${ARGOCD_ENV_pulp_namespace}
+operatorNamespace: ${ARGOCD_ENV_pulp_operator_namespace}
