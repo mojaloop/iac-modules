@@ -3,6 +3,8 @@ kind: VaultBackupConfig
 metadata:
   name: vault-backup-config
   namespace: ${ARGOCD_vault_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: 6
 spec:
   parameters:
     backupEnabled: ${ARGOCD_ENV_vault_backup_enabled}
