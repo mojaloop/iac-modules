@@ -118,8 +118,6 @@ init:
       aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
-    # Fetch new tags in cached git repos to avoid stale tag errors
-    - find ${TF_ROOT} -path '*/.terragrunt-cache/*/.git' -type d -exec git -C {} fetch --tags --force \; 2>/dev/null || true
     # We need to reconfigure the initialized cache
     - terragrunt run-all init -upgrade -input=false -reconfigure
 
