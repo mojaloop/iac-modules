@@ -761,3 +761,8 @@ argocd_override:
           dynamic_ip_range_end: "${sc_metallb_dynamic_ip_range_end}"
         openebs:
           helm_version: "${sc_openebs_helm_version}"
+    pulp:
+      application_gitrepo_tag: "${iac_terraform_modules_tag}"
+      sub_apps:
+        pulp:
+          helm_version: "${pulp_helm_version}"
