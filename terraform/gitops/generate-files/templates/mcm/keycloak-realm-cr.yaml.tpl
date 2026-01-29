@@ -1,25 +1,43 @@
 apiVersion: k8s.keycloak.org/v2alpha1
 kind: KeycloakRealmImport
 metadata:
-  name: ${keycloak_hubop_realm_name}
+  name: ${keycloak_dfsp_realm_name}
   namespace: ${keycloak_namespace}
 spec:
   keycloakCRName: ${keycloak_name}
   realm:
-    realm: ${keycloak_hubop_realm_name}
-    displayName: ${keycloak_hubop_realm_display_name}
+    realm: ${keycloak_dfsp_realm_name}
+    displayName: ${keycloak_dfsp_realm_display_name}
     enabled: true
     registrationEmailAsUsername: true
     clients:
-    - clientId: ${hubop_oidc_client_id}
-      secret: ${hubop_oidc_client_secret_secret_name}
+    - clientId: connection-manager-api-service
+      secret: ${mcm_dfsp_admin_client_secret_name}
+      enabled: true
+      clientAuthenticatorType: client-secret
+      redirectUris: []
+      webOrigins: []
+      publicClient: false
+      protocol: openid-connect
+      serviceAccountsEnabled: true
+      standardFlowEnabled: false
+      directAccessGrantsEnabled: false
+      authorizationServicesEnabled: false
+      implicitFlowEnabled: false
+      attributes:
+        access.token.lifespan: "${keycloak_access_token_lifespan}"
+    - clientId: ${dfsp_oidc_client_id}
+      secret: ${dfsp_oidc_client_secret_name}
       enabled: true
       clientAuthenticatorType: client-secret
       redirectUris:
       - "*"
+      - https://${mcm_fqdn}/api/auth/callback
+      - https://${mcm_fqdn}/*
       - https://${auth_fqdn}/*
       webOrigins:
       - "*"
+      - https://${mcm_fqdn}
       - https://${auth_fqdn}
       publicClient: false
       protocol: openid-connect
@@ -53,46 +71,42 @@ spec:
           userinfo.token.claim: 'true'
     roles:
       realm:
-      - name: hub-admin
-        description: Administrator role for hub operations
+      - name: dfsp-admin
+        description: Administrator role for DFSP users
+        composite: true
+        composites:
+          client:
+            realm-management:
+            - manage-users
+            - view-users
+            - manage-clients
+            - view-clients
     groups:
     - name: Application
       subGroups:
-      - name: MTA
+      - name: DFSP
         attributes:
           description:
-          - Mojabox Technical Administrators
-      - name: PTA
-        attributes:
-          description:
-          - Portal Technical Administrators
+          - DFSP parent group for MCM-managed DFSP subgroups
     users:
-    - username: ${role_assign_svc_user}
+    - username: service-account-connection-manager-api-service
+      emailVerified: false
       enabled: true
-      email: ${role_assign_svc_user}@none.com
-      firstName: Role
-      lastName: Assign
-      credentials:
-      - type: password
-        value: ${role_assign_svc_secret_name}
-      clientRoles:
-        realm-management:
-        - view-users
-      groups: []
-    - username: "${portal_admin_user}"
-      email: ${portal_admin_user}@none.com
-      emailVerified: true
-      enabled: true
-      firstName: Portal
-      lastName: Admin
-      credentials:
-      - type: password
-        value: ${portal_admin_secret_name}
-      clientRoles: {}
+      totp: false
+      serviceAccountClientId: connection-manager-api-service
+      disableableCredentialTypes: []
       requiredActions: []
+      realmRoles:
+      - default-roles-${keycloak_dfsp_realm_name}
+      - dfsp-admin
+      clientRoles: {}
       notBefore: 0
-      groups:
-      - Application/PTA
+      groups: []
+    clientScopeMappings:
+      connection-manager-api-service:
+      - client: realm-management
+        roles:
+        - dfsp-admin
     otpPolicyType: totp
     otpPolicyAlgorithm: HmacSHA1
     otpPolicyInitialCounter: 0

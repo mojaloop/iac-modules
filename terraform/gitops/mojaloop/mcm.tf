@@ -28,14 +28,11 @@ module "generate_mcm_files" {
     switch_domain                        = var.public_subdomain
     vault_endpoint                       = "http://vault.${var.vault_namespace}.svc.cluster.local:8200"
     pki_base_domain                      = var.public_subdomain
-    mcm_chart_repo                       = var.mcm_chart_repo
-    mcm_chart_version                    = var.mcm_chart_version
     mcm_namespace                        = var.mcm_namespace
     gitlab_project_url                   = var.gitlab_project_url
     public_subdomain                     = var.public_subdomain
     enable_oidc                          = var.enable_mcm_oidc
     mcm_sync_wave                        = var.mcm_sync_wave
-    ingress_class                        = try(var.app_var_map.mcm_ingress_internal_lb, false) ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_create_ingress_gateways        = var.istio_create_ingress_gateways
     pki_path                             = var.vault_root_ca_name
     dfsp_client_cert_bundle              = local.dfsp_client_cert_bundle
@@ -61,13 +58,12 @@ module "generate_mcm_files" {
     private_network_cidr                 = var.private_network_cidr
     interop_switch_fqdn                  = local.external_interop_switch_fqdn
     keycloak_fqdn                        = var.keycloak_fqdn
-    keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
+    keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
+    keycloak_dfsp_realm_display_name     = var.keycloak_dfsp_realm_display_name
     keycloak_name                        = var.keycloak_name
     keycloak_namespace                   = var.keycloak_namespace
     cert_man_vault_cluster_issuer_name   = var.cert_man_vault_cluster_issuer_name
     mcm_oidc_client_id                   = var.mcm_oidc_client_id
-    hubop_oidc_client_id                 = var.hubop_oidc_client_id
-    hubop_oidc_client_secret_secret      = var.hubop_oidc_client_secret_secret
     internal_load_balancer_dns           = var.internal_load_balancer_dns
     external_load_balancer_dns           = var.external_load_balancer_dns
     istio_internal_gateway_name          = var.istio_internal_gateway_name
@@ -90,10 +86,12 @@ module "generate_mcm_files" {
     ttk_fqdn                             = local.ttk_fqdn
     keycloak_access_token_lifespan       = 43200
     vault_secret_key                     = var.vault_secret_key
-    portal_admin_user                    = var.portal_admin_user
-    portal_admin_email                   = var.portal_admin_email
-    portal_admin_secret                  = var.portal_admin_secret
     mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
+    mcm_dfsp_admin_client_secret         = var.mcm_dfsp_admin_client_secret
+    mcm_dfsp_admin_client_secret_name    = join("$", ["", "{${replace(var.mcm_dfsp_admin_client_secret, "-", "_")}}"])
+    dfsp_oidc_client_secret              = var.dfsp_oidc_client_secret
+    dfsp_oidc_client_secret_name         = join("$", ["", "{${replace(var.dfsp_oidc_client_secret, "-", "_")}}"])
+    dfsp_oidc_client_id                  = var.dfsp_oidc_client_id
     cluster                              = var.app_var_map.cluster
     istio_ml_egress_waypoint_name        = var.istio_ml_egress_waypoint_name
     istio_ml_egress_waypoint_namespace   = var.istio_ml_egress_waypoint_namespace
@@ -104,6 +102,14 @@ module "generate_mcm_files" {
     ttk_cli_version                      = try(var.app_var_map.ttk_cli_version, "v1.10.3")
     ttk_testcases_tag                    = try(var.app_var_map.ttk_testcases_tag, "")
     mailpit_namespace                    = var.mailpit_namespace
+    smtp_from                            = var.smtp_from
+    smtp_from_display_name               = var.smtp_from_display_name
+    smtp_reply_to                        = var.smtp_reply_to
+    smtp_host                            = var.smtp_host
+    smtp_port                            = var.smtp_port
+    smtp_ssl                             = var.smtp_ssl
+    smtp_starttls                        = var.smtp_starttls
+    smtp_auth                            = var.smtp_auth
 
   }
   file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
@@ -128,18 +134,6 @@ variable "mcm_oidc_client_id" {
   type        = string
   description = "mcm_oidc_client_id"
   default     = "mcm-portal"
-}
-
-variable "mcm_chart_repo" {
-  type        = string
-  default     = "https://pm4ml.github.io/helm"
-  description = "mcm_chart_repo"
-}
-
-variable "mcm_chart_version" {
-  type        = string
-  default     = "0.7.6"
-  description = "mcm_chart_version"
 }
 
 variable "mcm_sync_wave" {
@@ -180,16 +174,33 @@ variable "nginx_external_namespace" {
   type        = string
   description = "nginx_external_namespace"
 }
-variable "hubop_oidc_client_id" {
+variable "keycloak_dfsp_realm_name" {
   type        = string
+  description = "name of realm for DFSP/MCM managed resources"
 }
 
-variable "hubop_oidc_client_secret_secret" {
-  type = string
+variable "keycloak_dfsp_realm_display_name" {
+  type        = string
+  description = "display name of realm for DFSP/MCM managed resources"
 }
 
+variable "mcm_dfsp_admin_client_secret" {
+  type        = string
+  description = "name of MCM admin client secret for dfsps realm"
+  default     = "mcm-dfsp-admin-client-secret"
+}
 
+variable "dfsp_oidc_client_secret" {
+  type        = string
+  description = "name of DFSP OIDC client secret for dfsps realm"
+  default     = "dfsp-oidc-client-secret"
+}
 
+variable "dfsp_oidc_client_id" {
+  type        = string
+  description = "OIDC client ID for DFSP users in dfsps realm"
+  default     = "dfsp-oidc"
+}
 
 variable "keycloak_name" {
   type        = string
@@ -217,21 +228,6 @@ variable "vault_secret_key" {
   type        = string
   description = "Default key name for vault secrets"
   default     = "secret"
-}
-
-variable "portal_admin_user" {
-  type    = string
-  default = "portal_admin"
-}
-
-variable "portal_admin_email" {
-  type    = string
-  default = "portal_admin@none.com"
-}
-
-variable "portal_admin_secret" {
-  type    = string
-  default = "portal-admin-secret"
 }
 
 variable "istio_ml_egress_waypoint_name" {

@@ -59,6 +59,7 @@ module "generate_mojaloop_files" {
     mojaloop_wildcard_gateway                                         = local.mojaloop_wildcard_gateway
     keycloak_fqdn                                                     = var.keycloak_fqdn
     keycloak_realm_name                                               = var.keycloak_hubop_realm_name
+    keycloak_dfsp_realm_name                                          = var.keycloak_dfsp_realm_name
     ttk_fqdn                                                          = local.ttk_fqdn
     ttk_istio_gateway_namespace                                       = local.ttk_istio_gateway_namespace
     ttk_istio_wildcard_gateway_name                                   = local.ttk_istio_wildcard_gateway_name
@@ -234,12 +235,40 @@ module "generate_mojaloop_files" {
     smtp_ssl                                                          = var.smtp_ssl
     smtp_starttls                                                     = var.smtp_starttls
     smtp_auth                                                         = var.smtp_auth
-    mcm_admin_client_secret_name                                      = var.mcm_admin_client_secret_name
+    mcm_dfsp_admin_client_secret_name                                 = var.mcm_dfsp_admin_client_secret_name
+    keycloak_dfsp_realm_name                                          = var.keycloak_dfsp_realm_name
+    dfsp_oidc_client_id                                               = var.dfsp_oidc_client_id
+    dfsp_oidc_client_secret_secret                                    = var.dfsp_oidc_client_secret_secret
     cluster_name                                                      = "${var.cluster_name}"
     traces_endpoint                                                   = var.traces_endpoint
     cluster                                                           = var.app_var_map.cluster
     cloud_platform                                                    = var.cloud_platform
     reporting_templates_chart_repo                                    = var.reporting_templates_chart_repo
+    mcm_enabled                                                       = var.mcm_enabled
+    mcm_db_user                                                       = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.db_username
+    mcm_db_password_secret                                            = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.user_password_secret
+    mcm_db_password_secret_key                                        = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.user_password_secret_key
+    mcm_db_host                                                       = "${module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
+    mcm_db_port                                                       = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_port
+    mcm_db_schema                                                     = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.database_name
+    mcm_db_tls_ca_secret_name                                         = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.name, "")
+    mcm_db_tls_ca_secret_key                                          = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.key, "")
+    mcm_dfsp_seed                                                     = join(",", [for name, value in var.pm4mls : "${name}:${value.currency}${can(value.pm4ml_scheme_a_config)?":proxy":""}" if length(try(value.currency, "")) > 0])
+    mcm_fqdn                                                          = local.mcm_fqdn
+    mcm_api_replica_count                                             = try(var.app_var_map.mcm_api_replica_count, 1)
+    vault_namespace                                                   = var.vault_namespace
+    mcm_vault_k8s_role_name                                           = var.mcm_vault_k8s_role_name
+    mcm_k8s_auth_path                                                 = var.k8s_auth_path
+    mcm_pki_path                                                      = var.vault_root_ca_name
+    mcm_secret_path                                                   = local.mcm_secret_path
+    mcm_dfsp_client_cert_bundle                                       = local.dfsp_client_cert_bundle
+    mcm_dfsp_internal_whitelist_secret                                = local.dfsp_internal_whitelist_secret
+    mcm_dfsp_external_whitelist_secret                                = local.dfsp_external_whitelist_secret
+    mcm_pki_server_role                                               = var.pki_server_cert_role
+    mcm_pki_client_role                                               = var.pki_client_cert_role
+    mcm_service_account_name                                          = var.mcm_service_account_name
+    hubop_oidc_client_id                                              = var.hubop_oidc_client_id
+    hubop_oidc_client_secret_secret                                   = var.hubop_oidc_client_secret_secret
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -252,13 +281,6 @@ resource "local_file" "mojaloop_values_override" {
   count      = local.mojaloop_override_values_file_exists ? 1 : 0
   content    = templatefile(var.mojaloop_values_override_file, var.app_var_map)
   filename   = "${local.output_path}/values-mojaloop-override.yaml"
-  depends_on = [module.generate_mojaloop_files]
-}
-
-resource "local_file" "mcm_values_override" {
-  count      = local.mcm_override_values_file_exists ? 1 : 0
-  content    = templatefile(var.mcm_values_override_file, var.app_var_map)
-  filename   = "${local.output_path_mcm}/values-mcm-override.yaml"
   depends_on = [module.generate_mojaloop_files]
 }
 
@@ -301,7 +323,6 @@ locals {
   mojaloop_template_path                              = "${path.module}/../generate-files/templates/mojaloop"
   mojaloop_app_file                                   = "mojaloop-app.yaml"
   output_path                                         = "${var.output_dir}/mojaloop"
-  output_path_mcm                                     = "${var.output_dir}/mcm"
   ml_als_resource_index                               = "account-lookup-db"
   ml_cl_resource_index                                = "central-ledger-db"
   bulk_mongodb_resource_index                         = "bulk-mongodb"
@@ -316,7 +337,6 @@ locals {
   apiResources                                        = yamldecode(file(var.rbac_api_resources_file))
   jws_key_secret                                      = "switch-jws"
   mojaloop_override_values_file_exists                = fileexists(var.mojaloop_values_override_file)
-  mcm_override_values_file_exists                     = fileexists(var.mcm_values_override_file)
   finance_portal_override_values_file_exists          = fileexists(var.finance_portal_values_override_file)
   values_hub_provisioning_override_file_exists        = fileexists(var.values_hub_provisioning_override_file)
   values_reporting_k8s_templates_override_file_exists = fileexists(var.values_reporting_k8s_templates_override_file)
@@ -447,7 +467,39 @@ variable "oathkeeper_auth_provider_name" {
 variable "keycloak_hubop_realm_name" {
   type        = string
   description = "name of realm for hub operator api access"
-  default     = "hub-operators"
+}
+
+variable "keycloak_hubop_realm_display_name" {
+  type        = string
+  description = "display name of realm for hub operator api access"
+}
+
+variable "keycloak_dfsp_realm_name" {
+  type        = string
+  description = "name of realm for DFSP/MCM managed resources"
+}
+
+variable "keycloak_dfsp_realm_display_name" {
+  type        = string
+  description = "display name of realm for DFSP/MCM managed resources"
+}
+
+variable "mcm_dfsp_admin_client_secret_name" {
+  type        = string
+  description = "name of MCM admin client secret for dfsps realm"
+  default     = "mcm-dfsp-admin-client-secret"
+}
+
+variable "dfsp_oidc_client_id" {
+  type        = string
+  description = "OIDC client ID for dfsps realm"
+  default     = "dfsp-oidc"
+}
+
+variable "dfsp_oidc_client_secret_secret" {
+  type        = string
+  description = "Kubernetes secret name containing DFSP OIDC client secret"
+  default     = "dfsp-oidc-client-secret"
 }
 
 variable "mcm_admin_client_secret_name" {
@@ -502,10 +554,6 @@ variable "rbac_api_resources_file" {
 }
 
 variable "mojaloop_values_override_file" {
-  type = string
-}
-
-variable "mcm_values_override_file" {
   type = string
 }
 

@@ -36,6 +36,7 @@ module "generate_ory_files" {
     hubop_oidc_client_id                 = var.hubop_oidc_client_id
     hubop_oidc_client_secret_secret_path = local.keycloak_secrets_path
     keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
+    keycloak_hubop_realm_display_name    = var.keycloak_hubop_realm_display_name
     keycloak_name                        = var.keycloak_name
     keycloak_fqdn                        = local.keycloak_fqdn
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
@@ -51,8 +52,6 @@ module "generate_ory_files" {
     role_assign_svc_user                 = var.role_assign_svc_user
     portal_admin_secret_name             = join("$", ["", "{${replace(var.portal_admin_secret, "-", "_")}}"])
     portal_admin_user                    = var.portal_admin_user
-    mcm_admin_secret_name                = join("$", ["", "{${replace(var.mcm_admin_secret, "-", "_")}}"])
-    mcm_admin_user                       = var.mcm_admin_user
     oidc_providers                       = local.oidc_providers
     permissionExclusions                 = local.permissionExclusions
     mojaloopRoles                        = local.mojaloopRoles
@@ -60,9 +59,7 @@ module "generate_ory_files" {
     oathkeeper_replica_count             = try(var.common_var_map.oathkeeper_replica_count, 1)
     hubop_mapper_base64                  = local.hubop_mapper_base64
     keto_read_url                        = local.keto_read_url
-    mcm_admin_client_secret_name         = join("$", ["", "{${replace(var.mcm_admin_client_secret_name, "-", "_")}}"])
     keycloak_access_token_lifespan       = 43200
-    mcm_fqdn                             = local.mcm_fqdn
     smtp_from                            = var.app_var_map.smtp_from
     smtp_from_display_name               = var.app_var_map.smtp_from_display_name
     smtp_reply_to                        = var.app_var_map.smtp_reply_to
@@ -162,9 +159,6 @@ locals {
   mojaloopRoles                  = local.rolesPermissions["roles"]
   permissionExclusions           = local.rolesPermissions["permission-exclusions"]
 
-
-  mcm_wildcard_gateway = try(var.app_var_map.mcm_ingress_internal_lb, false) ? "internal" : "external"
-  mcm_fqdn = local.mcm_wildcard_gateway == "external" ? "mcm.${var.public_subdomain}" : "mcm.${var.private_subdomain}"
   default_mapper_jsonnet = <<-EOF
 local claims = std.extVar('claims');
 
@@ -181,12 +175,23 @@ EOF
 
   default_mapper_base64 = base64encode(local.default_mapper_jsonnet)
   hubop_mapper_base64   = base64encode(local.default_mapper_jsonnet)
-  oidc_providers = var.common_var_map.pm4ml_enabled ? [for pm4ml, _ in var.app_var_map.pm4mls : {
-    realm       = "${var.keycloak_pm4ml_realm_name}-${pm4ml}"
-    client_id   = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml}"
-    secret_name = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml}"
-    mapper_url  = "base64://${local.default_mapper_base64}"
-    scope       = ["openid", "email", "profile"]
-  }] : []
+  oidc_providers = concat(
+    var.common_var_map.mcm_enabled ? [{
+      realm        = var.keycloak_dfsp_realm_name
+      display_name = var.keycloak_dfsp_realm_display_name
+      client_id    = var.dfsp_oidc_client_id
+      secret_name  = var.dfsp_oidc_client_secret
+      mapper_url   = "base64://${local.default_mapper_base64}"
+      scope        = ["openid", "email", "profile"]
+    }] : [],
+    var.common_var_map.pm4ml_enabled ? [for pm4ml, _ in var.app_var_map.pm4mls : {
+      realm        = "${var.keycloak_pm4ml_realm_name}-${pm4ml}"
+      display_name = "PM4ML ${pm4ml}"
+      client_id    = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml}"
+      secret_name  = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml}"
+      mapper_url   = "base64://${local.default_mapper_base64}"
+      scope        = ["openid", "email", "profile"]
+    }] : []
+  )
   ory_charts_repo = startswith(var.ory_charts_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.ory_charts_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.ory_charts_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.ory_charts_repo)[1]}", var.ory_charts_repo) : try(local.helm_proxy_repos_map[var.ory_charts_repo], var.ory_charts_repo)
 }

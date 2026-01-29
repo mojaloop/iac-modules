@@ -103,6 +103,12 @@ variable "keycloak_hubop_realm_name" {
   default     = "hub-operators"
 }
 
+variable "keycloak_hubop_realm_display_name" {
+  type        = string
+  description = "display name of realm for hub operators access"
+  default     = "Hub Operators"
+}
+
 locals {
   keycloak_mysql_resource_index           = "keycloak-db"
   keycloak_wildcard_gateway                  = var.keycloak_ingress_internal_lb ? "internal" : "external"
@@ -121,7 +127,9 @@ locals {
   }
 
   mcm_keycloak_realm_env_secret_map = merge(local.mojaloop_keycloak_realm_env_secret_map, {
-    (var.mcm_admin_client_secret_name) = var.vault_secret_key
+    (var.mcm_admin_client_secret_name)    = var.vault_secret_key
+    (var.mcm_dfsp_admin_client_secret)    = var.vault_secret_key
+    (var.dfsp_oidc_client_secret)         = var.vault_secret_key
   })
 
   pm4ml_keycloak_realm_env_secret_map = merge(
