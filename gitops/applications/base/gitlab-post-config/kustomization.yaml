@@ -5,4 +5,5 @@ resources:
   - gitlab-health-check-job.yaml
   - gitlab-post-config.yaml
   - gitlab-provider-config.yaml
-  - gitlab-zitadel-roles-xplane.yaml
+  - gitlab-zitadel-roles-xplane.yaml # to be removed once tf to crossplane migration is done
+  - gitlab-zitadel-rolesync.yaml
