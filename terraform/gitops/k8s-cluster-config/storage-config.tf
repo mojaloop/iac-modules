@@ -15,6 +15,10 @@ module "generate_storage_files" {
     external_secret_sync_wave       = var.external_secret_sync_wave
     cluster_name                    = var.cluster_name
     rook_ceph_helm_version          = var.rook_ceph_helm_version
+    openebs_helm_version            = var.common_var_map.openebs_helm_version
+    openebs_chart_repo              = local.openebs_chart_repo
+    openebs_hostpath_sc_name        = var.openebs_hostpath_sc_name
+    openebs_localpv_base_path       = var.openebs_localpv_base_path
     rgw_admin_ops_user              = "${var.cluster_name}/rgw_admin_ops_user"
     rook_ceph_mon                   = "${var.cluster_name}/rook_ceph_mon"
     rook_csi_cephfs_node            = "${var.cluster_name}/rook_csi_cephfs_node"
@@ -42,6 +46,7 @@ locals {
   
   # Apply helm repository resolution pattern
   aws_ebs_csi_driver_helm_repo = startswith(var.aws_ebs_csi_driver_helm_repo, "oci://") && can(regex("oci://([^/]+)(.*)", var.aws_ebs_csi_driver_helm_repo)) ? try("${local.helm_proxy_repos_map[regex("oci://([^/]+)(.*)", var.aws_ebs_csi_driver_helm_repo)[0]]}${regex("oci://([^/]+)(.*)", var.aws_ebs_csi_driver_helm_repo)[1]}", var.aws_ebs_csi_driver_helm_repo) : try(local.helm_proxy_repos_map[var.aws_ebs_csi_driver_helm_repo], var.aws_ebs_csi_driver_helm_repo)
+  openebs_chart_repo = startswith(var.openebs_chart_repo, "oci://") && can(regex("oci://([^/]+)(.*)", var.openebs_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("oci://([^/]+)(.*)", var.openebs_chart_repo)[0]]}${regex("oci://([^/]+)(.*)", var.openebs_chart_repo)[1]}", var.openebs_chart_repo) : try(local.helm_proxy_repos_map[var.openebs_chart_repo], var.openebs_chart_repo)
   rook_ceph_helm_repo = startswith(var.rook_ceph_helm_repo, "oci://") && can(regex("oci://([^/]+)(.*)", var.rook_ceph_helm_repo)) ? try("${local.helm_proxy_repos_map[regex("oci://([^/]+)(.*)", var.rook_ceph_helm_repo)[0]]}${regex("oci://([^/]+)(.*)", var.rook_ceph_helm_repo)[1]}", var.rook_ceph_helm_repo) : try(local.helm_proxy_repos_map[var.rook_ceph_helm_repo], var.rook_ceph_helm_repo)
 }
 
@@ -76,6 +81,22 @@ variable "aws_ebs_csi_driver_replicas" {
 
 variable "rook_ceph_helm_version" {
   type        = string
+}
+
+variable "openebs_chart_repo" {
+  type        = string
+  description = "Helm chart repository URL for OpenEBS"
+  default     = "https://openebs.github.io/openebs"
+}
+
+variable "openebs_hostpath_sc_name" {
+  type        = string
+  default     = "openebs-hostpath-retain"
+}
+
+variable "openebs_localpv_base_path" {
+  type        = string
+  default     = "/var/openebs/local"
 }
 
 variable "cloud_platform" {
