@@ -1,7 +1,41 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: settings
+data:
+  analytics: "False"
+  # token_server: '"http://nodeport.local:30000/token/"'
+  # content_origin: '"http://nodeport.local:30000"'
+  # ansible_api_hostname: '"http://nodeport.local:30000"'
+  # pypi_api_hostname: '"http://nodeport.local:30000"'
+  api_root: '"/pulp/"'
+  allowed_export_paths: '[ "/tmp" ]'
+  allowed_import_paths: '[ "/tmp" ]'
+---
 apiVersion: repo-manager.pulpproject.org/v1
 kind: Pulp
 metadata:
   name: pulp
+  namespace: ${ARGOCD_ENV_pulp_namespace}
 spec:
+  custom_pulp_settings: settings
+  admin_password_secret: "pulp-password"
+
+  api:
+    replicas: 1
+  content:
+    replicas: 1
+  worker:
+    replicas: 1
+  web:
+    replicas: 1
+
+
   file_storage_access_mode: "ReadWriteOnce"
   file_storage_size: "20Gi"
+   # Redis configs
+  cache:
+    enabled: true
+
+  ingress_type: none
