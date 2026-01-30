@@ -33,6 +33,8 @@ spec:
 
   database:
     postgres_storage_class: "block"
+    postgres_image: "postgres:15"
+    postgres_version: "15"
 
   file_storage_access_mode: "ReadWriteOnce"
   file_storage_size: "20Gi"
