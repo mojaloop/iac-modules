@@ -31,11 +31,15 @@ spec:
   web:
     replicas: 1
 
+  database:
+    postgres_storage_class: ""
 
   file_storage_access_mode: "ReadWriteOnce"
   file_storage_size: "20Gi"
+  file_storage_storage_class: ""
    # Redis configs
   cache:
     enabled: true
+    redis_storage_class: ""
 
   ingress_type: none
