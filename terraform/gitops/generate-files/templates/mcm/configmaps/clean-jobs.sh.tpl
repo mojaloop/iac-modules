@@ -7,9 +7,9 @@
 set -e
 
 # Configuration
-CLEAN_RETAIN_COUNT=${CLEAN_RETAIN_COUNT:-5}
-CLEAN_NAMESPACE=${CLEAN_NAMESPACE:-mojaloop}
-CLEAN_DRY_RUN=${CLEAN_DRY_RUN:-false}
+CLEAN_RETAIN_COUNT=$${CLEAN_RETAIN_COUNT:-5}
+CLEAN_NAMESPACE=$${CLEAN_NAMESPACE:-mojaloop}
+CLEAN_DRY_RUN=$${CLEAN_DRY_RUN:-false}
 
 # Function to extract job prefix (everything before the timestamp)
 get_job_prefix() {
