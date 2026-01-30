@@ -284,6 +284,13 @@ resource "local_file" "mojaloop_values_override" {
   depends_on = [module.generate_mojaloop_files]
 }
 
+removed {
+  from = local_file.mcm_values_override
+  lifecycle {
+    destroy = false
+  }
+}
+
 resource "local_file" "finance_portal_values_override" {
   count      = local.finance_portal_override_values_file_exists ? 1 : 0
   content    = templatefile(var.finance_portal_values_override_file, var.app_var_map)
