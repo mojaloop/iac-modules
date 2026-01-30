@@ -420,7 +420,6 @@ argocd_override:
           gitlab_token_expiry_threshold_hours: "${gitlab_token_expiry_threshold_hours}"
           dns_hyphenated_subdomain: "${replace(dns_public_subdomain, ".", "-")}"
         post_config:
-          zitadel_roles_sync_tf_management_policies: "${gitlab_zitadel_roles_sync_tf_management_policies}"
           zitadel_roles_sync_xplane_management_policies: "${gitlab_zitadel_roles_sync_xplane_management_policies}"
         pre:
           #  object storage bucket configuration
