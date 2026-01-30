@@ -96,3 +96,6 @@ reporting-hub-bop-settlements-ui:
 
 reporting-hub-bop-positions-ui:
   enabled: false
+
+reporting-aggregator-svc:
+  enabled: false
