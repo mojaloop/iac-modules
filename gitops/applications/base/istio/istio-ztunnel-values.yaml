@@ -9,6 +9,14 @@ multiCluster:
 # Valid values are: trace, debug, info, warn, error
 logLevel: ${ARGOCD_ENV_istio_ztunnel_log_level}
 
+resources:
+  requests:
+    cpu: 500m
+    memory: 256Mi
+  limits:
+    cpu: "2"
+    memory: 512Mi
+
 # K8s DaemonSet update strategy.
 # https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/daemon-set-v1/#DaemonSetSpec).
 updateStrategy:
