@@ -284,11 +284,11 @@ resource "local_file" "mojaloop_values_override" {
   depends_on = [module.generate_mojaloop_files]
 }
 
-removed {
-  from = local_file.mcm_values_override
-  lifecycle {
-    destroy = false
-  }
+# Temporary resource to clean up state - can be removed after one successful apply
+resource "local_file" "mcm_values_override" {
+  count    = 0
+  content  = ""
+  filename = "/dev/null"
 }
 
 resource "local_file" "finance_portal_values_override" {
