@@ -119,7 +119,7 @@ data:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Data.host }}-onboard-dfsp
+  name: {{ .Data.host }}-onboard-dfsp-{{ .Data.timeStamp }}
   namespace: ${mojaloop_namespace}
 spec:
   template:
@@ -136,6 +136,11 @@ spec:
             defaultMode: 420
         - name: tmp
           emptyDir: {}
+        - name: release-cd
+          configMap:
+            name: release-cd
+            defaultMode: 420
+            optional: true
 
       containers:
         - name: ml-ttk-add-dfsp
@@ -170,7 +175,7 @@ spec:
                   --extra-summary-information="Test Suite:Provisioning DFSP,Environment:${ttk_fqdn}" \
                   --save-report true \
                   --report-folder /tmp \
-                  --report-name standard_provisioning_collection \
+                  --report-name {{ .Data.host }}-onboard-dfsp \
                   --save-report-base-url https://${ttk_fqdn};
                 export TEST_RUNNER_EXIT_CODE="$?";
 
@@ -189,7 +194,7 @@ spec:
                     --extra-summary-information="Test Suite:Provisioning FXP currency $fxp_currency,Environment:${ttk_fqdn}" \
                     --save-report true \
                     --report-folder /tmp \
-                    --report-name standard_provisioning_collection \
+                    --report-name {{ .Data.host }}-onboard-fxp-$fxp_currency \
                     --save-report-base-url https://${ttk_fqdn};
                   export TEST_RUNNER_EXIT_CODE="$?";
                   if [ "$TEST_RUNNER_EXIT_CODE" -ne 0 ]; then break; fi;
@@ -214,6 +219,8 @@ spec:
             - name: {{ .Data.host }}-ml-ttk-add-dfsp-conf
               mountPath: /opt/app/cli-add-dfsp-config.json
               subPath: cli-add-dfsp-config.json
+            - name: release-cd
+              mountPath: /etc/release_cd
             - name: tmp
               mountPath: /tmp
           terminationMessagePath: /dev/termination-log
@@ -230,7 +237,7 @@ spec:
 {{ end }}{{ end }}
   EOH
   destination = "/vault/secrets/tmp/callback.yaml"
-  command     = "kubectl apply -f /vault/secrets/tmp/callback.yaml"
+  command     = "kubectl apply -f /vault/secrets/tmp/callback.yaml;sh /vault/configs/clean-jobs.sh"
 }
 
 template {
