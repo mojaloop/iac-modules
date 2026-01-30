@@ -1,0 +1,37 @@
+apiVersion: netbird.mojaloop.io/v1alpha1
+kind: NetbirdOIDC
+metadata:
+  name: netbird-oidc
+  namespace: ${ARGOCD_ENV_netbird_namespace}
+spec:
+  parameters:
+    # Required FQDNs and Namespace
+    netbirdFqdn: netbird-dashboard.${ARGOCD_ENV_netbird_dns_subdomain}
+    zitadelFqdn: zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}
+    netbirdNamespace: ${ARGOCD_ENV_netbird_namespace}
+    netbirdPreConfigOutputSecret: ${ARGOCD_ENV_netbird_preconfig_output_secret}
+
+    # Reference to the Secret containing the Admin Human User GUID
+    zitadelAdminHumanUserIdRef:
+      name: ${ARGOCD_ENV_zitadel_post_config_output_secret}
+      namespace: ${ARGOCD_ENV_zitadel_namespace}
+      key: "zitadel_admin_human_user_id"
+
+    # RBAC Group mapping (matched to your Zitadel Project Roles)
+    adminRbacGroup: ${ARGOCD_ENV_netbird_rbac_admin_group}
+    userRbacGroup: ${ARGOCD_ENV_netbird_rbac_user_group}
+
+    # Reference to the Secret containing the Zitadel Org ID
+    organizationIdSecretRef:
+      name: ${ARGOCD_ENV_zitadel_post_config_init_output_secret}
+      namespace: ${ARGOCD_ENV_zitadel_namespace}
+      key: "zitadel_org_id"
+
+  # References to the ProviderConfigs configured in your cluster
+  providerConfigsRef:
+    zitadelProviderName: "zitadel-provider"
+    kubernetesProviderName: "kubernetes-provider"
+
+  # Policy allowing Crossplane to manage all lifecycle actions
+  managementPolicies:
+    - ${ARGOCD_ENV_netbird_pre_xplane_management_policies}
