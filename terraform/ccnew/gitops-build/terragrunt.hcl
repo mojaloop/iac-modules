@@ -16,6 +16,7 @@ dependency "k8s_deploy" {
     target_group_external_http_port  = 32080
     target_group_external_health_port = 32081
     target_group_vpn_port            = 30333
+    target_group_vpn_health_port     = 31822
     internal_load_balancer_dns       = "internal.lb"
     external_load_balancer_dns       = "external.lb"
     external_dns_cloud_role          = "arn:aws:iam::123456789:role/ext-dns"
@@ -40,7 +41,7 @@ dependency "k8s_deploy" {
     }
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
-  mock_outputs_merge_strategy_with_state  = "shallow"
+  mock_outputs_merge_strategy_with_state  = "deep"
 }
 
 inputs = {
@@ -60,6 +61,7 @@ inputs = {
     internal_load_balancer_dns        = dependency.k8s_deploy.outputs.internal_load_balancer_dns
     external_load_balancer_dns        = dependency.k8s_deploy.outputs.external_load_balancer_dns
     wireguard_ingress_port            = dependency.k8s_deploy.outputs.target_group_vpn_port
+    wireguard_health_port             = dependency.k8s_deploy.outputs.target_group_vpn_health_port
     external_dns_cloud_role           = dependency.k8s_deploy.outputs.external_dns_cloud_role
     cert_manager_cloud_policy         = dependency.k8s_deploy.outputs.ext_dns_cloud_policy
     cloud_platform_api_client_id      = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.iac_user_cred_id_key]
