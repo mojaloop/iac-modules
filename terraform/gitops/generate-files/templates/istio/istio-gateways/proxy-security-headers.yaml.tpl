@@ -30,7 +30,7 @@ spec:
                 return false;
               end
               if not response_handle:headers():get("Content-Security-Policy") then
-                csp = "frame-ancestors 'none';default-src 'self';form-action 'self'";
+                csp = "frame-ancestors 'none';default-src 'self';form-action 'self' https://keycloak.${public_subdomain}";
                 response_handle:headers():add("Content-Security-Policy", csp);
               elseif response_handle:headers():get("Content-Security-Policy") then
                 if not hasFrameAncestors(response_handle) then
@@ -122,7 +122,7 @@ spec:
                 return false;
               end
               if not response_handle:headers():get("Content-Security-Policy") then
-                csp = "frame-ancestors 'none';default-src 'self';form-action 'self'";
+                csp = "frame-ancestors 'none';default-src 'self';form-action 'self' https://keycloak.${public_subdomain}";
                 response_handle:headers():add("Content-Security-Policy", csp);
               elseif response_handle:headers():get("Content-Security-Policy") then
                 if not hasFrameAncestors(response_handle) then
