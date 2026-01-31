@@ -30,7 +30,7 @@ git add .
 
 # Only commit and push if there are changes
 if ! git diff --cached --exit-code > /dev/null 2>&1; then
-    git commit -m "refreshing templates from release ${IAC_MODULES_TAG} to project"
+    git commit -m "deploy: sync templates from ${IAC_MODULES_TAG}"
     git push
     # Signal that templates changed - next pipeline will handle the actual deploy
     touch /tmp/templates-changed.txt
