@@ -41,6 +41,8 @@ variables:
   PIPELINE_EXECUTOR: true
   IGNORE_TF_DEPRECATION_WARNING: true
   VAULT_ADDR: http://vault-active.vault.svc.cluster.local:8200
+  GITOPS_BUILD_OUTPUT_DIR: /tmp/gitops-output
+  GITLAB_CURRENT_GROUP_NAME: iac
 
 cache:
   key: "${TF_ROOT}"
@@ -143,22 +145,55 @@ build:
     - terragrunt run-all plan --terragrunt-non-interactive -input=false
   when: manual
 
-deploy:
+refresh-templates:
   extends: .opentofu:apply
   image:
     name: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
+  stage: refresh-templates
+  needs:
+    - init
   id_tokens:
     VAULT_ID_TOKEN:
       aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
+    - .gitlab/scripts/refresh-templates.sh $CC_TMP_GIT_REPO $CC_TMP_TEMPLATES_DIR $GITLAB_SEED_TOKEN $iac_terraform_modules_tag
+    - if [ -f /tmp/templates-changed.txt ]; then echo "Templates changed, delegating to next pipeline"; exit 0; fi
+    - mkdir -p $GITOPS_BUILD_OUTPUT_DIR
+    - cd $TF_ROOT/gitops-build && terragrunt apply --terragrunt-non-interactive -input=false -auto-approve
+    - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_SEED_TOKEN apps
+  artifacts:
+    paths:
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
+      - ${GITOPS_BUILD_OUTPUT_DIR}/*
+    when: always
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy:.*/
+    - when: manual
+
+deploy:
+  extends: .opentofu:apply
+  image:
+    name: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
+  stage: deploy
+  needs:
+    - init
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: https://$VAULT_FQDN
+  script:
+    - !reference [.source, script]
+    - .gitlab/scripts/refresh-templates.sh $CC_TMP_GIT_REPO $CC_TMP_TEMPLATES_DIR $GITLAB_SEED_TOKEN $iac_terraform_modules_tag
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
   artifacts:
     paths:
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
     when: always
-  when: manual
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy-full:.*/
+    - when: manual
 
 deploy-env-templates:
   stage: deploy-env-templates
@@ -170,18 +205,6 @@ deploy-env-templates:
   script:
     - !reference [.source, script]
     - .gitlab/scripts/seedenvproject.sh $ENV_TO_UPDATE $TMP_GIT_REPO $TMP_TEMPLATES_DIR ${GITLAB_SEED_TOKEN} $IAC_MODULES_VERSION_TO_UPDATE
-  when: manual
-
-refresh-templates:
-  stage: refresh-templates
-  image:
-    name: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
-  id_tokens:
-    VAULT_ID_TOKEN:
-      aud: https://$VAULT_FQDN
-  script:
-    - !reference [.source, script]
-    - .gitlab/scripts/refresh-templates.sh  $CC_TMP_GIT_REPO $CC_TMP_TEMPLATES_DIR $GITLAB_SEED_TOKEN $iac_terraform_modules_tag
   when: manual
 
 #do nothing for now
