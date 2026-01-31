@@ -103,6 +103,7 @@ module "mojaloop" {
   mojaloop_helm_repo                           = local.mojaloop_helm_repo
   reporting_templates_chart_repo               = local.mojaloop_reporting_templates_repo
   mojaloop_helm_version                        = var.app_var_map.mojaloop_helm_version
+  mcm_chart_version                            = var.app_var_map.mcm_chart_version
   helm_proxy_repos_map                         = local.helm_proxy_repos_map
 }
 

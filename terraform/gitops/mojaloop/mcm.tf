@@ -98,6 +98,9 @@ module "generate_mcm_files" {
     db_tls_ca_secret_name                = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.name,"")
     db_tls_ca_secret_key                 = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.key,"")
     mcm_api_replica_count                = try(var.app_var_map.mcm_api_replica_count, 1)
+    mcm_chart_repo                       = var.mojaloop_helm_repo
+    mcm_chart_version                    = var.mcm_chart_version
+    cluster_name                         = var.cluster_name
     bulk_enabled                         = var.bulk_enabled
     ttk_cli_version                      = try(var.app_var_map.ttk_cli_version, "v1.10.3")
     ttk_testcases_tag                    = try(var.app_var_map.ttk_testcases_tag, "")
@@ -134,6 +137,11 @@ variable "mcm_oidc_client_id" {
   type        = string
   description = "mcm_oidc_client_id"
   default     = "mcm-portal"
+}
+
+variable "mcm_chart_version" {
+  type        = string
+  description = "connection-manager helm chart version"
 }
 
 variable "mcm_sync_wave" {

@@ -22,6 +22,13 @@ generatorOptions:
   disableNameSuffixHash: true
   labels:
     reloader: enabled
+helmCharts:
+- name: connection-manager
+  releaseName: mcm
+  version: ${mcm_chart_version}
+  repo: ${mcm_chart_repo}
+  valuesFile: values-mcm.yaml
+  namespace: ${mcm_namespace}
 patches:
   - target:
       kind: Service
