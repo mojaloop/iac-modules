@@ -5,6 +5,7 @@ resources:
   - keycloak-ingress.yaml
   - vault-secret.yaml
   - service-ingress-waypoint.yaml
+  - keycloak-hbone-networkpolicy.yaml
 secretGenerator:
 - name: keycloak-user
   literals:
