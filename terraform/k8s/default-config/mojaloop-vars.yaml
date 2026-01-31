@@ -1,6 +1,7 @@
 bulk_enabled: false
 third_party_enabled: false
 mojaloop_helm_version: 17.1.0-22888-74bbf7f
+mcm_chart_version: 1.4.0-22888-74bbf7f
 currency: ${currency}
 ttk_dev_mode_enabled: false
 ttk_test_currency1: ${currency}
