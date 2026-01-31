@@ -95,6 +95,13 @@ variable "wireguard_port" {
   description = "wireguard_port"
   default     = 31821
 }
+
+variable "wireguard_health_port" {
+  type        = number
+  description = "wireguard_health_port for NLB health checks"
+  default     = 31822
+}
+
 variable "target_group_internal_https_port" {
   type        = number
   description = "target_group_internal_https_port"

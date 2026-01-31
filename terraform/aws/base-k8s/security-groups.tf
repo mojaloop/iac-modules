@@ -71,6 +71,15 @@ resource "aws_security_group_rule" "ingress_vpn" {
   security_group_id = aws_security_group.ingress.id
 }
 
+resource "aws_security_group_rule" "ingress_vpn_health" {
+  type              = "ingress"
+  from_port         = var.wireguard_health_port
+  to_port           = var.wireguard_health_port
+  protocol          = "TCP"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.ingress.id
+}
+
 resource "aws_security_group_rule" "ingress_self" {
   type              = "ingress"
   from_port         = 0

@@ -101,6 +101,7 @@ inputs = {
     internal_load_balancer_dns        = dependency.k8s_deploy.outputs.internal_load_balancer_dns
     external_load_balancer_dns        = dependency.k8s_deploy.outputs.external_load_balancer_dns
     wireguard_ingress_port            = dependency.k8s_deploy.outputs.target_group_vpn_port
+    wireguard_health_port             = dependency.k8s_deploy.outputs.target_group_vpn_health_port
     external_dns_cloud_role           = dependency.k8s_deploy.outputs.external_dns_cloud_role
     cert_manager_cloud_policy         = dependency.k8s_deploy.outputs.ext_dns_cloud_policy
     cloud_platform_api_client_id      = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.iac_user_cred_id_key]
