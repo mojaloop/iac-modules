@@ -31,6 +31,7 @@ metadata:
   annotations:
     stunner.l7mp.io/service-type: NodePort
     stunner.l7mp.io/nodeport: '{"udp-listener": ${ARGOCD_ENV_stunner_nodeport_port} }'
+    stunner.l7mp.io/external-traffic-policy: local
 spec:
   gatewayClassName: stunner-gatewayclass
   listeners:
