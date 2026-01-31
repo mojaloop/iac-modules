@@ -16,3 +16,20 @@ helmCharts:
     repo: https://l7mp.io/stunner
     namespace: ${ARGOCD_ENV_stunner_system_namespace}
     includeCRDs: true
+    valuesInline:
+      stunnerGatewayOperator:
+        dataplane:
+          mode: managed
+          spec:
+            mode: daemonset
+            args:
+              - -w
+              - --udp-thread-num=8
+            resources:
+              requests:
+                cpu: 10m
+                memory: 32Mi
+              limits:
+                cpu: 200m
+                memory: 128Mi
+            terminationGracePeriodSeconds: 30
