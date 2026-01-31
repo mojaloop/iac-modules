@@ -36,6 +36,7 @@ dependency "k8s_deploy" {
     target_group_external_http_port = 0
     target_group_external_health_port = 0
     target_group_vpn_port = 0
+    target_group_vpn_health_port = 0
     internal_load_balancer_dns = "null"
     external_load_balancer_dns = "null"
     external_load_balancer_private_ip = "null"
@@ -51,7 +52,7 @@ dependency "k8s_deploy" {
     private_dns_zone_id = "null"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
-  mock_outputs_merge_strategy_with_state  = "shallow"
+  mock_outputs_merge_strategy_with_state  = "deep"
 }
 
 inputs = {
