@@ -46,7 +46,7 @@ metadata:
     strimzi.io/kraft: enabled
 spec:
   kafka:
-    version: 3.9.0
+    version: 3.8.0
     metadataVersion: 3.8-IV0
     listeners:
       - name: plain
