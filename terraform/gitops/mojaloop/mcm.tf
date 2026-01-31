@@ -159,7 +159,7 @@ variable "mcm_namespace" {
 variable "mcm_service_account_name" {
   type        = string
   description = "service account name for mcm"
-  default     = "mcm"
+  default     = "connection-manager-api"
 }
 
 variable "mcm_vault_k8s_role_name" {

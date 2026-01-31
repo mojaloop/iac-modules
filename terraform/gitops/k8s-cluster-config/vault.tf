@@ -53,6 +53,8 @@ module "generate_vault_files" {
     vault_backup_bucket                      = local.vault_backup_bucket
     tenancy_secret_base_path                 = "secret/data/${var.cluster_name}"
     vault_readiness_timeout_seconds          = var.common_var_map.vault_readiness_timeout_seconds
+    mcm_service_account_name                 = var.mcm_service_account_name
+    mcm_namespace                            = var.mcm_namespace
 
   }
 
@@ -177,4 +179,16 @@ variable "vault_backupjob_image" {
   type        = string
   description = "Docker image for Vault backup job"
   default     = "hashicorp/vault:1.17.2"
+}
+
+variable "mcm_service_account_name" {
+  type        = string
+  description = "Service account name for MCM"
+  default     = "connection-manager-api"
+}
+
+variable "mcm_namespace" {
+  type        = string
+  description = "Namespace for MCM"
+  default     = "mcm"
 }

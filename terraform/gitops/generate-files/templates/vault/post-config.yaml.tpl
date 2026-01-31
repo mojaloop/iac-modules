@@ -240,7 +240,7 @@ data:
       fi
       vault write auth/kubernetes/config kubernetes_host=https://kubernetes.default.svc:443
       vault write auth/kubernetes/role/policy-admin bound_service_account_names=* bound_service_account_namespaces=* policies=vault-admin ttl=600s
-      vault write auth/kubernetes/role/kubernetes-mcm-role bound_service_account_names=mcm bound_service_account_namespaces=mcm policies=mcm-policy ttl=1h
+      vault write auth/kubernetes/role/kubernetes-mcm-role bound_service_account_names=${mcm_service_account_name} bound_service_account_namespaces=${mcm_namespace} policies=mcm-policy ttl=1h
 
       #Secret mount
       if vault secrets list -format=json | jq -e --arg path "${local_vault_kv_root_path}/" 'has($path)' >/dev/null; then
