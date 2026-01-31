@@ -1298,6 +1298,11 @@ mojaloop-simulator:
   enabled: ${internal_sim_enabled}
   defaults:
     tolerations: *MOJALOOP_TOLERATIONS
+    config:
+      schemeAdapter:
+        secrets:
+          jws:
+            method: certmanager
 
 connection-manager:
   enabled: ${mcm_enabled}
