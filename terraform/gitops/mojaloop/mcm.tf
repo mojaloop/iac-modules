@@ -88,9 +88,9 @@ module "generate_mcm_files" {
     vault_secret_key                     = var.vault_secret_key
     mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
     mcm_dfsp_admin_client_secret         = var.mcm_dfsp_admin_client_secret
-    mcm_dfsp_admin_client_secret_name    = join("$", ["", "{${replace(var.mcm_dfsp_admin_client_secret, "-", "_")}}"])
+    mcm_dfsp_admin_client_secret_name    = var.mcm_dfsp_admin_client_secret
     dfsp_oidc_client_secret              = var.dfsp_oidc_client_secret
-    dfsp_oidc_client_secret_name         = join("$", ["", "{${replace(var.dfsp_oidc_client_secret, "-", "_")}}"])
+    dfsp_oidc_client_secret_name         = var.dfsp_oidc_client_secret
     dfsp_oidc_client_id                  = var.dfsp_oidc_client_id
     cluster                              = var.app_var_map.cluster
     istio_ml_egress_waypoint_name        = var.istio_ml_egress_waypoint_name
@@ -98,6 +98,9 @@ module "generate_mcm_files" {
     db_tls_ca_secret_name                = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.name,"")
     db_tls_ca_secret_key                 = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.key,"")
     mcm_api_replica_count                = try(var.app_var_map.mcm_api_replica_count, 1)
+    mcm_chart_repo                       = var.mojaloop_helm_repo
+    mcm_chart_version                    = var.mcm_chart_version
+    cluster_name                         = var.cluster_name
     bulk_enabled                         = var.bulk_enabled
     ttk_cli_version                      = try(var.app_var_map.ttk_cli_version, "v1.10.3")
     ttk_testcases_tag                    = try(var.app_var_map.ttk_testcases_tag, "")
@@ -134,6 +137,11 @@ variable "mcm_oidc_client_id" {
   type        = string
   description = "mcm_oidc_client_id"
   default     = "mcm-portal"
+}
+
+variable "mcm_chart_version" {
+  type        = string
+  description = "connection-manager helm chart version"
 }
 
 variable "mcm_sync_wave" {
