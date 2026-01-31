@@ -102,7 +102,7 @@ module "generate_mcm_files" {
     mcm_chart_version                    = var.mcm_chart_version
     cluster_name                         = var.cluster_name
     bulk_enabled                         = var.bulk_enabled
-    ttk_cli_version                      = try(var.app_var_map.ttk_cli_version, "v1.10.3")
+    ml_testing_toolkit_cli_chart_version = var.ml_testing_toolkit_cli_chart_version
     ttk_testcases_tag                    = try(var.app_var_map.ttk_testcases_tag, "")
     mailpit_namespace                    = var.mailpit_namespace
     smtp_from                            = var.smtp_from
