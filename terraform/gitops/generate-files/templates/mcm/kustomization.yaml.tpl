@@ -29,6 +29,12 @@ helmCharts:
   repo: ${mcm_chart_repo}
   valuesFile: values-mcm.yaml
   namespace: ${mcm_namespace}
+- name: ml-testing-toolkit-cli
+  releaseName: mcm-rbac-tests
+  version: ${ttk_cli_version}
+  repo: ${mcm_chart_repo}
+  valuesFile: values-mcm-rbac-tests.yaml
+  namespace: ${mcm_namespace}
 patches:
   - target:
       kind: Service
