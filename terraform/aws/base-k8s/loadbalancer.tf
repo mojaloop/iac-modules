@@ -175,11 +175,15 @@ resource "aws_lb_target_group" "wireguard" {
   protocol = "UDP"
   vpc_id   = module.base_infra.vpc_id
 
-  # TODO: can't health check against a UDP port, but need to have a health check when backend is an instance.
-  # check tcp port 80 (ingress) for now, but probably need to add a http sidecar or something to act as a health check for wireguard
   health_check {
-    protocol = "TCP"
-    port     = var.target_group_external_https_port
+    protocol            = "HTTP"
+    port                = var.wireguard_health_port
+    path                = "/ready"
+    interval            = 10
+    timeout             = 6
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+    matcher             = "200"
   }
 
   tags = merge({ Name = "${local.base_domain}-wireguard" }, local.common_tags)
