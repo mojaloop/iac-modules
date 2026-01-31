@@ -152,8 +152,7 @@ refresh-templates:
     name: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
   stage: refresh-templates
   resource_group: deploy
-  needs:
-    - init
+  needs: []
   id_tokens:
     VAULT_ID_TOKEN:
       aud: https://$VAULT_FQDN
