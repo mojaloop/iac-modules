@@ -96,7 +96,7 @@ locals {
   CLOUD_PLATFORM                    = get_env("cloud_platform")
   private_network_cidr              = get_env("vpc_cidr")
   private_subdomain                 = "int.${get_env("cluster_name")}.${get_env("domain")}"
-  argocd_oidc_domain                = local.private_subdomain
+  argocd_oidc_domain                = "int.${get_env("cluster_name")}"
 
   total_agent_count  = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
