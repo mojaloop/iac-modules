@@ -31,6 +31,7 @@ metadata:
   annotations:
     stunner.l7mp.io/service-type: NodePort
     stunner.l7mp.io/nodeport: '{"udp-listener": ${ARGOCD_ENV_stunner_nodeport_port} }'
+    stunner.l7mp.io/external-traffic-policy: local
 spec:
   gatewayClassName: stunner-gatewayclass
   listeners:
@@ -50,3 +51,21 @@ spec:
     - backendRefs:
         - name: udp-gateway
           namespace: "${ARGOCD_ENV_stunner_impl_namespace}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stunner-health
+  namespace: "${ARGOCD_ENV_stunner_impl_namespace}"
+spec:
+  type: NodePort
+  externalTrafficPolicy: Local
+  selector:
+    app: stunner
+    stunner.l7mp.io/related-gateway-name: udp-gateway
+    stunner.l7mp.io/related-gateway-namespace: "${ARGOCD_ENV_stunner_impl_namespace}"
+  ports:
+    - name: health
+      port: 8086
+      targetPort: 8086
+      nodePort: ${ARGOCD_ENV_stunner_health_nodeport}

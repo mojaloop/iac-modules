@@ -303,6 +303,7 @@ argocd_override:
           pvc_size: "${zitadel_db_storage_size}"
         netbird:
           stunner_nodeport_port: "'${wireguard_ingress_port}'"
+          stunner_health_nodeport: "'${wireguard_health_port}'"
           terraform_modules_tag: "${iac_terraform_modules_tag}"
           public_ingress_access_domain: "${netbird_public_access}"
           helm_version: "${netbird_helm_version}"
