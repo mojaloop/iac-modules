@@ -36,6 +36,7 @@ dependency "k8s_deploy" {
     target_group_external_http_port = 0
     target_group_external_health_port = 0
     target_group_vpn_port = 0
+    target_group_vpn_health_port = 0
     internal_load_balancer_dns = "null"
     external_load_balancer_dns = "null"
     external_load_balancer_private_ip = "null"
