@@ -24,7 +24,6 @@ stages:
   - deploy-env-templates
   - refresh-templates
   - cleanup
-  - auto-run
 
 variables:
   IMAGE_TAG: latest
@@ -158,50 +157,6 @@ refresh-templates:
   script:
     - !reference [.source, script]
     - .gitlab/scripts/refresh-templates.sh $CC_TMP_GIT_REPO $CC_TMP_TEMPLATES_DIR $GITLAB_SEED_TOKEN $iac_terraform_modules_tag
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^refresh:.*/
-    - when: manual
-
-refresh-deploy:
-  extends: .opentofu:apply
-  image:
-    name: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
-  stage: auto-run
-  resource_group: deploy
-  needs:
-    - init
-  id_tokens:
-    VAULT_ID_TOKEN:
-      aud: https://$VAULT_FQDN
-  script:
-    - !reference [.source, script]
-    - .gitlab/scripts/refresh-templates.sh $CC_TMP_GIT_REPO $CC_TMP_TEMPLATES_DIR $GITLAB_SEED_TOKEN $iac_terraform_modules_tag
-    - if [ -f /tmp/templates-changed.txt ]; then echo "Templates changed, delegating to next pipeline"; exit 0; fi
-    - mkdir -p $GITOPS_BUILD_OUTPUT_DIR
-    # Detect what changed since last deploy - gitops-only vs full deploy
-    - |
-      GITOPS_ONLY_PATHS="^(gitops-build/|apps/|\.gitlab-ci\.yml|custom-config/cluster-config\.yaml)"
-      LAST_DEPLOYED_COMMIT=""
-      if [ -f .last-deployed-commit ]; then
-        LAST_DEPLOYED_COMMIT=$(cat .last-deployed-commit)
-        echo "Last deployed commit: $LAST_DEPLOYED_COMMIT"
-      fi
-      if [ -n "$LAST_DEPLOYED_COMMIT" ] && git cat-file -e "$LAST_DEPLOYED_COMMIT" 2>/dev/null; then
-        git diff --name-only "$LAST_DEPLOYED_COMMIT"..HEAD > /tmp/changed-files.txt || true
-      else
-        echo "No last deployed commit found or invalid - running full deploy"
-        echo "FORCE_FULL_DEPLOY" > /tmp/changed-files.txt
-      fi
-      echo "Changed files since last deploy:" && cat /tmp/changed-files.txt
-      if [ -s /tmp/changed-files.txt ] && ! grep -qvE "$GITOPS_ONLY_PATHS" /tmp/changed-files.txt; then
-        echo "Only gitops-related files changed - running gitops-build only"
-        cd $TF_ROOT/gitops-build && terragrunt apply --terragrunt-non-interactive -input=false -auto-approve
-      else
-        echo "Infrastructure files changed - running full deploy"
-        terragrunt run-all apply --terragrunt-non-interactive -input=false
-      fi
-    - git rev-parse HEAD > .last-deployed-commit
-    - $TF_ROOT/.gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_SEED_TOKEN apps
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy:.*/
     - when: manual
