@@ -1282,18 +1282,6 @@ ml-ttk-test-cleanup:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
 
-ml-ttk-test-mcm-rbac:
-  tests:
-    enabled: ${ttk_mcm_rbac_tests_enabled}
-  config:
-    kratosPublicUrl: http://kratos-public.${ory_namespace}.svc.cluster.local
-    keycloakUrl: https://${keycloak_fqdn}
-    keycloakRealm: ${keycloak_hubop_realm_name}
-    mailpitUrl: http://mailpit-http.${mailpit_namespace}.svc.cluster.local:8025
-    mcmUrl: http://mcm-connection-manager-api.${mcm_namespace}.svc.cluster.local:3001
-    saveReportBaseUrl: https://${ttk_fqdn}
-    environmentName: ${ingress_subdomain}
-
 mojaloop-simulator:
   enabled: ${internal_sim_enabled}
   defaults:
