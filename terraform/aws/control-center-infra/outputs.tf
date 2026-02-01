@@ -201,11 +201,3 @@ output "iac_user_key_secret" {
 output "public_zone_name" {
   value = module.base_infra.public_zone.name
 }
-
-output "internal_load_balancer_dns" {
-  value = aws_lb.internal.dns_name
-}
-
-output "kubeapi_port" {
-  value = var.kubeapi_port
-}

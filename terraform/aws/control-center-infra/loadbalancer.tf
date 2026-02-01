@@ -40,40 +40,6 @@ resource "aws_lb_target_group_attachment" "internal_vault" {
   port             = 8200
 }
 
-resource "aws_lb_listener" "internal_kubeapi" {
-  load_balancer_arn = aws_lb.internal.arn
-  port              = var.kubeapi_port
-  protocol          = "TCP"
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.internal_kubeapi.arn
-  }
-}
-
-resource "aws_lb_target_group" "internal_kubeapi" {
-  port               = var.kubeapi_port
-  protocol           = "TCP"
-  vpc_id             = module.base_infra.vpc_id
-  target_type        = "ip"
-  preserve_client_ip = false # Required for Netbird VPN access
-
-  health_check {
-    protocol = "TCP"
-    port     = var.kubeapi_port
-  }
-
-  tags = merge({ Name = "${local.name}-kubeapi" }, local.common_tags)
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-resource "aws_lb_target_group_attachment" "internal_kubeapi" {
-  target_group_arn = aws_lb_target_group.internal_kubeapi.arn
-  target_id        = aws_instance.docker_server.private_ip
-  port             = var.kubeapi_port
-}
-
 resource "aws_acm_certificate" "wildcard_cert" {
   domain_name               = module.base_infra.public_zone.name
   validation_method         = "DNS"
