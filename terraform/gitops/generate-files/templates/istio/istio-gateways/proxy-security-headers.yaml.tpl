@@ -16,6 +16,9 @@ spec:
           "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
           # improved on top of https://medium.com/@PatrickSpiegel/secure-by-default-headers-with-envoy-and-istio-5b973ed8b675
           inlineCode: |
+            function envoy_on_request(request_handle)
+              request_handle:streamInfo():dynamicMetadata():set("envoy.filters.http.lua", "host", request_handle:headers():get(":authority") or "")
+            end
             function envoy_on_response(response_handle)
               function hasFrameAncestors(rh)
                 s = rh:headers():get("Content-Security-Policy");
@@ -29,8 +32,15 @@ spec:
                 end
                 return false;
               end
+              local host = response_handle:streamInfo():dynamicMetadata():get("envoy.filters.http.lua")["host"] or ""
+              local is_auth_domain = (host == "auth.${private_subdomain}")
               if not response_handle:headers():get("Content-Security-Policy") then
-                csp = "frame-ancestors 'none';default-src 'self';form-action 'self' https://keycloak.${public_subdomain}";
+                local csp
+                if is_auth_domain then
+                  csp = "frame-ancestors 'none';default-src 'self';style-src 'self' 'unsafe-inline';script-src 'self' 'unsafe-inline';form-action 'self' https://keycloak.${public_subdomain}";
+                else
+                  csp = "frame-ancestors 'none';default-src 'self';form-action 'self' https://keycloak.${public_subdomain}";
+                end
                 response_handle:headers():add("Content-Security-Policy", csp);
               elseif response_handle:headers():get("Content-Security-Policy") then
                 if not hasFrameAncestors(response_handle) then
@@ -108,6 +118,9 @@ spec:
           "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
           # improved on top of https://medium.com/@PatrickSpiegel/secure-by-default-headers-with-envoy-and-istio-5b973ed8b675
           inlineCode: |
+            function envoy_on_request(request_handle)
+              request_handle:streamInfo():dynamicMetadata():set("envoy.filters.http.lua", "host", request_handle:headers():get(":authority") or "")
+            end
             function envoy_on_response(response_handle)
               function hasFrameAncestors(rh)
                 s = rh:headers():get("Content-Security-Policy");
@@ -121,8 +134,15 @@ spec:
                 end
                 return false;
               end
+              local host = response_handle:streamInfo():dynamicMetadata():get("envoy.filters.http.lua")["host"] or ""
+              local is_auth_domain = (host == "auth.${private_subdomain}")
               if not response_handle:headers():get("Content-Security-Policy") then
-                csp = "frame-ancestors 'none';default-src 'self';form-action 'self' https://keycloak.${public_subdomain}";
+                local csp
+                if is_auth_domain then
+                  csp = "frame-ancestors 'none';default-src 'self';style-src 'self' 'unsafe-inline';script-src 'self' 'unsafe-inline';form-action 'self' https://keycloak.${public_subdomain}";
+                else
+                  csp = "frame-ancestors 'none';default-src 'self';form-action 'self' https://keycloak.${public_subdomain}";
+                end
                 response_handle:headers():add("Content-Security-Policy", csp);
               elseif response_handle:headers():get("Content-Security-Policy") then
                 if not hasFrameAncestors(response_handle) then
