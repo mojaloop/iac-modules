@@ -12,7 +12,7 @@ spec:
     registrationEmailAsUsername: true
     clients:
     - clientId: connection-manager-api-service
-      secret: ${mcm_dfsp_admin_client_secret_name}
+      secret: ${mcm_dfsp_admin_client_secret_keycloak}
       enabled: true
       clientAuthenticatorType: client-secret
       redirectUris: []
@@ -27,7 +27,7 @@ spec:
       attributes:
         access.token.lifespan: "${keycloak_access_token_lifespan}"
     - clientId: ${dfsp_oidc_client_id}
-      secret: ${dfsp_oidc_client_secret_name}
+      secret: ${dfsp_oidc_client_secret_keycloak}
       enabled: true
       clientAuthenticatorType: client-secret
       redirectUris:

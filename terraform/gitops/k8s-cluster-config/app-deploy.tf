@@ -30,7 +30,7 @@ module "mojaloop" {
   keycloak_namespace                           = var.keycloak_namespace
   vault_namespace                              = var.vault_namespace
   cert_manager_namespace                       = var.cert_manager_namespace
-  hubop_oidc_client_secret_secret                 = var.hubop_oidc_client_secret_secret
+  hubop_oidc_client_secret                        = var.hubop_oidc_client_secret
   hubop_oidc_client_id                     = var.hubop_oidc_client_id
   vault_secret_key                             = var.vault_secret_key
   role_assign_svc_secret                       = var.role_assign_svc_secret
@@ -329,7 +329,7 @@ variable "private_network_cidr" {
   type        = string
 }
 
-variable "hubop_oidc_client_secret_secret" {
+variable "hubop_oidc_client_secret" {
   type    = string
   default = "hubop-oidc-secret"
 }

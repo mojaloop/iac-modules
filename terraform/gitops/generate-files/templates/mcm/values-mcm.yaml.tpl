@@ -50,7 +50,7 @@ api:
     baseUrl: https://${keycloak_fqdn}
     discoveryUrl: https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/.well-known/openid-configuration
     adminClientId: connection-manager-api-service
-    adminClientSecretName: ${mcm_dfsp_admin_client_secret_name}
+    adminClientSecretName: ${mcm_dfsp_admin_client_secret}
     adminClientSecretKey: secret
     dfspsRealm: ${keycloak_dfsp_realm_name}
     autoCreateAccounts: true
@@ -60,7 +60,7 @@ api:
   openid:
     enabled: true
     clientId: ${dfsp_oidc_client_id}
-    clientSecretName: ${dfsp_oidc_client_secret_name}
+    clientSecretName: ${dfsp_oidc_client_secret}
     clientSecretKey: secret
 ui:
   checkSessionUrl: https://${mcm_fqdn}/kratos/sessions/whoami

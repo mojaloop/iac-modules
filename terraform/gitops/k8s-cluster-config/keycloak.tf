@@ -123,7 +123,7 @@ locals {
   keycloak_secrets_path                      = "/secret/keycloak"
 
   mojaloop_keycloak_realm_env_secret_map = {
-    "${var.hubop_oidc_client_secret_secret}" = var.vault_secret_key
+    "${var.hubop_oidc_client_secret}" = var.vault_secret_key
   }
 
   mcm_keycloak_realm_env_secret_map = merge(local.mojaloop_keycloak_realm_env_secret_map, {
@@ -143,7 +143,7 @@ locals {
     var.common_var_map.pm4ml_enabled ? local.pm4ml_keycloak_realm_env_secret_map : {},
     var.common_var_map.mcm_enabled ? local.mcm_keycloak_realm_env_secret_map : {},
     {
-      "${var.hubop_oidc_client_secret_secret}" = var.vault_secret_key
+      "${var.hubop_oidc_client_secret}" = var.vault_secret_key
       "${var.role_assign_svc_secret}"          = var.vault_secret_key
       "${var.portal_admin_secret}"             = var.vault_secret_key
       "${var.mcm_admin_secret}"                = var.vault_secret_key

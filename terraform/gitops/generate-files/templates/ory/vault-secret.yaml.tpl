@@ -232,7 +232,7 @@ spec:
         serviceAccount:
             name: default
       name: kratosoidcsecret
-      path: ${hubop_oidc_client_secret_secret_path}/${hubop_oidc_client_secret_secret}
+      path: ${hubop_oidc_client_secret_path}/${hubop_oidc_client_secret}
 # %{ for provider in oidc_providers }
     - authentication:
         path: kubernetes
@@ -240,7 +240,7 @@ spec:
         serviceAccount:
             name: default
       name: ${replace(provider.realm, "-", "_")}
-      path: ${hubop_oidc_client_secret_secret_path}/${provider.secret_name}
+      path: ${hubop_oidc_client_secret_path}/${provider.secret_name}
 # %{ endfor }
   output:
     name: kratos-oidc-providers

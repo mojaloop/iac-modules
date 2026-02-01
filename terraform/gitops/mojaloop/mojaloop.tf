@@ -267,7 +267,7 @@ module "generate_mojaloop_files" {
     mcm_pki_client_role                                               = var.pki_client_cert_role
     mcm_service_account_name                                          = var.mcm_service_account_name
     hubop_oidc_client_id                                              = var.hubop_oidc_client_id
-    hubop_oidc_client_secret_secret                                   = var.hubop_oidc_client_secret_secret
+    hubop_oidc_client_secret                                          = var.hubop_oidc_client_secret
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -507,7 +507,7 @@ variable "hubop_oidc_client_id" {
   default     = "hubop-portal"
 }
 
-variable "hubop_oidc_client_secret_secret" {
+variable "hubop_oidc_client_secret" {
   type        = string
   description = "Kubernetes secret name containing hub operator OIDC client secret"
   default     = "hubop-oidc-client-secret"

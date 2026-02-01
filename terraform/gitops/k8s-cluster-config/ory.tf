@@ -31,10 +31,10 @@ module "generate_ory_files" {
     kratos_mysql_password_secret_key  = try(module.common_stateful_resources.stateful_resources[local.kratos_mysql_resource_index].logical_service_config.user_password_secret_key,"")
     kratos_mysql_secret_path          = "${try(module.common_stateful_resources.stateful_resources[local.kratos_mysql_resource_index].local_helm_config.secret_config.generate_secret_vault_base_path,"")}/${local.kratos_mysql_resource_index}/${try(module.common_stateful_resources.stateful_resources[local.kratos_mysql_resource_index].local_helm_config.secret_config.generate_secret_name,"")}-mysql-password"
     #kratos_mysql_password_secret_key  = "password"
-    hubop_oidc_client_secret_secret_name = join("$", ["", "{${replace(var.hubop_oidc_client_secret_secret, "-", "_")}}"])
-    hubop_oidc_client_secret_secret      = var.hubop_oidc_client_secret_secret
+    hubop_oidc_client_secret_keycloak    = join("$", ["", "{${replace(var.hubop_oidc_client_secret, "-", "_")}}"])
+    hubop_oidc_client_secret             = var.hubop_oidc_client_secret
     hubop_oidc_client_id                 = var.hubop_oidc_client_id
-    hubop_oidc_client_secret_secret_path = local.keycloak_secrets_path
+    hubop_oidc_client_secret_path        = local.keycloak_secrets_path
     keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
     keycloak_hubop_realm_display_name    = var.keycloak_hubop_realm_display_name
     keycloak_name                        = var.keycloak_name

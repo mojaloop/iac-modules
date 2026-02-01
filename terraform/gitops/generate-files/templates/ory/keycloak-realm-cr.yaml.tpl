@@ -12,7 +12,7 @@ spec:
     registrationEmailAsUsername: true
     clients:
     - clientId: ${hubop_oidc_client_id}
-      secret: ${hubop_oidc_client_secret_secret_name}
+      secret: ${hubop_oidc_client_secret_keycloak}
       enabled: true
       clientAuthenticatorType: client-secret
       redirectUris:
