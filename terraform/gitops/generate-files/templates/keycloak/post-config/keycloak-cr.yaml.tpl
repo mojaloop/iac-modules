@@ -3,6 +3,8 @@ kind: Keycloak
 metadata:
   name: ${keycloak_name}
 spec:
+  bootstrapAdmin:
+    username: admin
   instances: ${keycloak_replica_count}
   db:
     vendor: mysql
