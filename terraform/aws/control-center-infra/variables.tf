@@ -166,6 +166,12 @@ variable "vault_listening_port" {
   description = "which port to listen for vault"
 }
 
+variable "kubeapi_port" {
+  type        = number
+  default     = 16443
+  description = "which port to listen for kubeapi"
+}
+
 variable "days_retain_gitlab_snapshot" {
   type        = number
   description = "number of days to retain gitlab snapshots"

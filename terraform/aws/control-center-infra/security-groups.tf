@@ -102,6 +102,14 @@ resource "aws_security_group" "docker_server" {
   }
 
   ingress {
+    description = "kubeapi access"
+    from_port   = var.kubeapi_port
+    to_port     = var.kubeapi_port
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc_cidr]
+  }
+
+  ingress {
     description = "wireguard access"
     from_port   = 51820
     to_port     = 51825
