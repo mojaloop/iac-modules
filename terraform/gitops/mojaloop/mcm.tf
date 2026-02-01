@@ -85,6 +85,7 @@ module "generate_mcm_files" {
     hub_name                             = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
     ttk_fqdn                             = local.ttk_fqdn
     keycloak_access_token_lifespan       = 43200
+    keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
     vault_secret_key                     = var.vault_secret_key
     mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
     mcm_dfsp_admin_client_secret         = var.mcm_dfsp_admin_client_secret
@@ -104,6 +105,9 @@ module "generate_mcm_files" {
     bulk_enabled                         = var.bulk_enabled
     ml_testing_toolkit_cli_chart_version = var.ml_testing_toolkit_cli_chart_version
     ttk_testcases_tag                    = try(var.app_var_map.ttk_testcases_tag, "")
+    ttk_mcm_rbac_testcases_tag           = try(var.app_var_map.ttk_mcm_rbac_testcases_tag, "20.3.0-mcm-rbac.2")
+    ttk_mcm_scripts_version              = try(var.app_var_map.ttk_mcm_scripts_version, "v3.8.0-snapshot.2")
+    portal_admin_secret                  = var.portal_admin_secret
     mailpit_namespace                    = var.mailpit_namespace
     smtp_from                            = var.smtp_from
     smtp_from_display_name               = var.smtp_from_display_name

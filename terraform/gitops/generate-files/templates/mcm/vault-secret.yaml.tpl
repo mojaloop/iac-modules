@@ -45,3 +45,26 @@ spec:
     stringData:
       secret: '{{ .dfspadminsecret.secret }}'
     type: Opaque
+---
+# Portal Admin Secret (for MCM RBAC tests)
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: VaultSecret
+metadata:
+  name: ${portal_admin_secret}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"
+spec:
+  refreshPeriod: 1m0s
+  vaultSecretDefinitions:
+    - authentication:
+        path: kubernetes
+        role: policy-admin
+        serviceAccount:
+            name: default
+      name: portaladminsecret
+      path: /secret/keycloak/${portal_admin_secret}
+  output:
+    name: ${portal_admin_secret}
+    stringData:
+      PORTAL_ADMIN_PASSWORD: '{{ .portaladminsecret.secret }}'
+    type: Opaque
