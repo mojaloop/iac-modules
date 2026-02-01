@@ -104,6 +104,9 @@ module "generate_mcm_files" {
     bulk_enabled                         = var.bulk_enabled
     ml_testing_toolkit_cli_chart_version = var.ml_testing_toolkit_cli_chart_version
     ttk_testcases_tag                    = try(var.app_var_map.ttk_testcases_tag, "")
+    ttk_mcm_rbac_testcases_tag           = try(var.app_var_map.ttk_mcm_rbac_testcases_tag, "20.3.0-mcm-rbac.2")
+    ttk_mcm_scripts_version              = try(var.app_var_map.ttk_mcm_scripts_version, "v3.8.0-snapshot.1")
+    portal_admin_secret                  = var.portal_admin_secret
     mailpit_namespace                    = var.mailpit_namespace
     smtp_from                            = var.smtp_from
     smtp_from_display_name               = var.smtp_from_display_name
