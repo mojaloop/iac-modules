@@ -89,9 +89,9 @@ module "generate_mcm_files" {
     vault_secret_key                     = var.vault_secret_key
     mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
     mcm_dfsp_admin_client_secret         = var.mcm_dfsp_admin_client_secret
-    mcm_dfsp_admin_client_secret_name    = var.mcm_dfsp_admin_client_secret
+    mcm_dfsp_admin_client_secret_name    = join("$", ["", "{${replace(var.mcm_dfsp_admin_client_secret, "-", "_")}}"])
     dfsp_oidc_client_secret              = var.dfsp_oidc_client_secret
-    dfsp_oidc_client_secret_name         = var.dfsp_oidc_client_secret
+    dfsp_oidc_client_secret_name         = join("$", ["", "{${replace(var.dfsp_oidc_client_secret, "-", "_")}}"])
     dfsp_oidc_client_id                  = var.dfsp_oidc_client_id
     cluster                              = var.app_var_map.cluster
     istio_ml_egress_waypoint_name        = var.istio_ml_egress_waypoint_name
