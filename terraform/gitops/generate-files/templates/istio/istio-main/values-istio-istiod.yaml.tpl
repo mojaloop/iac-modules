@@ -181,7 +181,7 @@ meshConfig:
         statusOnError: "500"
         pathPrefix: /decisions
         includeRequestHeadersInCheck: ["authorization", "cookie"]
-        headersToUpstreamOnAllow: ["x-user", "x-email", "x-extra", "x-client-id"]
+        headersToUpstreamOnAllow: ["x-user", "x-email", "x-extra", "x-roles", "x-client", "x-dfsp-id", "x-client-id"]
 
 global:
   # Used to locate istiod.
@@ -472,7 +472,7 @@ global:
     tolerations:
       - key: "netbird/ready"
         operator: "Exists"
-        effect: "NoSchedule"
+        effect: "NoExecute"
 
 base:
   # For istioctl usage to disable istio config crds in base

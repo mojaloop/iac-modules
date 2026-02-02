@@ -6,10 +6,13 @@ resources:
   - aws-ebs-access-cred-secret.yaml
 %{ endif ~}
 %{ if cloud_provider == "private-cloud" ~}
+  - openebs-localpv-rbac.yaml
   - rook-ceph-external-secrets.yaml
   - rook-ceph-storage-class.yaml
   - rook-ceph-crossplane-cm.yaml
   - rook-ceph-cluster.yaml
+  - openebs-hostpath-setup.yaml
+  - openebs-storage-class.yaml
 %{ endif ~}
 helmCharts:
 %{ if cloud_provider == "aws" ~}
@@ -21,6 +24,12 @@ helmCharts:
     version: ${aws_ebs_csi_driver_helm_version}
 %{ endif ~}
 %{ if cloud_provider == "private-cloud" ~}
+  - name: openebs
+    releaseName: openebs
+    repo: ${openebs_chart_repo}
+    namespace: ${storage_namespace}
+    valuesFile: openebs-values.yaml
+    version: ${openebs_helm_version}
   - name: rook-ceph
     releaseName: rook-ceph
     repo: ${rook_ceph_helm_repo}

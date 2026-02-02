@@ -56,6 +56,7 @@ argocd_override:
           netbird_version: "${crossplane_providers_netbird_version}"
           zitadel_version: "${crossplane_providers_zitadel_version}"
           grafana_version: "${crossplane_providers_grafana_version}"
+          http_version: "${crossplane_providers_http_version}"
         crossplane_functions:
           patch_and_transform_version: "${crossplane_functions_patch_and_transform_version}"
           go_templating_version: "${crossplane_functions_go_templating_version}"
@@ -419,7 +420,6 @@ argocd_override:
           gitlab_token_expiry_threshold_hours: "${gitlab_token_expiry_threshold_hours}"
           dns_hyphenated_subdomain: "${replace(dns_public_subdomain, ".", "-")}"
         post_config:
-          zitadel_roles_sync_tf_management_policies: "${gitlab_zitadel_roles_sync_tf_management_policies}"
           zitadel_roles_sync_xplane_management_policies: "${gitlab_zitadel_roles_sync_xplane_management_policies}"
         pre:
           #  object storage bucket configuration

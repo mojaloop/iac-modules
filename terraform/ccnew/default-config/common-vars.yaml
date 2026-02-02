@@ -110,6 +110,7 @@ crossplane_providers_aws_docdb_version: "1.21.0"
 crossplane_providers_aws_rds_version: "1.21.0"
 crossplane_providers_aws_route53_version: "1.21.0"
 crossplane_providers_aws_aws_ec2_version: "1.21.0"
+crossplane_providers_http_version: "1.0.11"
 crossplane_functions_patch_and_transform_version: "0.8.2"
 crossplane_functions_go_templating_version: "0.8.0"
 crossplane_functions_kcl_version: "0.11.3"
@@ -161,7 +162,7 @@ nexus_jvm_max_heap_size: "6144m"
 nexus_jvm_additional_memory_options: "-XX:MaxDirectMemorySize=1g"
 nexus_jvm_additional_options: "-XX:+UseG1GC -XX:MaxGCPauseMillis=200"
 nexus_helm_oci_proxy_repos: "helm-oci-dockerhub=oci://registry-1.docker.io,helm-oci-ghcr=oci://ghcr.io,helm-oci-ecr-public=oci://public.ecr.aws,helm-oci-quay=oci://quay.io,helm-oci-gcr=oci://gcr.io"
-nexus_helm_classic_proxy_repos: "mojaloop=https://mojaloop.github.io/helm/repo,mojaloop-charts=https://mojaloop.github.io/charts/repo,mojaloop-reporting=https://mojaloop.github.io/reporting-k8s-templates,prometheus=https://prometheus-community.github.io/helm-charts,grafana=https://grafana.github.io/helm-charts,netbird=https://netbirdio.github.io/helms,kyverno=https://kyverno.github.io/kyverno/,crossplane=https://charts.crossplane.io/stable,velero=https://vmware-tanzu.github.io/helm-charts/,external-dns=https://kubernetes-sigs.github.io/external-dns/,cert-manager=https://charts.jetstack.io,ory=https://k8s.ory.sh/helm/charts,reloader=https://stakater.github.io/stakater-charts,reflector=https://emberstack.github.io/helm-charts,percona-postgresql-operator=https://percona.github.io/percona-postgresql-operator-chart/,percona-xtradb-cluster-operator=https://percona.github.io/percona-xtradb-cluster-operator-chart/,percona-server-mongodb-operator=https://percona.github.io/percona-server-mongodb-operator-chart/,stunner-gateway-operator=https://stunner-gateway.github.io/helm-charts/,kiali=https://kiali.org/helm-charts,pm4ml=https://pm4ml.github.io/helm,rook=https://charts.rook.io/release,percona=https://percona.github.io/percona-helm-charts/,open-telemetry=https://open-telemetry.github.io/opentelemetry-helm-charts,metrics-server=https://kubernetes-sigs.github.io/metrics-server,redis-operator=https://ot-container-kit.github.io/helm-charts/,mojaloop-payment-manager-helm=https://pm4ml.github.io/mojaloop-payment-manager-helm/repo"
+nexus_helm_classic_proxy_repos: "mojaloop=https://mojaloop.github.io/helm/repo,mojaloop-charts=https://mojaloop.github.io/charts/repo,mojaloop-reporting=https://mojaloop.github.io/reporting-k8s-templates,prometheus=https://prometheus-community.github.io/helm-charts,grafana=https://grafana.github.io/helm-charts,netbird=https://netbirdio.github.io/helms,kyverno=https://kyverno.github.io/kyverno/,crossplane=https://charts.crossplane.io/stable,velero=https://vmware-tanzu.github.io/helm-charts/,external-dns=https://kubernetes-sigs.github.io/external-dns/,cert-manager=https://charts.jetstack.io,ory=https://k8s.ory.sh/helm/charts,reloader=https://stakater.github.io/stakater-charts,reflector=https://emberstack.github.io/helm-charts,percona-postgresql-operator=https://percona.github.io/percona-postgresql-operator-chart/,percona-xtradb-cluster-operator=https://percona.github.io/percona-xtradb-cluster-operator-chart/,percona-server-mongodb-operator=https://percona.github.io/percona-server-mongodb-operator-chart/,stunner-gateway-operator=https://stunner-gateway.github.io/helm-charts/,kiali=https://kiali.org/helm-charts,pm4ml=https://pm4ml.github.io/helm,rook=https://charts.rook.io/release,percona=https://percona.github.io/percona-helm-charts/,open-telemetry=https://open-telemetry.github.io/opentelemetry-helm-charts,metrics-server=https://kubernetes-sigs.github.io/metrics-server,redis-operator=https://ot-container-kit.github.io/helm-charts/,mojaloop-payment-manager-helm=https://pm4ml.github.io/mojaloop-payment-manager-helm/repo,openebs=https://openebs.github.io/openebs"
 
 harbor_helm_version: 1.18.1
 harbor_ui_public_access: false
@@ -454,7 +455,6 @@ praefect_perc_pgbouncer_memory_request: "64Mi"
 # end of gitlab db settings
 
 # gitlab zitadel role sync
-gitlab_zitadel_roles_sync_tf_management_policies: "Observe"
 gitlab_zitadel_roles_sync_xplane_management_policies: "'''*'''"
 # end of gitlab zitadel role sync
 
