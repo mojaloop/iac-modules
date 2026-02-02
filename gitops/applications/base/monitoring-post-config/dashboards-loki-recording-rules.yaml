@@ -1,3 +1,4 @@
+# TODO: move to monitoring folder, we don't need another file for this
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
