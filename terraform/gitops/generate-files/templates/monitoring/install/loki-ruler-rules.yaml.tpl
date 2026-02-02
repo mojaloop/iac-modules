@@ -40,4 +40,10 @@ groups:
           sum by (namespace, app, pod, container) (
             rate({pod=~".+"} |~ "PROTOCOL_CONNECTION_LOST" [5m])
           )
-      
+%{ for pattern_name, pattern in log_alert_patterns ~}
+      - record: loki_log_${replace(pattern_name, "-", "_")}_lines_rate
+        expr: |
+          sum by (namespace, app, pod, container) (
+            rate({pod=~".+"} |~ "${pattern.regex}" [${pattern.interval}])
+          )
+%{ endfor ~}      

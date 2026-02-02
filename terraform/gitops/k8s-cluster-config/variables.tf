@@ -269,6 +269,22 @@ variable "mojaloop_reporting_templates_repo" {
   description = "repo for mojaloop k8s reporting templates"
   type = string
 }
+
+variable "log_alert_patterns" {
+  description = "Map of log patterns for Loki recording rules"
+  type = map(object({
+    regex    = string
+    interval = string
+  }))
+  
+  default = {  
+    connection-refused = {
+      regex    = "(?i)connection refused|ECONNREFUSED"
+      interval = "5m"
+    }
+  }
+}
+
 locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value
