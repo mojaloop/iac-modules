@@ -75,6 +75,29 @@ loki:
       max_per_second: 20
       up_to: 3
 
+  rulerConfig:
+    enable_api: true
+    enable_alertmanager_v2: false  
+    wal:
+      dir: /var/loki/ruler-wal
+    storage:
+      type: local 
+      local:
+        directory: /etc/loki/rules
+    rule_path: /tmp/rules
+    ring:
+      kvstore:
+        store: memberlist 
+    # How often to evaluate rules
+    evaluation_interval: 5m
+    # How often to poll for rule changes from storage
+    poll_interval: 5m
+    remote_write:
+      enabled: true
+      clients:
+        prometheus:
+          url: http://prometheus-operated:9090/api/v1/write
+
 # Global extraEnvFrom for all components
 global:
   dnsService: "external-dns" 
@@ -265,7 +288,29 @@ ruler:
     value: "${t.value}"
 %{ endfor ~}
 %{ endif ~}
-
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+  persistence:
+    enabled: true
+    size: 10Gi
+  extraVolumes:
+    - name: rules-tmp
+      emptyDir: {}
+    - name: ruler-rules
+      configMap:
+        name: loki-ruler-rules
+  extraVolumeMounts:
+    - name: rules-tmp
+      mountPath: /tmp/rules
+    - name: ruler-rules
+      mountPath: /etc/loki/rules/fake
+      readOnly: true
+  directories: {}
 
 # Gateway configuration
 gateway:
@@ -294,6 +339,8 @@ indexGateway:
   extraEnvFrom:
     - secretRef:
         name: ${object_store_loki_credentials_secret_name}
+  extraArgs:
+    - -config.expand-env=true
   persistence:
     enabled: true
     size: 10Gi

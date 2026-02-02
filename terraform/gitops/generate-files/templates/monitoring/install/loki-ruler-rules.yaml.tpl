@@ -1,0 +1,22 @@
+groups:
+  - name: loki_statistics
+    interval: 5m
+    rules:
+      - record: loki_log_lines_rate
+        expr: |
+          sum by (namespace, app, pod, container) (
+            rate({pod=~".+"} [5m])
+          )
+      - record: loki_log_bytes_rate
+        expr: |
+          sum by (namespace, app, pod, container) (
+            bytes_rate({pod=~".+"} [5m])
+          )
+  - name: log_error_metrics
+    interval: 5m
+    rules:
+      - record: loki_log_error_lines_rate
+        expr: |
+          sum by (namespace, app, pod, container) (
+            rate({pod=~".+"} |~ "(?i)level.*(error|err)" [5m])
+          )
