@@ -15,7 +15,7 @@ spec:
     - handler: jwt
       config:
         jwks_urls:
-        - https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: allow  # Auth endpoints are open to authenticated users
   mutators:
@@ -37,7 +37,7 @@ spec:
     - handler: jwt
       config:
         jwks_urls:
-        - https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
@@ -73,7 +73,7 @@ spec:
     - handler: jwt
       config:
         jwks_urls:
-        - https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
@@ -112,7 +112,7 @@ spec:
     - handler: jwt
       config:
         jwks_urls:
-        - https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
@@ -152,7 +152,7 @@ spec:
     - handler: jwt
       config:
         jwks_urls:
-        - https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
@@ -202,7 +202,7 @@ spec:
     - handler: jwt
       config:
         jwks_urls:
-        - https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
@@ -238,7 +238,7 @@ spec:
     - handler: jwt
       config:
         jwks_urls:
-        - https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
@@ -274,7 +274,7 @@ spec:
     - handler: jwt
       config:
         jwks_urls:
-        - https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
@@ -310,7 +310,7 @@ spec:
     - handler: jwt
       config:
         jwks_urls:
-        - https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: allow
   mutators:
@@ -337,7 +337,7 @@ spec:
     - handler: jwt
       config:
         jwks_urls:
-        - https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
@@ -373,7 +373,7 @@ spec:
     - handler: jwt
       config:
         jwks_urls:
-        - https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
@@ -411,7 +411,7 @@ spec:
     - handler: jwt
       config:
         jwks_urls:
-        - https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
