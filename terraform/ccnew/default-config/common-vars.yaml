@@ -82,7 +82,6 @@ netbird_operator_helm_version: "0.1.15"
 
 # netbird xplane and tf workspace management policies
 netbird_pre_xplane_management_policies: "'''*'''"
-netbird_pre_tf_management_policies: "Observe"
 
 # percona operator helm chart versions
 pg_operator_helm_version: "2.6.0"
