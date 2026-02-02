@@ -96,9 +96,6 @@ spec:
         - name: "argocd_namespace"
           value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
 
-        - name: "gitlab_zitadel_roles_sync_tf_management_policies"
-          value: "${ARGOCD_ENV_gitlab_post_config_zitadel_roles_sync_tf_management_policies}"
-
         - name: "gitlab_zitadel_roles_sync_xplane_management_policies"
           value: "${ARGOCD_ENV_gitlab_post_config_zitadel_roles_sync_xplane_management_policies}"
 
