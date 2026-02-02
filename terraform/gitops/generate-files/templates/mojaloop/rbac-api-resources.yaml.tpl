@@ -56,4 +56,7 @@ spec:
   authorizer:
     handler: allow
   mutators:
-    - handler: header_client_id
+    - handler: header
+      config:
+        headers:
+          X-Client-Id: '{{ print .Extra.client_id }}'
