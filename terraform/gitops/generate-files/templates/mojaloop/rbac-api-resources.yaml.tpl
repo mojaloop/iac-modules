@@ -57,3 +57,6 @@ spec:
     handler: allow
   mutators:
     - handler: header
+      config:
+        headers:
+          X-Client-Id: '{{ print .Extra.client_id }}'
