@@ -21,7 +21,7 @@ config:
   kratosPublicUrl: http://kratos-public.${ory_namespace}.svc.cluster.local
   keycloakUrl: https://${keycloak_fqdn}
   keycloakRealm: ${keycloak_dfsp_realm_name}
-  mailpitUrl: http://mailpit-http.${mailpit_namespace}.svc.cluster.local:8025
+  mailpitUrl: http://mailpit-http.${mailpit_namespace}.svc.cluster.local:80
   portalAdminUser: portal_admin
   environmentName: ${public_subdomain}
 script: |
@@ -50,7 +50,7 @@ script: |
     export KEYCLOAK_FQDN="${keycloak_fqdn}"
     export KEYCLOAK_DFSP_REALM_NAME="${keycloak_dfsp_realm_name}"
     export KEYCLOAK_HUBOP_REALM_NAME="${keycloak_hubop_realm_name}"
-    export MAILPIT_URL="http://mailpit-http.${mailpit_namespace}.svc.cluster.local:8025"
+    export MAILPIT_URL="http://mailpit-http.${mailpit_namespace}.svc.cluster.local:80"
     export PORTAL_ADMIN_USER="portal_admin"
     export PORTAL_ADMIN_PASSWORD="$${PORTAL_ADMIN_PASSWORD}"
     export TTK_BACKEND_URL="http://moja-ml-testing-toolkit-backend.${mojaloop_namespace}.svc.cluster.local:5050"
