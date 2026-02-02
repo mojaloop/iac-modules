@@ -20,7 +20,7 @@ spec:
       rules:
         - alert: LokiContainerHighLogRate
           expr: loki_log_lines_rate > 100
-          for: 5m
+          for: 15m
           labels:
             severity: warning
           annotations:
@@ -34,7 +34,7 @@ spec:
               / 
               sum by (namespace, app, pod) (loki_log_lines_rate)
             ) > 0.05
-          for: 10m
+          for: 15m
           labels:
             severity: critical
           annotations:
