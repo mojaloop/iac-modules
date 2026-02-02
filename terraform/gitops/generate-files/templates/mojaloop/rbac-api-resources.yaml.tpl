@@ -56,4 +56,4 @@ spec:
   authorizer:
     handler: allow
   mutators:
-    - handler: header
+    - handler: header_client_id

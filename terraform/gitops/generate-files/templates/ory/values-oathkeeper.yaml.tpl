@@ -78,11 +78,18 @@ oathkeeper:
         config:
           headers:
             X-User: '{{ print .Subject }}'
-            X-Client-Id: '{{ print .Extra.client_id }}'
             X-Extra: '{{ print .Extra }}'
             # Used by reporting-hub-bop-experience-api-svc to record users for settlement audit report
             X-Email: '{{ print (((.Extra.identity).traits).email) }}'
             X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
+      header_cliend_id:
+        # Set enabled to true if the authenticator should be enabled and false to disable the authenticator. Defaults to false.
+        enabled: true
+        config:
+          headers:
+            X-User: '{{ print .Subject }}'
+            X-Client-Id: '{{ print .Extra.client_id }}'
+            X-Extra: '{{ print .Extra }}'
 
     errors:
       fallback:
