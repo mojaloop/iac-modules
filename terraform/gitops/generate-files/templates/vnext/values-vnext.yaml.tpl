@@ -571,8 +571,6 @@ connection-manager:
     enabled: false
   migrations:
     enabled: true
-    script: migrate
-    deletePolicy: ""
   config:
     caCSRParametersData: |-
       {
