@@ -18,11 +18,11 @@ global:
     requests:
       cpu: 100m
       memory: 100Mi
-  platform: ${istio_cni_platform}
+  platform: ${ARGOCD_ENV_istio_cni_platform}
 
 # CNI-and-platform specific path defaults.
 cni:
-  istioOwnedCNIConfig: ${istio_cni_istio_owned_cni_config}
+  istioOwnedCNIConfig: ${ARGOCD_ENV_istio_cni_istio_owned_cni_config}
 
 excludeNamespaces:
   - kube-system
