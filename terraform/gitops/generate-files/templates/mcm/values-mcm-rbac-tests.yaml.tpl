@@ -37,9 +37,10 @@ script: |
 envSecret: ${portal_admin_secret}
 env:
   NPM_CONFIG_UPDATE_NOTIFIER: "false"
-  MCM_EXTERNAL_URL: https://${mcm_fqdn}
-  KRATOS_PUBLIC_URL: http://kratos-public.${ory_namespace}.svc.cluster.local
-  KRATOS_EXTERNAL_URL: https://${auth_fqdn}/kratos
+  MCM_URL: https://${mcm_fqdn}/api
+  MCM_PM4ML_URL: https://${mcm_external_fqdn}/pm4mlapi
+  KRATOS_SERVICE_URL: http://kratos-public.${ory_namespace}.svc.cluster.local
+  KRATOS_URL: https://${auth_fqdn}/kratos
   KEYCLOAK_URL: https://${keycloak_fqdn}
   KEYCLOAK_DFSP_REALM_NAME: ${keycloak_dfsp_realm_name}
   KEYCLOAK_HUBOP_REALM_NAME: ${keycloak_hubop_realm_name}
