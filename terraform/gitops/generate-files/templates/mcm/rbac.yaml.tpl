@@ -81,6 +81,82 @@ spec:
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
+# Single DFSP get - admin OR DFSP member can view
+apiVersion: oathkeeper.ory.sh/v1alpha1
+kind: Rule
+metadata:
+  name: mcm-dfsp-single-get
+  namespace: ${mcm_namespace}
+spec:
+  match:
+    url: <http|https>://${mcm_fqdn}/api/dfsps/<[^/]+><$>
+    methods:
+      - GET
+  authenticators:
+    - handler: cookie_session
+  authorizer:
+    handler: remote_json
+    config:
+      remote: http://ory-services-keto-batch-auth.${ory_namespace}.svc.cluster.local
+      payload: |
+        {
+          "tuples": [
+            {
+              "namespace": "permission",
+              "object": "dfspManage",
+              "relation": "granted",
+              "subject_id": "{{ print .Subject }}"
+            },
+            {
+              "namespace": "role",
+              "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}",
+              "relation": "member",
+              "subject_id": "{{ print .Subject }}"
+            }
+          ]
+        }
+  mutators:
+    - handler: header
+      config:
+        headers:
+          X-User: '{{ print .Subject }}'
+          X-Email: '{{ print (((.Extra.identity).traits).email) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
+          X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}'
+---
+# Single DFSP delete - only admin with dfspManage
+apiVersion: oathkeeper.ory.sh/v1alpha1
+kind: Rule
+metadata:
+  name: mcm-dfsp-single-delete
+  namespace: ${mcm_namespace}
+spec:
+  match:
+    url: <http|https>://${mcm_fqdn}/api/dfsps/<[^/]+><$>
+    methods:
+      - DELETE
+  authenticators:
+    - handler: cookie_session
+  authorizer:
+    handler: remote_json
+    config:
+      remote: ${keto_read_url}/relation-tuples/check
+      payload: |
+        {
+          "namespace": "permission",
+          "object": "dfspManage",
+          "relation": "granted",
+          "subject_id": "{{ print .Subject }}"
+        }
+  mutators:
+    - handler: header
+      config:
+        headers:
+          X-User: '{{ print .Subject }}'
+          X-Email: '{{ print (((.Extra.identity).traits).email) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
+          X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}'
+---
 # DFSP credentials endpoint - only for DFSP owners (not admin users)
 apiVersion: oathkeeper.ory.sh/v1alpha1
 kind: Rule
