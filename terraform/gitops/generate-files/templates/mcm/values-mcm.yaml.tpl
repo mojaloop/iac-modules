@@ -12,6 +12,8 @@ db:
   sslCaSecretKey: ${db_tls_ca_secret_key}
 
 api:
+  image:
+    version: ${mcm_api_image_tag}
   replicaCount: ${mcm_api_replica_count}
   url: https://${mcm_fqdn}
   clientUrl: https://${mcm_fqdn}

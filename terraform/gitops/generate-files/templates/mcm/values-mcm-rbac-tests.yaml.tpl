@@ -20,7 +20,7 @@ script: |
 
     # Download scripts from GitHub release
     echo "Downloading MCM test scripts..."
-    MCM_VERSION="${ttk_mcm_scripts_version}"
+    MCM_VERSION="${mcm_api_image_tag}"
     wget -qO- "https://github.com/mojaloop/connection-manager-api/releases/download/$${MCM_VERSION}/mcm-test-scripts.tar.gz" | tar -xzf - -C /tmp
 
     # Download test collections
