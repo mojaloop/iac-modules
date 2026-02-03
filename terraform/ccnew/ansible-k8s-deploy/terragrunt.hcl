@@ -124,9 +124,8 @@ inputs = {
     object_storage_provider           = get_env("object_storage_provider")
     private_dns_zone_id               = dependency.k8s_deploy.outputs.private_dns_zone_id
     external_load_balancer_private_ip = dependency.k8s_deploy.outputs.external_load_balancer_private_ip
-    istio_cni_cni_bin_dir             = local.K8S_CLUSTER_TYPE == "microk8s" ?  "/var/snap/microk8s/current/opt/cni/bin" : "/opt/cni/bin"
-    istio_cni_cni_conf_dir            = local.K8S_CLUSTER_TYPE == "microk8s" ?  "/var/snap/microk8s/current/args/cni-network" : "/etc/cni/net.d"
     istio_cni_istio_owned_cni_config  = local.K8S_CLUSTER_TYPE == "microk8s" ?  false : true
+    istio_cni_platform                = local.K8S_CLUSTER_TYPE == "microk8s" ?  "microk8s" : ""
     } , local.common_vars, local.env_vars)))
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps         = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps

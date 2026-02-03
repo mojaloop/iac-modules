@@ -93,8 +93,7 @@ argocd_override:
           internal_ingress_http_port: "'${internal_ingress_http_port}'"
           internal_ingress_health_port: "'${internal_ingress_health_port}'"
           istio_owned_cni_config: "'${istio_cni_istio_owned_cni_config}'"
-          cni_bin_dir: "${istio_cni_cni_bin_dir}"
-          cni_conf_dir: "${istio_cni_cni_conf_dir}"
+          istio_cni_platform: "${istio_cni_platform}"
         cert_manager:
           helm_version: "${cert_manager_helm_version}"
         base_monitoring:
