@@ -92,8 +92,5 @@ spec:
         - name: "istio_cni_istio_owned_cni_config"
           value: "${ARGOCD_ENV_utils_istio_istio_owned_cni_config}"
 
-        - name: "istio_cni_cni_bin_dir"
-          value: "${ARGOCD_ENV_utils_istio_cni_bin_dir}"
-
-        - name: "istio_cni_cni_conf_dir"
-          value: "${ARGOCD_ENV_utils_istio_cni_conf_dir}"
+        - name: "istio_cni_platform"
+          value: "${ARGOCD_ENV_utils_istio_cni_platform}"
