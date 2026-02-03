@@ -89,7 +89,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_fqdn}/api/dfsps/<[^/]+><$>
+    url: <http|https>://${mcm_fqdn}/api/dfsps/<?!jwscerts|servercerts><[^/]+><$>
     methods:
       - GET
   authenticators:
@@ -132,7 +132,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_fqdn}/api/dfsps/<[^/]+><$>
+    url: <http|https>://${mcm_fqdn}/api/dfsps/<?!jwscerts|servercerts><[^/]+><$>
     methods:
       - DELETE
   authenticators:
