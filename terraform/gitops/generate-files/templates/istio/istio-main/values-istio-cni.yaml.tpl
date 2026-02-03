@@ -24,16 +24,8 @@ global:
 # CNI-and-platform specific path defaults.
 cni:
 %{ if istio_cni_platform == "none" ~}
-  cniBinDir: /opt/cni/bin
-  cniConfDir: /etc/cni/net.d
-  cniConfFileName: ""
-  cniNetnsDir: "/var/run/netns"
   istioOwnedCNIConfig : true
 %{ elseif istio_cni_platform == "microk8s" ~}
-  cniBinDir: /var/snap/microk8s/current/opt/cni/bin
-  cniConfDir: /var/snap/microk8s/current/args/cni-network
-  cniConfFileName: ""
-  cniNetnsDir: "/var/run/netns"
   istioOwnedCNIConfig : false
 %{ endif ~}
 

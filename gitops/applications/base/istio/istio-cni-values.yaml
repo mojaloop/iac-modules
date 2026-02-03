@@ -18,14 +18,11 @@ global:
     requests:
       cpu: 100m
       memory: 100Mi
+  platform: ${istio_cni_platform}
 
 # CNI-and-platform specific path defaults.
 cni:
-  cniBinDir: ${istio_cni_cni_bin_dir}
-  cniConfDir: ${istio_cni_cni_conf_dir}
-  cniConfFileName: ""
-  cniNetnsDir: "/var/run/netns"
-  istioOwnedCNIConfig : ${istio_cni_istio_owned_cni_config}
+  istioOwnedCNIConfig: ${istio_cni_istio_owned_cni_config}
 
 excludeNamespaces:
   - kube-system
