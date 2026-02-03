@@ -18,12 +18,10 @@ script: |
     # Wait for DNS
     until nslookup github.com; do echo "Waiting for DNS..."; sleep 5; done
 
-    # Download scripts
+    # Download scripts from GitHub release
     echo "Downloading MCM test scripts..."
-    MCM_SCRIPTS_BASE="https://raw.githubusercontent.com/mojaloop/connection-manager-api/${ttk_mcm_scripts_version}/scripts"
-    wget "$${MCM_SCRIPTS_BASE}/mcm-test-setup" -O /tmp/mcm-test-setup
-    wget "$${MCM_SCRIPTS_BASE}/mcm-rbac-test.sh" -O /tmp/mcm-rbac-test.sh
-    chmod +x /tmp/mcm-test-setup /tmp/mcm-rbac-test.sh
+    MCM_VERSION="${ttk_mcm_scripts_version}"
+    wget -qO- "https://github.com/mojaloop/connection-manager-api/releases/download/$${MCM_VERSION}/mcm-test-scripts.tar.gz" | tar -xzf - -C /tmp
 
     # Download test collections
     echo "Downloading test collections..."
