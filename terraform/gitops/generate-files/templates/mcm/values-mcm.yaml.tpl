@@ -81,8 +81,8 @@ migrations:
   env:
     VAULT_ENDPOINT: ${vault_endpoint}
     VAULT_AUTH_METHOD: K8S
-    VAULT_K8S_TOKEN_FILE: /var/run/secrets/kubernetes.io/serviceaccount/token
     VAULT_K8S_ROLE: ${mcm_vault_k8s_role_name}
+    VAULT_MOUNT_KV: ${mcm_secret_path}
     VAULT_PKI_CLIENT_ROLE: ${pki_client_role}
     VAULT_PKI_SERVER_ROLE: ${pki_server_role}
     SWITCH_ID: ${switch_dfspid}
