@@ -504,51 +504,6 @@ spec:
           X-Client: '{{ print .Subject }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
-# PM4ML API - Single DFSP get (machine clients) - admin OR DFSP member can view
-apiVersion: oathkeeper.ory.sh/v1alpha1
-kind: Rule
-metadata:
-  name: mcm-pm4mlapi-dfsp-single-get
-  namespace: ${mcm_namespace}
-spec:
-  match:
-    url: <http|https>://${mcm_external_fqdn}/api/dfsps/<[^/]+><$>
-    methods:
-      - GET
-  authenticators:
-    - handler: jwt
-      config:
-        jwks_urls:
-        - https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs
-  authorizer:
-    handler: remote_json
-    config:
-      remote: http://ory-services-keto-batch-auth.${ory_namespace}.svc.cluster.local
-      payload: |
-        {
-          "tuples": [
-            {
-              "namespace": "permission",
-              "object": "dfspManage",
-              "relation": "granted",
-              "subject_id": "{{ print .Subject }}"
-            },
-            {
-              "namespace": "role",
-              "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}",
-              "relation": "member",
-              "subject_id": "{{ print .Subject }}"
-            }
-          ]
-        }
-  mutators:
-    - handler: header
-      config:
-        headers:
-          X-Client: '{{ print .Subject }}'
-          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
-          X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}'
----
 # PM4ML API - DFSP-specific owner access (machine clients)
 apiVersion: oathkeeper.ory.sh/v1alpha1
 kind: Rule
@@ -557,7 +512,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_external_fqdn}/api/dfsps/<?!endpoints><[^/]+>/<?!credentials><.*>
+    url: <http|https>://${mcm_external_fqdn}/api/dfsps/<?!endpoints|jwscerts><([^/]+)><(?:/(?!credentials).*)?$>
     methods:
       - GET
       - POST
@@ -573,7 +528,7 @@ spec:
       payload: |
         {
           "namespace": "role",
-          "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 1 }}",
+          "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}",
           "relation": "member",
           "subject_id": "{{ print .Subject }}"
         }
