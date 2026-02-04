@@ -24,6 +24,9 @@ spec:
           - list: request.object.spec.containers[]
             preconditions:
               all:
+                - key: "{{ element.image || '' }}" # GUARD: Prevents nil pointer crash
+                  operator: NotEquals
+                  value: ""
                 - key: "{{ image_normalize(element.image) }}"
                   operator: AnyIn
                   value:
@@ -71,6 +74,9 @@ spec:
           - list: request.object.spec.containers[]
             preconditions:
               all:
+                - key: "{{ element.image || '' }}" # GUARD: Prevents nil pointer crash
+                  operator: NotEquals
+                  value: ""
                 - key: "{{ image_normalize(element.image) }}"
                   operator: AnyIn
                   value:
@@ -88,19 +94,21 @@ spec:
                       - name: BITNAMI_REWRITE
                         value: "true"
                     image: 'mirror.gcr.io/bitnamilegacy/{{ images.containers."{{element.name}}".name}}:{{images.containers."{{element.name}}".tag}}'
-          - list: request.object.spec.initContainers[]
+          - list: (request.object.spec.initContainers || `[]`) # Safe iteration
             preconditions:
               all:
+                - key: "{{ element.image || '' }}"
+                  operator: NotEquals
+                  value: ""
                 - key: "{{ image_normalize(element.image) }}"
                   operator: AnyIn
-                  value:
-                    - docker.io/bitnami/*
+                  value: ["docker.io/bitnami/*"]
             patchStrategicMerge:
               metadata:
                 annotations:
                   kyverno/redirect-bitnami-to-bitnamilegacy: applied
               spec:
-                containers:
+                initContainers: # FIXED: Changed from 'containers' to 'initContainers'
                   - name: "{{ element.name }}"
                     env:
                       - name: ORIGINAL_IMAGE
@@ -131,6 +139,9 @@ spec:
           - list: request.object.spec.containers[]
             preconditions:
               all:
+                - key: "{{ element.image || '' }}" # GUARD: Prevents nil pointer crash
+                  operator: NotEquals
+                  value: ""
                 - key: "{{ image_normalize(element.image) }}"
                   operator: AnyIn
                   value:
