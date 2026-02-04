@@ -76,7 +76,7 @@ spec:
               resource.customizations: |
                 argoproj.io/Application:
                   health.lua: |
-                    hs = {}
+                    local hs = {} -- Use 'local' to prevent cross-script interference
                     hs.status = "Progressing"
                     hs.message = ""
                     local errorTypes = {DeletionError = true, InvalidSpecError = true, ComparisonError = true, SyncError = true, UnknownError = true}
@@ -84,16 +84,19 @@ spec:
                       local status = obj.status
                       if status.conditions ~= nil then
                         for i, condition in ipairs(status.conditions) do
-                          if errorTypes[condition.type] then
-                            hs.status = "Degraded"
-                            hs.message = condition.message
-                            return hs
+                          -- Ensure condition and type exist before calling string.match
+                          if condition ~= nil and condition.type ~= nil then
+                            if string.match(tostring(condition.type), '.*Error$') then
+                              hs.status = "Degraded"
+                              hs.message = condition.message or "Error condition detected"
+                              return hs
+                            end
                           end
                         end
                       end
                       if status.health ~= nil then
                         local health = status.health
-                        hs.status = health.status
+                        hs.status = health.status or "Progressing"
                         if health.message ~= nil then
                           hs.message = health.message
                         end
