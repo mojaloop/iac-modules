@@ -81,7 +81,7 @@ spec:
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
-# Single DFSP get - admin OR DFSP member can view
+# Single DFSP get/update - admin OR DFSP member can view/update their own
 apiVersion: oathkeeper.ory.sh/v1alpha1
 kind: Rule
 metadata:
@@ -92,6 +92,7 @@ spec:
     url: <http|https>://${mcm_fqdn}/api/dfsps/<?!jwscerts|servercerts><[^/]+><$>
     methods:
       - GET
+      - PUT
   authenticators:
     - handler: cookie_session
   authorizer:
@@ -109,7 +110,7 @@ spec:
             },
             {
               "namespace": "role",
-              "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}",
+              "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 1 }}",
               "relation": "member",
               "subject_id": "{{ print .Subject }}"
             }
@@ -122,7 +123,7 @@ spec:
           X-User: '{{ print .Subject }}'
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
-          X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}'
+          X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 1 }}'
 ---
 # Single DFSP delete - only admin with dfspManage
 apiVersion: oathkeeper.ory.sh/v1alpha1
@@ -155,7 +156,7 @@ spec:
           X-User: '{{ print .Subject }}'
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
-          X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}'
+          X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 1 }}'
 ---
 # DFSP credentials endpoint - only for DFSP owners (not admin users)
 apiVersion: oathkeeper.ory.sh/v1alpha1
@@ -528,7 +529,7 @@ spec:
       payload: |
         {
           "namespace": "role",
-          "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}",
+          "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 1 }}",
           "relation": "member",
           "subject_id": "{{ print .Subject }}"
         }
@@ -538,7 +539,7 @@ spec:
         headers:
           X-Client: '{{ print .Subject }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
-          X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}'
+          X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 1 }}'
 ---
 # PM4ML API - Hub endpoints read access (machine clients)
 apiVersion: oathkeeper.ory.sh/v1alpha1
