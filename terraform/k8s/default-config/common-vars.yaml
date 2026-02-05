@@ -135,3 +135,6 @@ openebs_helm_version: '4.4.0'
 log_alert_patterns:
   connection-refused:
     regex: "(?i)connection refused|ECONNREFUSED"
+    description: "Connection refused error detected"
+    threshold: 2
+    severity: "warning"    

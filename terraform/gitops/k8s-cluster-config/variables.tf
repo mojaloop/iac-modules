@@ -274,7 +274,11 @@ variable "log_alert_patterns" {
   description = "Map of log patterns for Loki recording rules"
   type = map(object({
     regex    = string
+    description = string
+    threshold   = number
+    severity    = string
   }))
+  default = {}  
 }
 
 locals {

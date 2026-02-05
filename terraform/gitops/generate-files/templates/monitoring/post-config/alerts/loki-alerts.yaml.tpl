@@ -40,3 +40,16 @@ spec:
           annotations:
             summary: "High error rate detected.  namespace: {{ $labels.namespace }}, app: {{ $labels.app }}, pod: {{ $labels.pod }}"
             description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} (app {{ $labels.app }}) has a high log error rate (>5%)."
+
+%{ for pattern_name, pattern in log_alert_patterns ~}
+        - alert: Loki${replace(title(replace(pattern_name, "-", " ")), " ", "")}Detected
+          expr: loki_log_${replace(pattern_name, "-", "_")}_lines_rate > ${pattern.threshold}
+          for: 15m
+          labels:
+            severity: ${pattern.severity}
+            pattern: ${pattern_name}
+          annotations:
+            summary: "${pattern.description} - namespace: {{ $labels.namespace }}, app: {{ $labels.app }}, pod: {{ $labels.pod }}"
+            description: "Container {{ $labels.container }} in pod {{ $labels.pod }} (namespace {{ $labels.namespace }}, app {{ $labels.app }}) is experiencing ${pattern_name} issues (rate: {{ $value }} logs/sec)."
+%{ endfor ~}
+
