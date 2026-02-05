@@ -58,7 +58,7 @@ variable "netbird_setup_key_name" {
 variable "netbird_setup_key_namespace" {
   type        = string
   description = "Namespace for the netbird setup key"
-  default     = "istio-system"
+  default     = "netbird-operator"
 }
 
 variable "netbird_setup_key_vault_path" {
