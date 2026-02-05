@@ -74,6 +74,8 @@ kind: NBSetupKey
 metadata:
   name: istio-netbird-setup-key
   namespace: ${istio_nb_egress_waypoint_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: "${istio_gateways_sync_wave}"
 spec:
   managementURL: ${netbird_management_url}
   secretKeyRef:
