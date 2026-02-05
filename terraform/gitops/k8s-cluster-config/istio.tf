@@ -45,11 +45,13 @@ module "generate_istio_files" {
     kiali_sync_wave                      = var.kiali_sync_wave
     # Internal domain configuration for egress routing
     netbird_traffic_hosts  = local.netbird_traffic_hosts_list
-    netbird_setup_key_name = var.netbird_setup_key_name
     istio_cni_platform     = var.istio_cni_platform
     istio_nb_egress_waypoint_name        = var.istio_nb_egress_waypoint_name
     istio_nb_egress_waypoint_namespace   = var.istio_nb_egress_waypoint_namespace
     cluster                              = var.app_var_map.cluster
+    netbird_management_url               = var.netbird_operator_management_url
+    netbird_setup_key_vault_path         = var.netbird_setup_key_vault_path
+    external_secret_sync_wave            = var.external_secret_sync_wave
   }
 
   file_list       = [for f in fileset(local.istio_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.istio_app_file, f))]
