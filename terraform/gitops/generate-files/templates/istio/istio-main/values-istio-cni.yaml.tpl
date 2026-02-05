@@ -22,10 +22,12 @@ global:
 %{ endif ~}
 
 # CNI-and-platform specific path defaults.
-cni:
 %{ if istio_cni_platform == "none" ~}
+cni:
   istioOwnedCNIConfig : true
-%{ elseif istio_cni_platform == "microk8s" ~}
+%{ endif ~}
+%{ if istio_cni_platform == "microk8s" ~}
+cni:
   istioOwnedCNIConfig : false
 %{ endif ~}
 
@@ -44,7 +46,7 @@ ambient:
   # If enabled, and ambient is enabled, enables ipv6 support
   ipv6: false
   # If enabled, and ambient is enabled, the CNI agent will reconcile incompatible iptables rules and chains at startup.
-  reconcileIptablesOnStartup: true
+  reconcileIptablesOnStartup: false
   # If enabled, and ambient is enabled, the CNI agent will always share the network namespace of the host node it is running on
   shareHostNetworkNamespace: false
 
