@@ -273,12 +273,12 @@ variable "mojaloop_reporting_templates_repo" {
 variable "log_alert_patterns" {
   description = "Map of log patterns for Loki recording rules"
   type = map(object({
-    regex    = string
+    regex = string
     description = string
-    threshold   = number
-    severity    = string
+    threshold = number
+    severity = string
   }))
-  default = {}  
+  default = {} 
 }
 
 locals {
