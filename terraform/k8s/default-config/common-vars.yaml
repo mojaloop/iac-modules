@@ -131,3 +131,7 @@ grafana_dashboard_tag_iac_modules: "feature/storage-cluster"
 netbird_taint_remover_enabled: true
 vault_readiness_timeout_seconds: 15
 openebs_helm_version: '4.4.0'
+
+log_alert_patterns:
+  connection-refused:
+    regex: "(?i)connection refused|ECONNREFUSED"

@@ -102,7 +102,7 @@ module "generate_monitoring_files" {
     cluster                                    = var.app_var_map.cluster
     loki_canary_repo                           = local.loki_canary_repo
     loki_canary_chart_version                  = local.loki_canary_chart_version
-    log_alert_patterns                         = var.log_alert_patterns
+    log_alert_patterns                         = try(var.common_var_map.log_alert_patterns, {})
     # central observability configs
     cluster_label                      = var.cluster_name # cluster identifier in central observability stack
     enable_central_observability_write = try(var.common_var_map.enable_central_observability_write, local.enable_central_observability_write)

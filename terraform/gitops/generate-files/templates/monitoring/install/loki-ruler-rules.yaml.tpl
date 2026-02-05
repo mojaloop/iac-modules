@@ -44,6 +44,6 @@ groups:
       - record: loki_log_${replace(pattern_name, "-", "_")}_lines_rate
         expr: |
           sum by (namespace, app, pod, container) (
-            rate({pod=~".+"} |~ "${pattern.regex}" [${pattern.interval}])
+            rate({pod=~".+"} |~ "${pattern.regex}" [5m])
           )
 %{ endfor ~}      
