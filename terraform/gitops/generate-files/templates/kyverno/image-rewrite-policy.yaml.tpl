@@ -25,6 +25,9 @@ spec:
           - list: request.object.spec.containers[]
             preconditions:
               all:
+                - key: "{{ element.image || '' }}" # GUARD: Prevents nil pointer crash
+                  operator: NotEquals
+                  value: ""
                 - key: "{{ image_normalize(element.image) }}"
                   operator: AnyIn
                   value:
@@ -72,6 +75,9 @@ spec:
           - list: request.object.spec.containers[]
             preconditions:
               all:
+                - key: "{{ element.image || '' }}" # GUARD: Prevents nil pointer crash
+                  operator: NotEquals
+                  value: ""
                 - key: "{{ image_normalize(element.image) }}"
                   operator: AnyIn
                   value:
@@ -92,6 +98,9 @@ spec:
           - list: request.object.spec.initContainers[]
             preconditions:
               all:
+                - key: "{{ element.image || '' }}"
+                  operator: NotEquals
+                  value: ""
                 - key: "{{ image_normalize(element.image) }}"
                   operator: AnyIn
                   value:
