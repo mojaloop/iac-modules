@@ -316,7 +316,6 @@ argocd_override:
           netbird_tf_provider_version: "${netbird_tf_provider_version}"
           rdbms_provider: "${netbird_rdbms_provider}"
           pre_xplane_management_policies: "${netbird_pre_xplane_management_policies}"
-          pre_tf_management_policies: "${netbird_pre_tf_management_policies}"
         netbird_percona_provider:
           postgres_replicas: "${netbird_perc_postgres_replicas}"
           postgres_proxy_replicas: "${netbird_perc_postgres_proxy_replicas}"
