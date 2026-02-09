@@ -24,9 +24,11 @@ spec:
       mutate:
         patchStrategicMerge:
           spec:
-            env:
-              - name: NB_INTERFACE_MTU
-                value: "1240"
+            containers:
+              - name: netbird
+                env:
+                  - name: NB_INTERFACE_MTU
+                    value: "1240"
             securityContext:
               sysctls:
                 - name: net.ipv4.ip_forward
