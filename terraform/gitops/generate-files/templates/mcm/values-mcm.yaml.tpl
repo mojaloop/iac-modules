@@ -50,12 +50,6 @@ api:
   rbac:
     enabled: false
   annotations:
-    vault.hashicorp.com/agent-inject: "true"
-    vault.hashicorp.com/log-level: "debug"
-    vault.hashicorp.com/agent-image: ghcr.io/mojaloop/vault-agent-util:0.0.2
-    vault.hashicorp.com/agent-configmap: "vault-agent"
-    vault.hashicorp.com/agent-pre-populate: "true"
-    vault.hashicorp.com/agent-limits-mem: "" #this disables limit, TODO: need to tune this
     proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
 ui:
   checkSessionUrl: https://${mcm_fqdn}/kratos/sessions/whoami
