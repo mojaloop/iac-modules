@@ -64,6 +64,8 @@ metadata:
 spec:
   parentRefs:
     - name: udp-gateway
+    - kind: Service
+      name: stunner-internal-mirror 
   rules:
     - backendRefs:
         - group: stunner.l7mp.io
