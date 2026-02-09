@@ -16,12 +16,18 @@ spec:
           "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
           inlineCode: |
             function envoy_on_request(request_handle)
-              local testcase_header = request_handle:headers():get("x-test-case");
-              if testcase_header == "block-request" then
-                request_handle:respond(
-                  {[":status"] = "403"},
-                  "Egress request blocked: x-test-case block-request header detected"
-                );
+              local baggage_header = request_handle:headers():get("baggage");
+              if baggage_header ~= nil then
+                for pair in baggage_header:gmatch("[^,]+") do
+                  local key, value = pair:match("^%s*([^=]+)=(.*)$");
+                  if key == "test-instruction" and value == "block-request" then
+                    request_handle:respond(
+                      {[":status"] = "403"},
+                      "Egress request blocked: test-instruction=block-request in baggage header detected"
+                    );
+                    return;
+                  end
+                end
               end
             end
   workloadSelector:
