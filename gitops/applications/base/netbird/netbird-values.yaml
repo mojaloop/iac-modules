@@ -19,14 +19,14 @@ management:
         "Turns": [
           {
             "Proto": "udp",
-            "URI": "turn:netbird.${ARGOCD_ENV_netbird_dns_subdomain}:${ARGOCD_ENV_stunner_nodeport_port}",
+            "URI": "turn:netbird.${ARGOCD_ENV_netbird_dns_subdomain}:${ARGOCD_ENV_stunner_nodeport_port}?transport=udp",
             "Username": "{{ .STUNNER_AUTH_USER }}",
             "Password": "{{ .STUNNER_AUTH_PASS }}"
           }
         ]
       },
       "Relay": {
-        "Addresses": ["rels://netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443/relay"],
+        "Addresses": null,
         "CredentialsTTL": "24h",
         "Secret": "{{ .RELAY_PASSWORD }}"
       },
