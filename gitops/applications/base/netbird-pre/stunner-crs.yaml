@@ -29,6 +29,7 @@ metadata:
   name: udp-gateway
   namespace: "${ARGOCD_ENV_stunner_impl_namespace}"
   annotations:
+    stunner.l7mp.io/enable-mixed-protocol-lb: true
     stunner.l7mp.io/service-type: NodePort
     stunner.l7mp.io/nodeport: |
       {
