@@ -142,7 +142,7 @@ spec:
     topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: ScheduleAnyway
+        whenUnsatisfiable: DoNotSchedule # helps for pods not being moved to another node during a node restart
         labelSelector:
           matchLabels:
             role: follower

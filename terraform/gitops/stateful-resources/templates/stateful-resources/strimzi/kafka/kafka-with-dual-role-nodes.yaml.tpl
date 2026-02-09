@@ -76,6 +76,21 @@ spec:
   kafkaExporter:
     topicRegex: ".*"
     groupRegex: ".*"
+    template:
+      pod:
+        topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: DoNotSchedule # helps for pods not being moved to another node during a node restart
+            labelSelector:
+              matchLabels:
+                strimzi.io/name: ${kafka_cluster_name}-kafka
+          - maxSkew: 1
+            topologyKey: topology.kubernetes.io/zone
+            whenUnsatisfiable: ScheduleAnyway
+            labelSelector:
+              matchLabels:
+                strimzi.io/name: ${kafka_cluster_name}-kafka
   # cruiseControl:
   #   config:
   #     # Note that `goals` must be a superset of `default.goals` and `hard.goals`
