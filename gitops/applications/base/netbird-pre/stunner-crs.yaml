@@ -31,13 +31,30 @@ metadata:
   annotations:
     stunner.l7mp.io/service-type: NodePort
     stunner.l7mp.io/nodeport: '{"udp-listener": ${ARGOCD_ENV_stunner_nodeport_port} }'
-    stunner.l7mp.io/external-traffic-policy: local
 spec:
   gatewayClassName: stunner-gatewayclass
   listeners:
     - name: udp-listener
       port: 3478
       protocol: TURN-UDP
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: tcp-gateway
+  namespace: "${ARGOCD_ENV_stunner_impl_namespace}"
+  annotations:
+    stunner.l7mp.io/service-type: NodePort
+    stunner.l7mp.io/nodeport: |
+      {
+        "tcp-listener": ${ARGOCD_ENV_stunner_nodeport_port}
+      }
+spec:
+  gatewayClassName: stunner-gatewayclass
+  listeners:
+    - name: tcp-listener
+      port: 3478
+      protocol: TURN-TCP
 ---
 apiVersion: stunner.l7mp.io/v1
 kind: UDPRoute
@@ -49,23 +66,17 @@ spec:
     - name: udp-gateway
   rules:
     - backendRefs:
-        - name: udp-gateway
-          namespace: "${ARGOCD_ENV_stunner_impl_namespace}"
+        - group: stunner.l7mp.io
+          kind: StaticService
+          name: all-internal-pods
 ---
-apiVersion: v1
-kind: Service
+apiVersion: stunner.l7mp.io/v1
+kind: StaticService
 metadata:
-  name: stunner-health
+  name: all-internal-pods
   namespace: "${ARGOCD_ENV_stunner_impl_namespace}"
 spec:
-  type: NodePort
-  externalTrafficPolicy: Local
-  selector:
-    app: stunner
-    stunner.l7mp.io/related-gateway-name: udp-gateway
-    stunner.l7mp.io/related-gateway-namespace: "${ARGOCD_ENV_stunner_impl_namespace}"
-  ports:
-    - name: health
-      port: 8086
-      targetPort: 8086
-      nodePort: ${ARGOCD_ENV_stunner_health_nodeport}
+  # Replace with your actual K8s Pod CIDR for better security
+  # Or use 0.0.0.0/0 for absolute wildcard access
+  prefixes:
+    - 0.0.0.0/0
