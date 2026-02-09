@@ -7,7 +7,7 @@ management:
       "Stuns": [
         {
           "Proto": "udp",
-          "URI": "stun:netbird.${ARGOCD_ENV_netbird_dns_subdomain}:${ARGOCD_ENV_stunner_nodeport_port}",
+          "URI": "stun:stunner.${ARGOCD_ENV_netbird_dns_subdomain}:${ARGOCD_ENV_stunner_nodeport_port}",
           "Username": "",
           "Password": ""
         }
@@ -19,7 +19,7 @@ management:
         "Turns": [
           {
             "Proto": "udp",
-            "URI": "turn:netbird.${ARGOCD_ENV_netbird_dns_subdomain}:${ARGOCD_ENV_stunner_nodeport_port}?transport=udp",
+            "URI": "turn:stunner.${ARGOCD_ENV_netbird_dns_subdomain}:${ARGOCD_ENV_stunner_nodeport_port}?transport=udp",
             "Username": "{{ .STUNNER_AUTH_USER }}",
             "Password": "{{ .STUNNER_AUTH_PASS }}"
           }
