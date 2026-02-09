@@ -94,7 +94,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    stunner.l7mp.io/related-gateway: udp-gateway
+    stunner.l7mp.io/related-gateway-name: udp-gateway
   ports:
     - name: stun-udp
       protocol: UDP
