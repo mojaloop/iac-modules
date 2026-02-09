@@ -29,12 +29,10 @@ metadata:
   name: udp-gateway
   namespace: "${ARGOCD_ENV_stunner_impl_namespace}"
   annotations:
-    stunner.l7mp.io/enable-mixed-protocol-lb: true
     stunner.l7mp.io/service-type: NodePort
     stunner.l7mp.io/nodeport: |
       {
-        "udp-listener": ${ARGOCD_ENV_stunner_nodeport_port},
-        "tcp-listener": ${ARGOCD_ENV_stunner_nodeport_port}
+        "udp-listener": ${ARGOCD_ENV_stunner_nodeport_port}
       }
 spec:
   gatewayClassName: stunner-gatewayclass
@@ -42,9 +40,6 @@ spec:
     - name: udp-listener
       port: 3478
       protocol: TURN-UDP
-    - name: tcp-listener  # Add this
-      port: 3478
-      protocol: TURN-TCP
 ---
 apiVersion: stunner.l7mp.io/v1
 kind: UDPRoute
