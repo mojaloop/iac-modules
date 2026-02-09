@@ -16,11 +16,11 @@ spec:
           "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
           inlineCode: |
             function envoy_on_request(request_handle)
-              local testcase_header = request_handle:headers():get("x-testcase");
+              local testcase_header = request_handle:headers():get("x-test-case");
               if testcase_header == "block-request" then
                 request_handle:respond(
                   {[":status"] = "403"},
-                  "Egress request blocked: x-testcase header detected"
+                  "Egress request blocked: x-test-case block-request header detected"
                 );
               end
             end
