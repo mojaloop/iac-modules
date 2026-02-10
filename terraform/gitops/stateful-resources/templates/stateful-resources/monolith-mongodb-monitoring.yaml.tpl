@@ -21,6 +21,7 @@ spec:
         - --mongodb.direct-connect=true
         - --compatible-mode
         - --collect-all
+        - --discovering-mode
         ports:
         - name: metrics
           containerPort: 9216
