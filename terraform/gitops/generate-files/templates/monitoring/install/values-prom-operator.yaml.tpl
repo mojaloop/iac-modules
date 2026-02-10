@@ -5,6 +5,13 @@ alertmanager:
   
   alertmanagerSpec:
     externalUrl: "https://${alertmanager_fqdn}"
+    resources:
+      limits:
+        cpu: ${alertmanager_limits_cpu}
+        memory: ${alertmanager_limits_memory}
+      requests:
+        cpu: ${alertmanager_requests_cpu}
+        memory: ${alertmanager_requests_memory}
 %{if length(tolerations) > 0 ~}
     tolerations:
 %{ for t in tolerations ~}

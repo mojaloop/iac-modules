@@ -74,6 +74,10 @@ tempo_retention_period: 72h
 istio_egress_gateway_max_replicas: 5
 microk8s_version: 1.31/stable
 alertmanager_enabled: true
+alertmanager_limits_cpu: "200m"
+alertmanager_limits_memory: "512Mi"
+alertmanager_requests_cpu: "100m"
+alertmanager_requests_memory: "128Mi"
 alertmanager_prod_alerts_enabled: false # if false, alerts are sent to dev alerts slack channel
 alertmanager_slack_integration_enabled: false
 alertmanager_jira_integration_enabled: false
