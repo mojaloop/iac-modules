@@ -225,6 +225,13 @@ kube-state-metrics:
 
 prometheus-node-exporter:
   enabled: true
+  resources:
+    limits:
+      cpu: 200m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 64Mi
   
   prometheus:
     monitor:
