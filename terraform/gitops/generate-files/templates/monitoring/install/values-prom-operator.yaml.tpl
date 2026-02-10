@@ -125,9 +125,12 @@ prometheusOperator:
   nodeSelector:
     workload-class.mojaloop.io/MONITORING: "enabled"
   resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
     requests:
-      cpu: 20m
-      memory: 100Mi
+      cpu: 100m
+      memory: 128Mi
   admissionWebhooks:
     patch:
       enabled: true
