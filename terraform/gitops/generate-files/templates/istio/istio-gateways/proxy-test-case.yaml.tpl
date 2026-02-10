@@ -1,17 +1,17 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
-  name: egress-payload-blocker
+  name: ingress-payload-blocker
   namespace: ${istio_external_gateway_namespace}
 spec:
   configPatches:
   - applyTo: HTTP_FILTER
     match:
-      context: SIDECAR_OUTBOUND
+      context: GATEWAY
     patch:
       operation: INSERT_BEFORE
       value:
-        name: egress-payload-blocker
+        name: ingress-payload-blocker
         typed_config:
           "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
           inlineCode: |
@@ -28,7 +28,7 @@ spec:
                         if path:match("^/transfers/[^/]+$") or path:match("^/transfers/[^/]+/error$") then
                           request_handle:respond(
                             {[":status"] = "403"},
-                            "Egress request blocked: test-instruction=block-fulfil for PUT /transfers/{ID} or /transfers/{ID}/error"
+                            "Ingress request blocked: test-instruction=block-fulfil for PUT /transfers/{ID} or /transfers/{ID}/error"
                           )
                           return
                         end
@@ -38,7 +38,7 @@ spec:
                         if path:match("^/fxTransfers/[^/]+$") or path:match("^/fxTransfers/[^/]+/error$") then
                           request_handle:respond(
                             {[":status"] = "403"},
-                            "Egress request blocked: test-instruction=block-fx-fulfil for PUT /fxTransfers/{ID} or /fxTransfers/{ID}/error"
+                            "Ingress request blocked: test-instruction=block-fx-fulfil for PUT /fxTransfers/{ID} or /fxTransfers/{ID}/error"
                           )
                           return
                         end
