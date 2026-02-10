@@ -71,6 +71,7 @@ resource "local_file" "kustomization" {
       percona_stateful_resources          = local.percona_stateful_resources
       monolith_env_vpc_aws_db_resources   = local.monolith_env_vpc_aws_db_resources
       monolith_resources_to_monitor       = local.monolith_resources_to_monitor
+      monolith_mongodb_resources_to_monitor = local.monolith_mongodb_resources_to_monitor
       monolith_env_mysql_dbaas_resources  = local.monolith_env_mysql_dbaas_resources
       monolith_env_mongo_dbaas_resources  = local.monolith_env_mongo_dbaas_resources
       monolith_stateful_resources         = var.monolith_stateful_resources
@@ -388,6 +389,25 @@ resource "local_file" "monolith-db-monitoring" {
   filename = "${local.stateful_resources_output_path}/monolith-db-monitoring-${each.key}.yaml"
 }
 
+resource "local_file" "monolith-mongodb-monitoring" {
+  for_each = { for key, stateful_resource in local.monolith_mongodb_resources_to_monitor : key => stateful_resource }
+  content = templatefile("${local.stateful_resources_template_path}/monolith-mongodb-monitoring.yaml.tpl",
+    {
+        cluster_name                 = "${var.cc_name}-${var.cluster_name}-${each.value.external_resource_config.dbdeploy_name_prefix}"
+        namespace                    = each.value.resource_namespace
+        externalservice_name         = each.value.externalservice_name
+        db_secret                    = each.value.external_resource_config.master_user_password_secret
+        db_secret_key                = each.value.external_resource_config.master_user_password_secret_key
+        port                         = each.value.external_resource_config.port
+        db_username                  = each.value.external_resource_config.username
+        db_name                      = each.value.external_resource_config.db_name
+        ca_bundle_secret_key         = each.value.ca_bundle_secret.key
+        ca_bundle_secret_name        = each.value.ca_bundle_secret.name
+  })
+  filename = "${local.stateful_resources_output_path}/monolith-mongodb-monitoring-${each.key}.yaml"
+}
+
+
 resource "local_file" "aws-db-vault-crs" {
   for_each = { for key, stateful_resource in local.monolith_env_vpc_resource_password_map : key => stateful_resource }
 
@@ -454,6 +474,7 @@ locals {
   monolith_env_mysql_dbaas_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "dbaas" && monolith_resource.resource_type == "mysql" }
   monolith_env_mongo_dbaas_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "dbaas" && monolith_resource.resource_type == "mongodb" }
   monolith_resources_to_monitor = merge(local.monolith_env_vpc_aws_rds_resources, local.monolith_env_mysql_dbaas_resources)
+  monolith_mongodb_resources_to_monitor = local.monolith_env_mongo_dbaas_resources
 
   monolith_managed_password_map = { for key, stateful_resource in var.monolith_stateful_resources : key => {
     vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"

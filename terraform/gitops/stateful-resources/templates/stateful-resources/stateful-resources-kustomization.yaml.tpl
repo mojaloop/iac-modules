@@ -34,6 +34,10 @@ resources:
 - monolith-db-monitoring-${key}.yaml
 # %{ endfor }
 
+# %{ for key, stateful_resource in monolith_mongodb_resources_to_monitor }
+- monolith-mongodb-monitoring-${key}.yaml
+# %{ endfor }
+
 # %{ for key,stateful_resource in monolith_init_mongodb_managed_stateful_resources }
 - monolith-mongodb-init-job-${key}.yaml
 # %{ endfor }
