@@ -17,14 +17,20 @@ spec:
       - name: mongodb-exporter
         image: percona/mongodb_exporter:0.40
         args:
-        - --mongodb.uri=mongodb://${db_username}:$(MONGODB_PASSWORD)@${externalservice_name}.${namespace}:${port}/${db_name}?ssl=true&tlsInsecure=true
+        - --mongodb.uri=mongodb://$(MONGODB_USERNAME):$(MONGODB_PASSWORD)@${externalservice_name}.${namespace}:${port}/${db_name}?authSource=admin&authMechanism=SCRAM-SHA-256&ssl=true&tlsInsecure=true
         - --mongodb.direct-connect=true
         - --compatible-mode
         - --collect-all
+        - --discovering-mode
         ports:
         - name: metrics
           containerPort: 9216
         env:
+        - name: MONGODB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: ${db_secret}
+              key: ${db_username_key}
         - name: MONGODB_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -34,6 +40,18 @@ spec:
         - name: ca-bundle-volume
           mountPath: /etc/mongodb-certs
           readOnly: true
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 9216
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 9216
+          initialDelaySeconds: 10
+          periodSeconds: 5
       volumes:
       - name: ca-bundle-volume
         secret:
