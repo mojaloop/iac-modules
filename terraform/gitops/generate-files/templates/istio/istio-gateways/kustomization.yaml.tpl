@@ -10,6 +10,7 @@ resources:
   - argocd-vs.yaml
   - keep-alive.yaml
   - netbird-egress-routing.yaml
+  - proxy-test-case.yaml
 
 helmCharts:
 - name: gateway
