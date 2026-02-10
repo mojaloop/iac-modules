@@ -136,5 +136,5 @@ log_alert_patterns:
   connection-refused:
     regex: "(?i)connection refused|ECONNREFUSED"
     description: "Connection refused error detected"
-    threshold: 2
+    threshold: 1
     severity: "warning"    
