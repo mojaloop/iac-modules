@@ -9,7 +9,7 @@ spec:
       rules:
         - alert: LokiCanaryMissingEntriesHigh
           expr: rate(loki_canary_missing_entries_total[${prometheus_rate_interval}]) >= 0.5
-          for: 10m
+          for: 15m
           labels:
             severity: warning
           annotations:
@@ -42,7 +42,7 @@ spec:
             description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} (app {{ $labels.app }}) has a high log error rate (>5%)."
         - alert: LokiDnsTimeoutDetected
           expr: loki_log_dns_timeout_lines_rate > 1
-          for: 5m
+          for: 15m
           labels:
             severity: warning
             pattern: dns-timeout
@@ -51,7 +51,7 @@ spec:
             description: "Container {{ $labels.container }} in pod {{ $labels.pod }} (namespace {{ $labels.namespace }}, app {{ $labels.app }}) is experiencing DNS timeout issues (rate: {{ $value }} logs/sec)."
         - alert: LokiDnsNotFoundDetected
           expr: loki_log_dns_not_found_lines_rate > 1
-          for: 5m
+          for: 15m
           labels:
             severity: warning
             pattern: dns-not-found
@@ -60,7 +60,7 @@ spec:
             description: "Container {{ $labels.container }} in pod {{ $labels.pod }} (namespace {{ $labels.namespace }}, app {{ $labels.app }}) is experiencing DNS resolution failures (rate: {{ $value }} logs/sec)."
         - alert: LokiMysqlConnectionLostDetected
           expr: loki_log_mysql_connection_lost_lines_rate > 0.5
-          for: 3m
+          for: 15m
           labels:
             severity: critical
             pattern: mysql-connection-lost
