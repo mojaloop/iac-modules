@@ -187,6 +187,13 @@ kubelet:
 
 kube-state-metrics:
   enabled: true
+  resources:
+    limits:
+      cpu: 200m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 64Mi
 %{if length(tolerations) > 0 ~}
   tolerations:
 %{ for t in tolerations ~}
