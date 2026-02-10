@@ -54,6 +54,14 @@ prometheus:
           resources:
             requests:
               storage: ${prometheus_pvc_size}
+
+    resources:
+      limits:
+        cpu: ${prometheus_limits_cpu}
+        memory: ${prometheus_limits_memory}
+      requests:
+        cpu: ${prometheus_requests_cpu}
+        memory: ${prometheus_requests_memory}
 %{if length(tolerations) > 0 ~}
     tolerations:
 %{ for t in tolerations ~}
