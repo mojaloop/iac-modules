@@ -397,7 +397,8 @@ resource "local_file" "monolith-mongodb-monitoring" {
         namespace                    = each.value.resource_namespace
         externalservice_name         = each.value.externalservice_name
         db_secret                    = each.value.external_resource_config.master_user_password_secret
-        db_secret_key                = each.value.external_resource_config.master_user_password_secret_key
+        db_secret_key                = "MONGODB_CLUSTER_MONITOR_PASSWORD" 
+        db_username_key              = "MONGODB_CLUSTER_MONITOR_USER"
         port                         = each.value.external_resource_config.port
         db_username                  = each.value.external_resource_config.username
         db_name                      = each.value.external_resource_config.db_name
