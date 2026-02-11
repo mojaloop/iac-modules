@@ -37,11 +37,6 @@ spec:
                     valueFrom:
                       fieldRef:
                         fieldPath: status.hostIP
-                  - name: NB_EXTERNAL_PORT
-                    valueFrom:
-                      fieldRef:
-                        fieldPath: metadata.annotations['io.cilium.host-port.allocated']
-                  # Fallback if annotation doesn't exist yet
                   - name: NB_LISTEN_PORT
                     value: "51820"
                 ports:
