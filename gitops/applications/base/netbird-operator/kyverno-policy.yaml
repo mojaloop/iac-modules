@@ -22,7 +22,7 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
       mutate:
-        patchJson6902: |-
+        patchesJson6902: |-
           - op: add
             path: "/metadata/annotations/io.cilium.host-port-range"
             value: "50000-51000"
