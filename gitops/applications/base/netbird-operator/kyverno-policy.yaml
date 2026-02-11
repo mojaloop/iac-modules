@@ -23,15 +23,14 @@ spec:
                   app.kubernetes.io/name: netbird-router
       mutate:
         patchStrategicMerge:
-          metadata:
-            annotations:
-              # Add Cilium hostPort annotations (merges with existing)
-              io.cilium.host-port-range: "50000-51000"
-              io.cilium.host-port-protocol: "UDP"
-              io.cilium.host-port-loose: "true"
           spec:
             containers:
-              - name: netbird
+              # Match the container by name to 'merge' into it
+              - (name): netbird 
+                ports:
+                  - containerPort: 51820
+                    hostPort: 0
+                    protocol: UDP
                 env:
                   - name: NB_EXTERNAL_IP
                     valueFrom:
@@ -39,10 +38,6 @@ spec:
                         fieldPath: status.hostIP
                   - name: NB_LISTEN_PORT
                     value: "51820"
-                ports:
-                  - containerPort: 51820
-                    hostPort: 0  # Auto-allocate
-                    protocol: UDP
             securityContext:
               sysctls:
                 - name: net.ipv4.ip_forward
