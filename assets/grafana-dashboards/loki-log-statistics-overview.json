@@ -233,7 +233,8 @@
   "schemaVersion": 41,
   "tags": [
     "loki",
-    "logs"
+    "logs",
+    "ruler"
   ],
   "templating": {
     "list": [
@@ -266,6 +267,6 @@
   },
   "timezone": "browser",
   "title": "Loki - Log statistics - Overview",
-  "uid": "cf16ec9b-9389-4f57-ad9b-f990909-v001",
+  "uid": "cf16ec9b-9389-4f57-ad9b-f990909-v002",
   "version": 23
 }

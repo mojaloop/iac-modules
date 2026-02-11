@@ -9,7 +9,7 @@ spec:
       rules:
         - alert: LokiCanaryMissingEntriesHigh
           expr: rate(loki_canary_missing_entries_total[${prometheus_rate_interval}]) >= 0.5
-          for: 10m
+          for: 15m
           labels:
             severity: warning
           annotations:
@@ -40,3 +40,42 @@ spec:
           annotations:
             summary: "High error rate detected.  namespace: {{ $labels.namespace }}, app: {{ $labels.app }}, pod: {{ $labels.pod }}"
             description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} (app {{ $labels.app }}) has a high log error rate (>5%)."
+        - alert: LokiDnsTimeoutDetected
+          expr: loki_log_dns_timeout_lines_rate > 1
+          for: 15m
+          labels:
+            severity: warning
+            pattern: dns-timeout
+          annotations:
+            summary: "DNS timeout detected - namespace: {{ $labels.namespace }}, app: {{ $labels.app }}, pod: {{ $labels.pod }}"
+            description: "Container {{ $labels.container }} in pod {{ $labels.pod }} (namespace {{ $labels.namespace }}, app {{ $labels.app }}) is experiencing DNS timeout issues (rate: {{ $value }} logs/sec)."
+        - alert: LokiDnsNotFoundDetected
+          expr: loki_log_dns_not_found_lines_rate > 1
+          for: 15m
+          labels:
+            severity: warning
+            pattern: dns-not-found
+          annotations:
+            summary: "DNS not found detected - namespace: {{ $labels.namespace }}, app: {{ $labels.app }}, pod: {{ $labels.pod }}"
+            description: "Container {{ $labels.container }} in pod {{ $labels.pod }} (namespace {{ $labels.namespace }}, app {{ $labels.app }}) is experiencing DNS resolution failures (rate: {{ $value }} logs/sec)."
+        - alert: LokiMysqlConnectionLostDetected
+          expr: loki_log_mysql_connection_lost_lines_rate > 0.5
+          for: 15m
+          labels:
+            severity: critical
+            pattern: mysql-connection-lost
+          annotations:
+            summary: "MySQL connection lost - namespace: {{ $labels.namespace }}, app: {{ $labels.app }}, pod: {{ $labels.pod }}"
+            description: "Container {{ $labels.container }} in pod {{ $labels.pod }} (namespace {{ $labels.namespace }}, app {{ $labels.app }}) is experiencing MySQL connection issues (rate: {{ $value }} logs/sec)."
+%{ for pattern_name, pattern in log_alert_patterns ~}
+        - alert: Loki${replace(title(replace(pattern_name, "-", " ")), " ", "")}Detected
+          expr: loki_log_${replace(pattern_name, "-", "_")}_lines_rate > ${pattern.threshold}
+          for: 15m
+          labels:
+            severity: ${pattern.severity}
+            pattern: ${pattern_name}
+          annotations:
+            summary: "${pattern.description} - namespace: {{ $labels.namespace }}, app: {{ $labels.app }}, pod: {{ $labels.pod }}"
+            description: "Container {{ $labels.container }} in pod {{ $labels.pod }} (namespace {{ $labels.namespace }}, app {{ $labels.app }}) is experiencing ${pattern_name} issues (rate: {{ $value }} logs/sec)."
+%{ endfor ~}
+

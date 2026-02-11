@@ -160,6 +160,8 @@ querier:
     - -config.expand-env=true
 
 
+
+
 # Query Frontend configuration
 queryFrontend:
   replicas: ${ARGOCD_ENV_loki_query_frontend_replica_count}
@@ -273,6 +275,8 @@ resultsCache:
   enabled: true
   replicas: 1
   allocatedMemory: 1024
+
+
 
 
 # Monitoring
