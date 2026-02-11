@@ -22,26 +22,28 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
       mutate:
-        patchStrategicMerge:
-          spec:
-            containers:
-              # Match the container by name to 'merge' into it
-              - (name): netbird 
-                ports:
-                  - containerPort: 51820
-                    hostPort: 0
-                    protocol: UDP
-                env:
-                  - name: NB_EXTERNAL_IP
-                    valueFrom:
-                      fieldRef:
-                        fieldPath: status.hostIP
-                  - name: NB_LISTEN_PORT
-                    value: "51820"
-            securityContext:
-              sysctls:
-                - name: net.ipv4.ip_forward
-                  value: "1"
+        patchJson6902: |-
+          - op: add
+            path: "/metadata/annotations/io.cilium.host-port-range"
+            value: "50000-51000"
+          - op: add
+            path: "/metadata/annotations/io.cilium.host-port-protocol"
+            value: "UDP"
+          - op: add
+            path: "/metadata/annotations/io.cilium.host-port-loose"
+            value: "true"
+          - op: add
+            path: "/spec/containers/0/ports/0/hostPort"
+            value: 0
+          - op: add
+            path: "/spec/containers/0/env/-"
+            value: {"name": "NB_EXTERNAL_IP", "valueFrom": {"fieldRef": {"fieldPath": "status.hostIP"}}}
+          - op: add
+            path: "/spec/containers/0/env/-"
+            value: {"name": "NB_LISTEN_PORT", "value": "51820"}
+          - op: add
+            path: "/spec/securityContext"
+            value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}
       preconditions:
         any:
           - key: "{{request.operation}}"
