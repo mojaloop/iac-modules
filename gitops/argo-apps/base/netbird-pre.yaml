@@ -75,6 +75,9 @@ spec:
           - name: "stunner_nodeport_port"
             value: "${ARGOCD_ENV_security_netbird_stunner_nodeport_port}"
 
+          - name: "stunner_health_nodeport"
+            value: "${ARGOCD_ENV_security_netbird_stunner_health_nodeport}"
+
           - name: "stunner_gateway_operator_helm_version"
             value: "${ARGOCD_ENV_security_netbird_stunner_gateway_operator_helm_version}"
 
