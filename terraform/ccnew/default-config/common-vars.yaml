@@ -529,6 +529,14 @@ zitadel_perc_pgbouncer_memory_limit: "128Mi"
 zitadel_perc_pgbouncer_cpu_request: "100m"
 zitadel_perc_pgbouncer_memory_request: "64Mi"
 # end of zitadel db settins
+
+# zitadel post config tf workspace management policies
+zitadel_post_config_init_tf_management_policies: "Observe"
+zitadel_post_config_tf_management_policies: "Observe"
+# zitadel post config crossplane management policies
+zitadel_post_config_init_xplane_management_policies: "'''*'''"
+
+
 # rook ceph
 rook_ceph_helm_version: "1.17.1"
 rook_ceph_image_version: "v19.2.2"

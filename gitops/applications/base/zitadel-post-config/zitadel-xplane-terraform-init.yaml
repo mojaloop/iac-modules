@@ -19,6 +19,8 @@ spec:
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: zitadel-post-config-init
+  managementPolicies:
+    - ${ARGOCD_ENV_zitadel_post_config_init_tf_management_policies}
   writeConnectionSecretToRef:
     namespace: ${ARGOCD_ENV_zitadel_namespace}
     name: ${ARGOCD_ENV_zitadel_post_config_init_output_secret}

@@ -1,0 +1,27 @@
+apiVersion: zitadel.mojaloop.io/v1alpha1
+kind: ZitadelPostConfigInit
+metadata:
+  name: zitadel-postconfig-init
+  namespace: ${ARGOCD_ENV_zitadel_namespace}
+spec:
+  parameters:
+    domain: "zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
+    namespace: ${ARGOCD_ENV_zitadel_namespace}
+    zitadelAdminSecret:
+      name: "zitadel-admin-sa"
+      key: "zitadel-admin-sa.json"
+    zitadelInitOutputSecret:
+      name: ${ARGOCD_ENV_zitadel_post_config_init_output_secret}
+      key: "zitadel_org_id"
+    zitadelPostConfigOutputSecret:
+      name: ${ARGOCD_ENV_zitadel_post_config_output_secret}
+      key: "zitadel_admin_human_user_id"
+    oidcProviderGroupClaimPrefix: ${ARGOCD_ENV_zitadel_grant_prefix}
+
+
+  providerConfigsRef:
+    kubernetesProviderName: "kubernetes-provider"
+    zitadelProviderName: "zitadel-provider"
+
+  managementPolicies:
+    - ${ARGOCD_ENV_zitadel_post_config_init_xplane_management_policies}

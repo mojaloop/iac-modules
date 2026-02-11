@@ -1,8 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - zitadel-xplane-terraform-init.yaml
-  - zitadel-xplane-terraform.yaml
+  - zitadel-xplane-terraform-init.yaml  #to be removed after migrating to xplane for post config init
+  - zitadel-xplane-terraform.yaml #to be removed after migrating to xplane for post config init
+  - zitadel-post-config-init.yaml
   - zitadel-xplane-providerconfig.yaml
   - argocd-oidc.yaml
   - vault-oidc.yaml
