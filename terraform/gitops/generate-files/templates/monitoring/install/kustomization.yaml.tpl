@@ -7,7 +7,11 @@ configMapGenerator:
   - ./alloy-config.alloy
   options:
     disableNameSuffixHash: true
-
+- name: loki-ruler-rules
+  files:
+  - rules.yaml=./loki-ruler-rules.yaml
+  options:
+    disableNameSuffixHash: true
 resources:
     # grafana crds
   - https://raw.githubusercontent.com/grafana/grafana-operator/${grafana_crd_version_tag}/deploy/kustomize/base/crds.yaml

@@ -102,6 +102,7 @@ module "generate_monitoring_files" {
     cluster                                    = var.app_var_map.cluster
     loki_canary_repo                           = local.loki_canary_repo
     loki_canary_chart_version                  = local.loki_canary_chart_version
+    log_alert_patterns                         = try(var.common_var_map.log_alert_patterns, var.log_alert_patterns)
     # central observability configs
     cluster_label                      = var.cluster_name # cluster identifier in central observability stack
     enable_central_observability_write = try(var.common_var_map.enable_central_observability_write, local.enable_central_observability_write)
@@ -235,7 +236,7 @@ locals {
   metrics_server_chart_version        = "3.12.2"
   grafana_version                     = "11.6.1"
   grafana_dashboard_tag               = "v16.3.0-snapshot.17"     # NOTE: only for those dashboards which are in mojaloop/helm repo
-  grafana_dashboard_tag_iac_modules   = "cto-1448--fix-cpu-throttling-alert" # tag for dashboards in mojaloop/iac-modules repo
+  grafana_dashboard_tag_iac_modules   = "feature/storage-cluster" # tag for dashboards in mojaloop/iac-modules repo
   grafana_operator_version            = "v5.20.0"
   monitoring_template_path            = "${path.module}/../generate-files/templates/monitoring"
   monitoring_app_file                 = "monitoring-app.yaml"

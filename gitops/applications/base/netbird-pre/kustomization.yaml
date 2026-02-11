@@ -4,7 +4,7 @@ resources:
   - namespaces.yaml
   - netbird-crs.yaml
   - vault-secrets.yaml
-  - netbird-xplane-terraform.yaml
+  - netbird-pre-oidc.yaml
   - stunner-crs.yaml
   - ext-secret-pre.yaml
   - netbird-random-secrets.yaml

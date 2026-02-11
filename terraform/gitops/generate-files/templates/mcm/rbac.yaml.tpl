@@ -12,6 +12,10 @@ spec:
       - POST
   authenticators:
     - handler: cookie_session
+    - handler: jwt
+      config:
+        jwks_urls:
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: allow  # Auth endpoints are open to authenticated users
   mutators:
@@ -30,6 +34,10 @@ spec:
       - GET
   authenticators:
     - handler: cookie_session
+    - handler: jwt
+      config:
+        jwks_urls:
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
@@ -62,6 +70,10 @@ spec:
       - POST
   authenticators:
     - handler: cookie_session
+    - handler: jwt
+      config:
+        jwks_urls:
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
@@ -174,6 +186,10 @@ spec:
       - DELETE
   authenticators:
     - handler: cookie_session
+    - handler: jwt
+      config:
+        jwks_urls:
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
@@ -210,6 +226,10 @@ spec:
       - DELETE
   authenticators:
     - handler: cookie_session
+    - handler: jwt
+      config:
+        jwks_urls:
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
@@ -256,6 +276,10 @@ spec:
       - DELETE
   authenticators:
     - handler: cookie_session
+    - handler: jwt
+      config:
+        jwks_urls:
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
@@ -288,6 +312,10 @@ spec:
       - GET
   authenticators:
     - handler: cookie_session
+    - handler: jwt
+      config:
+        jwks_urls:
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
@@ -320,6 +348,10 @@ spec:
       - GET
   authenticators:
     - handler: cookie_session
+    - handler: jwt
+      config:
+        jwks_urls:
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
@@ -352,6 +384,10 @@ spec:
       - GET
   authenticators:
     - handler: cookie_session
+    - handler: jwt
+      config:
+        jwks_urls:
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
@@ -384,6 +420,10 @@ spec:
       - GET
   authenticators:
     - handler: cookie_session
+    - handler: jwt
+      config:
+        jwks_urls:
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:
@@ -418,6 +458,10 @@ spec:
       - DELETE
   authenticators:
     - handler: cookie_session
+    - handler: jwt
+      config:
+        jwks_urls:
+        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
     handler: remote_json
     config:

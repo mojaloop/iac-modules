@@ -135,6 +135,12 @@ spec:
           - name: "externalservice_name"
             value: "${ARGOCD_ENV_security_netbird_externalservice_name}"
 
+          - name: "zitadel_post_config_init_output_secret"
+            value: "zitadel-post-config-init-output"
+
+          - name: "netbird_pre_xplane_management_policies"
+            value: "${ARGOCD_ENV_security_netbird_pre_xplane_management_policies}"
+
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
       path: gitops/applications/overlays/rdbms_provider/${ARGOCD_ENV_security_netbird_rdbms_provider}/db
