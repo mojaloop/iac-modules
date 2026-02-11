@@ -42,25 +42,6 @@ spec:
       port: 3478
       protocol: TURN-UDP
 ---
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  name: tcp-gateway
-  namespace: "${ARGOCD_ENV_stunner_impl_namespace}"
-  annotations:
-    stunner.l7mp.io/service-type: NodePort
-    #stunner.l7mp.io/port-preservation: "true"
-    stunner.l7mp.io/nodeport: |
-      {
-        "tcp-listener": ${ARGOCD_ENV_stunner_nodeport_port}
-      }
-spec:
-  gatewayClassName: stunner-gatewayclass
-  listeners:
-    - name: tcp-listener
-      port: 3478
-      protocol: TURN-TCP
----
 apiVersion: stunner.l7mp.io/v1
 kind: UDPRoute
 metadata:
