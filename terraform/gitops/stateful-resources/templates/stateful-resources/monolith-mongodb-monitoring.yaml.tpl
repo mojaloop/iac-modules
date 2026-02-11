@@ -17,7 +17,7 @@ spec:
       - name: mongodb-exporter
         image: percona/mongodb_exporter:0.40
         args:
-        - --mongodb.uri=mongodb://$(MONGODB_USERNAME):$(MONGODB_PASSWORD)@${externalservice_name}.${namespace}:${port}/admin?ssl=true&tlsInsecure=true
+        - --mongodb.uri=mongodb://$(MONGODB_USERNAME):$(MONGODB_PASSWORD)@${externalservice_name}.${namespace}:${port}/admin?tls=true&tlsCAFile=/etc/mongodb-certs/ca-bundle.crt
         - --mongodb.direct-connect=true
         - --collect-all
         ports:
