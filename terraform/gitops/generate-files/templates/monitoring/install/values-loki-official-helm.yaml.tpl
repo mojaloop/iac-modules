@@ -317,6 +317,13 @@ gateway:
   enabled: true
   replicas: 1
   verboseLogging: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
   service:
     type: ClusterIP
     port: 80
@@ -341,6 +348,13 @@ indexGateway:
         name: ${object_store_loki_credentials_secret_name}
   extraArgs:
     - -config.expand-env=true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
   persistence:
     enabled: true
     size: 10Gi
@@ -362,6 +376,13 @@ chunksCache:
   replicas: 1
   allocatedMemory: 1400
   maxItemMemory: 5
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 2Gi
   nodeSelector:
     workload-class.mojaloop.io/MONITORING: "enabled"
 %{if length(tolerations) > 0 ~}
@@ -379,6 +400,13 @@ resultsCache:
   enabled: true
   replicas: 1
   allocatedMemory: 1024
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 1Gi
   nodeSelector:
     workload-class.mojaloop.io/MONITORING: "enabled"
 %{if length(tolerations) > 0 ~}
@@ -404,6 +432,13 @@ monitoring:
 #Loki Canary
 lokiCanary:
   enabled: true
+  resources:
+    requests:
+      cpu: 25m
+      memory: 32Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
   nodeSelector:
     workload-class.mojaloop.io/MONITORING: "enabled"
 %{if length(tolerations) > 0 ~}

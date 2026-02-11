@@ -5,6 +5,13 @@ alertmanager:
   
   alertmanagerSpec:
     externalUrl: "https://${alertmanager_fqdn}"
+    resources:
+      limits:
+        cpu: ${alertmanager_limits_cpu}
+        memory: ${alertmanager_limits_memory}
+      requests:
+        cpu: ${alertmanager_requests_cpu}
+        memory: ${alertmanager_requests_memory}
 %{if length(tolerations) > 0 ~}
     tolerations:
 %{ for t in tolerations ~}
@@ -54,6 +61,14 @@ prometheus:
           resources:
             requests:
               storage: ${prometheus_pvc_size}
+
+    resources:
+      limits:
+        cpu: ${prometheus_limits_cpu}
+        memory: ${prometheus_limits_memory}
+      requests:
+        cpu: ${prometheus_requests_cpu}
+        memory: ${prometheus_requests_memory}
 %{if length(tolerations) > 0 ~}
     tolerations:
 %{ for t in tolerations ~}
@@ -110,9 +125,12 @@ prometheusOperator:
   nodeSelector:
     workload-class.mojaloop.io/MONITORING: "enabled"
   resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
     requests:
-      cpu: 20m
-      memory: 100Mi
+      cpu: 100m
+      memory: 128Mi
   admissionWebhooks:
     patch:
       enabled: true
@@ -169,6 +187,13 @@ kubelet:
 
 kube-state-metrics:
   enabled: true
+  resources:
+    limits:
+      cpu: 200m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 64Mi
 %{if length(tolerations) > 0 ~}
   tolerations:
 %{ for t in tolerations ~}
@@ -200,6 +225,13 @@ kube-state-metrics:
 
 prometheus-node-exporter:
   enabled: true
+  resources:
+    limits:
+      cpu: 200m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 64Mi
   
   prometheus:
     monitor:
