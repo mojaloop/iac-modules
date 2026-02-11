@@ -32,10 +32,10 @@ spec:
           - op: add
             path: "/metadata/annotations/io.cilium.host-port-loose"
             value: "true"
-          - op: replace
-            path: "/spec/containers/0/ports/0"
+          - op: add
+            path: "/spec/containers/0/ports"
             value: 
-              containerPort: 51820
+            - containerPort: 51820
               hostPort: 0
               protocol: UDP
           - op: add
