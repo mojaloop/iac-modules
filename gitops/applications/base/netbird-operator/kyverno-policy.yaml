@@ -32,12 +32,12 @@ spec:
           - op: add
             path: "/metadata/annotations/io.cilium.host-port-loose"
             value: "true"
-          - op: add
-            path: "/spec/containers/0/ports"
+          - op: replace
+            path: "/spec/containers/0/ports/0"
             value: 
-              - containerPort: 51820
-                hostPort: 0
-                protocol: UDP
+              containerPort: 51820
+              hostPort: 0
+              protocol: UDP
           - op: add
             path: "/spec/containers/0/env/-"
             value: {"name": "NB_EXTERNAL_IP", "valueFrom": {"fieldRef": {"fieldPath": "status.hostIP"}}}
