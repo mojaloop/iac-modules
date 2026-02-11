@@ -30,7 +30,7 @@ metadata:
   namespace: "${ARGOCD_ENV_stunner_impl_namespace}"
   annotations:
     stunner.l7mp.io/service-type: NodePort
-    #stunner.l7mp.io/port-preservation: "true"
+    stunner.l7mp.io/port-preservation: "true"
     stunner.l7mp.io/nodeport: |
       {
         "udp-listener": ${ARGOCD_ENV_stunner_nodeport_port}
