@@ -20,10 +20,11 @@ resource "aws_lb_listener" "internal_kubeapi" {
 }
 
 resource "aws_lb_target_group" "internal_kubeapi" {
-  port     = var.kubeapi_port
-  protocol = "TCP"
-  vpc_id   = module.base_infra.vpc_id
-  tags = merge({ Name = "${local.base_domain}-internal-kubeapi" }, local.common_tags)
+  port               = var.kubeapi_port
+  protocol           = "TCP"
+  vpc_id             = module.base_infra.vpc_id
+  preserve_client_ip = false # Required for Netbird VPN access
+  tags               = merge({ Name = "${local.base_domain}-internal-kubeapi" }, local.common_tags)
 }
 
 resource "aws_lb_listener" "internal_https" {
@@ -41,7 +42,7 @@ resource "aws_lb_target_group" "internal_https" {
   port     = var.target_group_internal_https_port
   protocol = "TCP"
   vpc_id   = module.base_infra.vpc_id
-  preserve_client_ip = false
+  preserve_client_ip = false # Required for Netbird VPN access
   proxy_protocol_v2  = false
 
   health_check {
@@ -70,9 +71,10 @@ resource "aws_lb_listener" "internal_http" {
   }
 }
 resource "aws_lb_target_group" "internal_http" {
-  port     = var.target_group_internal_http_port
-  protocol = "TCP"
-  vpc_id   = module.base_infra.vpc_id
+  port               = var.target_group_internal_http_port
+  protocol           = "TCP"
+  vpc_id             = module.base_infra.vpc_id
+  preserve_client_ip = false # Required for Netbird VPN access
 
   health_check {
     interval            = 10
