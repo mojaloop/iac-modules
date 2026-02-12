@@ -409,6 +409,7 @@ ttk-redis:
       generate_secret_extra_namespaces: []
     redis_data:
       auth_enabled: false
+      persistence_enabled: false
       existing_secret: ''
       existing_secret_key: ''
       user: ''

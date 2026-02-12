@@ -201,7 +201,7 @@ spec:
             # affinity:
             # Tolerations: []
 # %{ if nodes >= 3 }
-    nodeConfVolume: true
+    nodeConfVolume: ${persistence_enabled}
     nodeConfVolumeClaimTemplate:
       spec:
         storageClassName: ${storage_class_name}
