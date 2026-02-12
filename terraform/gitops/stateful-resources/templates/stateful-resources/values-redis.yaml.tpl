@@ -133,7 +133,7 @@ pdb:
 
 persistence:
   ## @param persistence.enabled Enable persistent storage
-  enabled: true
+  enabled: ${resource.local_helm_config.redis_data.persistence_enabled}
   ## @param persistence.storageClass Storage class to use for persistent volume
   storageClass: ${storage_class_name}
   ## @param persistence.accessMode Access mode for persistent volume
