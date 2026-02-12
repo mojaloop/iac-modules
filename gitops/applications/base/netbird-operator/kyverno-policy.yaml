@@ -24,19 +24,10 @@ spec:
       mutate:
         patchesJson6902: |-
           - op: add
-            path: "/metadata/annotations/io.cilium.host-port-range"
-            value: "50000-51000"
-          - op: add
-            path: "/metadata/annotations/io.cilium.host-port-protocol"
-            value: "UDP"
-          - op: add
-            path: "/metadata/annotations/io.cilium.host-port-loose"
-            value: "true"
-          - op: add
             path: "/spec/containers/0/ports"
             value: 
             - containerPort: 51820
-              hostPort: 0
+              hostPort: 51820
               protocol: UDP
           - op: add
             path: "/spec/containers/0/env/-"
