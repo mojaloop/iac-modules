@@ -7,6 +7,7 @@ spec:
   parameters:
     domain: "zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
     namespace: ${ARGOCD_ENV_zitadel_namespace}
+    isExistingUser: ${ARGOCD_ENV_zitadel_post_config_init_is_existing_user}
     zitadelAdminSecret:
       name: "zitadel-admin-sa"
       key: "zitadel-admin-sa.json"
