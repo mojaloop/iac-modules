@@ -5,13 +5,13 @@ metadata:
 spec:
   applyRules: All
   rules:
-    # RULE 1: MUTATE THE POD (This happens during admission)
+    # RULE 1: MUTATE THE POD (Admission Phase)
     - name: mutate-router-port
       match:
         any:
           - resources:
               kinds: ["Pod"]
-              namespaces: ["${ARGOCD_ENV_netbird_operator_namespace}"]
+              namespaces: ["netbird-op"]
               selector:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
@@ -27,13 +27,19 @@ spec:
             jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
         - name: allPorts
           variable:
-            value: "{{ split('51820,51821,51822,51823,51824,51825,51826,51827,51828,51829,51830', ',') }}"
+            value: ["51820", "51821", "51822", "51823", "51824", "51825", "51826", "51827", "51828", "51829", "51830"]
         - name: targetPort
           variable:
             value: "{{ allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0] }}"
-
-
+      
+      # Ensure we don't try to patch if no ports are available
+      skipBackgroundRequests: true
       mutate:
+        preconditions:
+          all:
+          - key: "{{ targetPort }}"
+            operator: NotEquals
+            value: ""
         patchesJson6902: |-
           - op: add
             path: "/spec/containers/0/ports"
@@ -51,13 +57,13 @@ spec:
             path: "/spec/securityContext"
             value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}
 
-    # RULE 2: GENERATE THE LEASE (This happens after the pod is admitted)
+    # RULE 2: GENERATE THE LEASE (Post-Admission Phase)
     - name: generate-port-lease
       match:
         any:
           - resources:
               kinds: ["Pod"]
-              namespaces: ["${ARGOCD_ENV_netbird_operator_namespace}"]
+              namespaces: ["netbird-op"]
               selector:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
@@ -68,16 +74,22 @@ spec:
             jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
         - name: allPorts
           variable:
-            value: "{{ split('51820,51821,51822,51823,51824,51825,51826,51827,51828,51829,51830', ',') }}"
+            value: ["51820", "51821", "51822", "51823", "51824", "51825", "51826", "51827", "51828", "51829", "51830"]
         - name: targetPort
           variable:
             value: "{{ allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0] }}"
-            
+      
+      # Prevent lease generation if range is exhausted
       generate:
+        preconditions:
+          all:
+          - key: "{{ targetPort }}"
+            operator: NotEquals
+            value: ""
         apiVersion: coordination.k8s.io/v1
         kind: Lease
         name: "port-{{targetPort}}"
-        namespace: "{{request.namespace}}"
+        namespace: "netbird-op"
         synchronize: true
         data:
           metadata:
