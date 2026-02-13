@@ -24,20 +24,20 @@ spec:
           variable:
             value: ["51820", "51821", "51822", "51823", "51824", "51825", "51826", "51827", "51828", "51829", "51830"]
 
-        # Use the second-to-last digit of the request time as a seed
-        - name: timeSeed
+        # Use the Request UID - This is guaranteed to exist and be unique per pod admission
+        - name: requestSeed
           variable:
-            value: "{{ request.requestTime | split(@, '') | [-2] || '0' }}"
+            value: "{{ request.uid | split(@, '') | [-1] || '0' }}"
 
-        # Map digits to an index offset
+        # Map the last char of the Request UID to an offset (0-9)
         - name: offset
           variable:
-            value: "{{ contains('0', timeSeed) && `0` || contains('1', timeSeed) && `1` || contains('2', timeSeed) && `2` || contains('3', timeSeed) && `3` || contains('4', timeSeed) && `4` || contains('5', timeSeed) && `5` || contains('6', timeSeed) && `6` || contains('7', timeSeed) && `7` || contains('8', timeSeed) && `8` || `9` }}"
+            value: "{{ contains('0a', requestSeed) && `0` || contains('1b', requestSeed) && `1` || contains('2c', requestSeed) && `2` || contains('3d', requestSeed) && `3` || contains('4e', requestSeed) && `4` || contains('5f', requestSeed) && `5` || contains('6', requestSeed) && `6` || contains('7', requestSeed) && `7` || contains('8', requestSeed) && `8` || `9` }}"
 
-        # Select Port: Filter available ports, then pick one using the offset
+        # Select Port: Filter, then pick via offset. Fallback to first available if index out of bounds.
         - name: targetPort
           variable:
-            value: "{{ (allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))]) | [offset] || (allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))]) | [0] }}"
+            value: "{{ (allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [offset]) || (allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0]) }}"
 
       preconditions:
         all:
@@ -83,15 +83,15 @@ spec:
         - name: allPorts
           variable:
             value: ["51820", "51821", "51822", "51823", "51824", "51825", "51826", "51827", "51828", "51829", "51830"]
-        - name: timeSeed
+        - name: requestSeed
           variable:
-            value: "{{ request.requestTime | split(@, '') | [-2] || '0' }}"
+            value: "{{ request.uid | split(@, '') | [-1] || '0' }}"
         - name: offset
           variable:
-            value: "{{ contains('0', timeSeed) && `0` || contains('1', timeSeed) && `1` || contains('2', timeSeed) && `2` || contains('3', timeSeed) && `3` || contains('4', timeSeed) && `4` || contains('5', timeSeed) && `5` || contains('6', timeSeed) && `6` || contains('7', timeSeed) && `7` || contains('8', timeSeed) && `8` || `9` }}"
+            value: "{{ contains('0a', requestSeed) && `0` || contains('1b', requestSeed) && `1` || contains('2c', requestSeed) && `2` || contains('3d', requestSeed) && `3` || contains('4e', requestSeed) && `4` || contains('5f', requestSeed) && `5` || contains('6', requestSeed) && `6` || contains('7', requestSeed) && `7` || contains('8', requestSeed) && `8` || `9` }}"
         - name: targetPort
           variable:
-            value: "{{ (allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))]) | [offset] || (allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))]) | [0] }}"
+            value: "{{ (allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [offset]) || (allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0]) }}"
       generate:
         apiVersion: coordination.k8s.io/v1
         kind: Lease
