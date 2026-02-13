@@ -21,16 +21,18 @@ spec:
           operator: Equals
           value: CREATE
       context:
+        # 1. Fetch leases, ensuring an empty list if none exist
         - name: takenPorts
           apiCall:
             urlPath: "/apis/coordination.k8s.io/v1/namespaces/netbird-op/leases"
             jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
-        - name: allPorts
-          variable:
-            value: ["51820", "51821", "51822", "51823", "51824", "51825", "51826", "51827", "51828", "51829", "51830"]
+        
+        # 2. Logic: Define the list INSIDE the filter to prevent <nil> variable resolution errors
         - name: targetPort
           variable:
-            value: "{{ allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0] }}"
+            value: >-
+              {{ [`51820`, `51821`, `51822`, `51823`, `51824`, `51825`, `51826`, `51827`, `51828`, `51829`, `51830`][? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [0] }}
+
       
       # Ensure we don't try to patch if no ports are available
       skipBackgroundRequests: true
@@ -68,16 +70,18 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
       context:
+        # 1. Fetch leases, ensuring an empty list if none exist
         - name: takenPorts
           apiCall:
             urlPath: "/apis/coordination.k8s.io/v1/namespaces/netbird-op/leases"
             jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
-        - name: allPorts
-          variable:
-            value: ["51820", "51821", "51822", "51823", "51824", "51825", "51826", "51827", "51828", "51829", "51830"]
+        
+        # 2. Logic: Define the list INSIDE the filter to prevent <nil> variable resolution errors
         - name: targetPort
           variable:
-            value: "{{ allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0] }}"
+            value: >-
+              {{ [`51820`, `51821`, `51822`, `51823`, `51824`, `51825`, `51826`, `51827`, `51828`, `51829`, `51830`][? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [0] }}
+
       
       # Prevent lease generation if range is exhausted
       generate:
