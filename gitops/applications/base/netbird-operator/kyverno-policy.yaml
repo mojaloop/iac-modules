@@ -3,7 +3,6 @@ kind: ClusterPolicy
 metadata:
   name: nbrouter-port-leaser
 spec:
-  # Crucial: Ensure rules are applied in order
   applyRules: All
   rules:
     - name: lease-and-mutate-router
@@ -16,43 +15,45 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
       preconditions:
-        any:
+        all:
         - key: "{{request.operation}}"
           operator: Equals
           value: CREATE
       context:
-        # 1. Fetch existing leases
         - name: takenPorts
           apiCall:
             urlPath: "/apis/coordination.k8s.io/v1/namespaces/{{request.namespace}}/leases"
-            jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name"
+            jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
         
-        # 2. Convert the comma-separated string into a clean array of strings
-        # Example: "5000, 5001, 5003" -> ["5000", "5001", "5003"]
+        - name: rawPortRange
+          variable:
+            value: "${ARGOCD_ENV_netbird_operator_router_port_range}"
+
         - name: allPorts
           variable:
-            value: "{{ split('${ARGOCD_ENV_netbird_operator_router_port_range}', ',') | map(&trim(@, ' '), @) }}"
+            # Simplified split. Note: Avoid spaces in your ArgoCD env var string for best results.
+            value: "{{ split(rawPortRange, ',') }}"
         
-        # 3. Find the first port where "port-<num>" is NOT in the takenPorts list
         - name: targetPort
           variable:
-            value: >-
-              {{ allPorts[? !contains(takenPorts, join('', ['port-', @]))] | [0] }}
+            # Explicitly join and compare. If nothing found, this will be null.
+            value: "{{ allPorts[? !contains(takenPorts, join('', ['port-', @]))] | [0] }}"
 
-      # 4. Generate & Mutate (using targetPort)
-      generate:
-        apiVersion: coordination.k8s.io/v1
-        kind: Lease
-        name: "port-{{targetPort}}"
-        # ... rest of generate block same as before ...
-
+      # Add a second precondition to ensure a port was actually found before proceeding
+      skipBackgroundRequests: true
       mutate:
+        # Check that targetPort is not empty to avoid 'null' patches
+        preconditions:
+          all:
+          - key: "{{ targetPort }}"
+            operator: NotEquals
+            value: ""
         patchesJson6902: |-
           - op: add
             path: "/spec/containers/0/ports"
             value: 
             - containerPort: 51820
-              hostPort: {{targetPort | to_number(@)}}
+              hostPort: {{ targetPort | to_number(@) }}
               protocol: UDP
           - op: add
             path: "/spec/containers/0/env/-"
@@ -63,6 +64,26 @@ spec:
           - op: add
             path: "/spec/securityContext"
             value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}
+
+      generate:
+        apiVersion: coordination.k8s.io/v1
+        kind: Lease
+        name: "port-{{targetPort}}"
+        namespace: "{{request.namespace}}"
+        synchronize: true
+        data:
+          metadata:
+            labels:
+              type: nb-port-lease
+              assigned-to: "{{request.object.metadata.name}}"
+            ownerReferences:
+            - apiVersion: v1
+              kind: Pod
+              name: "{{request.object.metadata.name}}"
+              uid: "{{request.object.metadata.uid}}"
+          spec:
+            holderIdentity: "{{request.object.metadata.name}}"
+            leaseDurationSeconds: 30
 ---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
