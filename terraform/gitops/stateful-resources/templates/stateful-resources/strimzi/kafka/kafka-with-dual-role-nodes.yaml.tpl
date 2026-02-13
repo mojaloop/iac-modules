@@ -20,9 +20,27 @@ spec:
 # %{ if node_pool_storage_class_name != null }
         class: ${node_pool_storage_class_name}
 # %{ endif }
-# %{ if node_pool_affinity != null }
   template:
     pod:
+      tolerations:
+        - key: netbird/ready
+          operator: Exists
+          effect: NoExecute
+          tolerationSeconds: 600
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule # helps for pods not being moved to another node during a node restart
+          labelSelector:
+            matchLabels:
+              strimzi.io/name: ${kafka_cluster_name}-kafka
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              strimzi.io/name: ${kafka_cluster_name}-kafka
+# %{ if node_pool_affinity != null }
       affinity:
         ${indent(8, yamlencode(node_pool_affinity))}
 # %{ endif }
@@ -46,6 +64,26 @@ metadata:
     strimzi.io/kraft: enabled
 spec:
   kafka:
+    template:
+      pod:
+        tolerations:
+          - key: netbird/ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 600
+        topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: DoNotSchedule # helps for pods not being moved to another node during a node restart
+            labelSelector:
+              matchLabels:
+                strimzi.io/name: ${kafka_cluster_name}-kafka
+          - maxSkew: 1
+            topologyKey: topology.kubernetes.io/zone
+            whenUnsatisfiable: ScheduleAnyway
+            labelSelector:
+              matchLabels:
+                strimzi.io/name: ${kafka_cluster_name}-kafka
     version: 3.7.0
     metadataVersion: 3.7-IV4
     listeners:
@@ -70,12 +108,33 @@ spec:
           name: kafka-metrics
           key: kafka-metrics-config.yaml
   entityOperator:
+    template:
+      pod:
+        tolerations:
+          - key: netbird/ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 600
     topicOperator: {}
     userOperator: {}
-  cruiseControl: {}
+  cruiseControl:
+    template:
+      pod:
+        tolerations:
+          - key: netbird/ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 600
   kafkaExporter:
     topicRegex: ".*"
     groupRegex: ".*"
+    template:
+      pod:
+        tolerations:
+          - key: netbird/ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 600
   # cruiseControl:
   #   config:
   #     # Note that `goals` must be a superset of `default.goals` and `hard.goals`

@@ -12,6 +12,7 @@ resources:
   - istio-gateway.yaml
 # %{ endif }
   - service-monitors.yaml
+  - agent.yaml
 configMapGenerator:
   - name: vault-agent
     files:
