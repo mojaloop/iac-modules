@@ -46,7 +46,7 @@ api:
     signExpiryHours: 43800
   serviceAccount:
     externallyManaged: true
-    serviceAccountNameOverride: ${mcm_service_account_name}
+    name: ${mcm_service_account_name}
   rbac:
     enabled: false
   annotations:
