@@ -24,26 +24,21 @@ spec:
           variable:
             value: ["51820", "51821", "51822", "51823", "51824", "51825", "51826", "51827", "51828", "51829", "51830"]
 
-        # 1. Get the last char of UID safely
-        - name: seedChar
+        # 1. Grab the high-precision request time from the admission review
+        # Example: "2026-02-13T22:15:30.123456Z"
+        - name: timeSeed
           variable:
-            value: "{{ request.object.metadata.uid | split(@, '') | [-1] || '0' }}"
+            value: "{{ request.requestTime | split(@, '') | [-2] || '0' }}"
 
-        # 2. Simple Mapping (Avoiding 'index' function)
-        # We check if the char is in specific hex ranges to spread the pods
+        # 2. Map the last digit of the timestamp to a port offset (0-9)
         - name: offset
           variable:
-            value: >-
-              {{ contains('012', seedChar) && `0` || 
-                 contains('345', seedChar) && `1` || 
-                 contains('678', seedChar) && `2` || 
-                 contains('9ab', seedChar) && `3` || 
-                 contains('cde', seedChar) && `4` || `5` }}
+            value: "{{ contains('0', timeSeed) && `0` || contains('1', timeSeed) && `1` || contains('2', timeSeed) && `2` || contains('3', timeSeed) && `3` || contains('4', timeSeed) && `4` || contains('5', timeSeed) && `5` || contains('6', timeSeed) && `6` || contains('7', timeSeed) && `7` || contains('8', timeSeed) && `8` || `9` }}"
 
-        # 3. Select Port: Filter first, then pick by offset to avoid race collisions
+        # 3. Select Port: Use the timestamp offset to pick a unique starting point
         - name: targetPort
           variable:
-            value: "{{ (allPorts[? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [offset]) || (allPorts[? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [0]) }}"
+            value: "{{ (allPorts[? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [offset]) || (allPorts[? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] |) }}"
 
       preconditions:
         all:
@@ -86,20 +81,15 @@ spec:
         - name: allPorts
           variable:
             value: ["51820", "51821", "51822", "51823", "51824", "51825", "51826", "51827", "51828", "51829", "51830"]
-        - name: seedChar
+        - name: timeSeed
           variable:
-            value: "{{ request.object.metadata.uid | split(@, '') | [-1] || '0' }}"
+            value: "{{ request.requestTime | split(@, '') | [-2] || '0' }}"
         - name: offset
           variable:
-            value: >-
-              {{ contains('012', seedChar) && `0` || 
-                 contains('345', seedChar) && `1` || 
-                 contains('678', seedChar) && `2` || 
-                 contains('9ab', seedChar) && `3` || 
-                 contains('cde', seedChar) && `4` || `5` }}
+            value: "{{ contains('0', timeSeed) && `0` || contains('1', timeSeed) && `1` || contains('2', timeSeed) && `2` || contains('3', timeSeed) && `3` || contains('4', timeSeed) && `4` || contains('5', timeSeed) && `5` || contains('6', timeSeed) && `6` || contains('7', timeSeed) && `7` || contains('8', timeSeed) && `8` || `9` }}"
         - name: targetPort
           variable:
-            value: "{{ (allPorts[? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [offset]) || (allPorts[? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [0]) }}"
+            value: "{{ (allPorts[? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [offset]) || (allPorts[? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] |) }}"
       generate:
         apiVersion: coordination.k8s.io/v1
         kind: Lease
@@ -115,10 +105,6 @@ spec:
               kind: Pod
               name: "{{request.object.metadata.name}}"
               uid: "{{request.object.metadata.uid}}"
-          spec:
-            holderIdentity: "{{request.object.metadata.name}}"
-
-
 ---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
