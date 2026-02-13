@@ -4,7 +4,7 @@ ingress:
   enabled: true
   router:
     enabled: true
-    replicas: 1
+    replicas: ${ARGOCD_ENV_netbird_operator_router_replica_count}
   kubernetesAPI:
     enabled: false
 netbirdAPI:

@@ -28,6 +28,18 @@ backgroundController:
             - watch
             - update
             - patch
+        - apiGroups:
+            - "coordination.k8s.io"
+          resources:
+            - "leases"
+          verbs:
+            - get
+            - list
+            - watch
+            - create
+            - delete
+            - patch
+            - update
 
 cleanupController:
   resources:
@@ -38,3 +50,16 @@ cleanupController:
     requests:
       cpu: 100m
       memory: 128Mi
+
+admissionController:
+  rbac:
+    coreClusterRole:
+      extraResources:
+        - apiGroups:
+            - "coordination.k8s.io"
+          resources:
+            - "leases"
+          verbs:
+            - get
+            - list
+            - watch
