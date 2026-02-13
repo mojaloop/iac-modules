@@ -44,7 +44,7 @@ spec:
         - name: targetPort
           variable:
             value: >-
-              {{ allPorts | [? !contains(takenPorts, join('', ['port-', @]))] | [0] }}
+              {{ allPorts | [? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0] }}
 
       # Generate the Lease object linked to the Pod for auto-cleanup
       generate:
@@ -104,7 +104,7 @@ spec:
         - name: targetPort
           variable:
             value: >-
-              {{ allPorts | [? !contains(takenPorts, join('', ['port-', @]))] | [0] }}
+              {{ allPorts | [? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0] }}
 
       # Mutate the Pod to use the discovered port
       mutate:
