@@ -15,39 +15,36 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
       context:
-        # 1. Fetch leases - we MUST use the literal empty array `[]` as a fallback
         - name: takenPorts
           apiCall:
             urlPath: "/apis/coordination.k8s.io/v1/namespaces/netbird-op/leases"
             jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
         
-        - name: allPorts
-          variable:
-            value: ["51820", "51821", "51822", "51823", "51824", "51825", "51826", "51827", "51828", "51829", "51830"]
-
-        # 2. Use the Request UID - This is guaranteed to exist and be unique per pod admission
+        # Get the unique seed from the admission request ID
         - name: requestSeed
           variable:
             value: "{{ request.uid | split(@, '') | [-1] || '0' }}"
 
-        # 3. Map the last char of the Request UID to an offset (0-9)
-        - name: offset
-          variable:
-            value: "{{ contains('0a', requestSeed) && `0` || contains('1b', requestSeed) && `1` || contains('2c', requestSeed) && `2` || contains('3d', requestSeed) && `3` || contains('4e', requestSeed) && `4` || contains('5f', requestSeed) && `5` || contains('6', requestSeed) && `6` || contains('7', requestSeed) && `7` || contains('8', requestSeed) && `8` || `9` }}"
-
-        # 4. Select Port: Use || `[]` inside the query to prevent <nil> errors
+        # Deterministic Mapping: Map the last character of the Request UID to a Port
+        # This spreads the pods across your range even if they hit at the exact same microsecond
         - name: targetPort
           variable:
-            value: "{{ (allPorts[? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [offset]) || (allPorts[? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [0]) }}"
+            value: >-
+              {{ contains('0a', requestSeed) && '51820' || 
+                 contains('1b', requestSeed) && '51821' || 
+                 contains('2c', requestSeed) && '51822' || 
+                 contains('3d', requestSeed) && '51823' || 
+                 contains('4e', requestSeed) && '51824' || 
+                 contains('5f', requestSeed) && '51825' || 
+                 contains('6g', requestSeed) && '51826' || 
+                 contains('7h', requestSeed) && '51827' || 
+                 contains('8i', requestSeed) && '51828' || '51829' }}
 
       preconditions:
         all:
         - key: "{{request.operation}}"
           operator: Equals
           value: CREATE
-        - key: "{{targetPort}}"
-          operator: NotEquals
-          value: ""
 
       mutate:
         patchesJson6902: |-
@@ -66,6 +63,49 @@ spec:
           - op: add
             path: "/spec/securityContext"
             value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}
+
+    - name: generate-port-lease
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+              namespaces: ["netbird-op"]
+              selector:
+                matchLabels:
+                  app.kubernetes.io/name: netbird-router
+      context:
+        - name: requestSeed
+          variable:
+            value: "{{ request.uid | split(@, '') | [-1] || '0' }}"
+        - name: targetPort
+          variable:
+            value: >-
+              {{ contains('0a', requestSeed) && '51820' || 
+                 contains('1b', requestSeed) && '51821' || 
+                 contains('2c', requestSeed) && '51822' || 
+                 contains('3d', requestSeed) && '51823' || 
+                 contains('4e', requestSeed) && '51824' || 
+                 contains('5f', requestSeed) && '51825' || 
+                 contains('6g', requestSeed) && '51826' || 
+                 contains('7h', requestSeed) && '51827' || 
+                 contains('8i', requestSeed) && '51828' || '51829' }}
+      generate:
+        apiVersion: coordination.k8s.io/v1
+        kind: Lease
+        name: "port-{{targetPort}}"
+        namespace: "netbird-op"
+        synchronize: true
+        data:
+          metadata:
+            labels:
+              type: nb-port-lease
+            ownerReferences:
+            - apiVersion: v1
+              kind: Pod
+              name: "{{request.object.metadata.name}}"
+              uid: "{{request.object.metadata.uid}}"
+          spec:
+            holderIdentity: "{{request.object.metadata.name}}"
 
     - name: generate-port-lease
       match:
