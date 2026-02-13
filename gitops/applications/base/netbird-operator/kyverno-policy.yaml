@@ -5,6 +5,34 @@ metadata:
 spec:
   applyRules: All
   rules:
+    # RULE 1: THE LOCK (Acts as a Mutex)
+    - name: check-global-lock
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+              namespaces: ["netbird-op"]
+              selector:
+                matchLabels:
+                  app.kubernetes.io/name: netbird-router
+      context:
+        - name: lockExists
+          apiCall:
+            urlPath: "/apis/coordination.k8s.io/v1/namespaces/netbird-op/leases/nb-router-lock"
+            # If the API returns 404, this becomes null
+            jmesPath: "metadata.name"
+      validate:
+        message: "Another router pod is currently being provisioned. Retrying..."
+        # If the lock exists, DENY the admission. 
+        # The K8s Deployment controller will back off and retry in ~5-10 seconds.
+        deny:
+          conditions:
+            all:
+            - key: "{{ lockExists }}"
+              operator: NotEquals
+              value: ""
+
+    # RULE 2: THE PORT SELECTION (Same as your initial logic)
     - name: mutate-router-port
       match:
         any:
@@ -15,25 +43,13 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
       context:
-        - name: allPorts
-          variable:
-            value: ["51820", "51821", "51822", "51823", "51824", "51825", "51826", "51827", "51828", "51829"]
-        
-        # We use a modulo of the Pod Name's ASCII sum to pick a unique index 0-9
-        - name: portIndex
-          variable:
-            value: "{{ modulo(sum(map(&abs(subtract(id(@), 96)), split(request.object.metadata.name, ''))), 10) }}"
-            
+        - name: takenPorts
+          apiCall:
+            urlPath: "/apis/coordination.k8s.io/v1/namespaces/netbird-op/leases"
+            jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
         - name: targetPort
           variable:
-            value: "{{ allPorts[{{portIndex}}] }}"
-
-      preconditions:
-        all:
-        - key: "{{request.operation}}"
-          operator: Equals
-          value: CREATE
-
+            value: "{{ [`51820`, `51821`, `51822`, `51823`, `51824`, `51825`, `51826`, `51827`, `51828`, `51829`][? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0] }}"
       mutate:
         patchesJson6902: |-
           - op: add
@@ -61,32 +77,38 @@ spec:
               selector:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
-      context:
-        - name: allPorts
-          variable:
-            value: ["51820", "51821", "51822", "51823", "51824", "51825", "51826", "51827", "51828", "51829"]
-        - name: portIndex
-          variable:
-            value: "{{ modulo(sum(map(&abs(subtract(id(@), 96)), split(request.object.metadata.name, ''))), 10) }}"
-        - name: targetPort
-          variable:
-            value: "{{ allPorts[{{portIndex}}] }}"
       generate:
-        apiVersion: coordination.k8s.io/v1
-        kind: Lease
-        name: "port-{{targetPort}}"
-        namespace: "netbird-op"
-        synchronize: true
-        data:
-          metadata:
-            ownerReferences:
-            - apiVersion: v1
-              kind: Pod
-              name: "{{request.object.metadata.name}}"
-              uid: "{{request.object.metadata.uid}}"
-          spec:
-            holderIdentity: "{{request.object.metadata.name}}"
-
+        # Create the actual port lease (permanent for the life of the pod)
+        - apiVersion: coordination.k8s.io/v1
+          kind: Lease
+          name: "port-{{targetPort}}"
+          namespace: "netbird-op"
+          data:
+            metadata:
+              labels: { "type": "nb-port-lease" }
+              ownerReferences:
+              - apiVersion: v1
+                kind: Pod
+                name: "{{request.object.metadata.name}}"
+                uid: "{{request.object.metadata.uid}}"
+        
+        # Create the Global Mutex (Short-lived/Self-destructing)
+        - apiVersion: coordination.k8s.io/v1
+          kind: Lease
+          name: "nb-router-lock"
+          namespace: "netbird-op"
+          data:
+            spec:
+              holderIdentity: "{{request.object.metadata.name}}"
+              # Very short duration; enough to let K8s finish the etcd write
+              leaseDurationSeconds: 10
+            metadata:
+              # Link to pod so if pod fails immediately, lock is cleared
+              ownerReferences:
+              - apiVersion: v1
+                kind: Pod
+                name: "{{request.object.metadata.name}}"
+                uid: "{{request.object.metadata.uid}}"
 ---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
