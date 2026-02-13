@@ -21,16 +21,23 @@ spec:
           operator: Equals
           value: CREATE
       context:
-        - name: takenPorts
-          apiCall:
-            urlPath: "/apis/coordination.k8s.io/v1/namespaces/{{request.namespace}}/leases"
-            jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
-        - name: allPorts
-          variable:
-            value: "{{ split('${ARGOCD_ENV_netbird_operator_router_port_range}', ',') }}"
-        - name: targetPort
-          variable:
-            value: "{{ allPorts[? !contains(takenPorts, join('', ['port-', @]))] | [0] }}"
+          # 1. Fetch existing leases - Use the default operator `||` to ensure an array
+          - name: takenPorts
+            apiCall:
+              urlPath: "/apis/coordination.k8s.io/v1/namespaces/{{request.namespace}}/leases"
+              # The backticks around [] are critical for JMESPath to recognize it as a literal array
+              jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
+          
+          # 2. Convert the comma-separated string
+          - name: allPorts
+            variable:
+              value: "{{ split('${ARGOCD_ENV_netbird_operator_router_port_range}', ',') }}"
+          
+          # 3. Use to_string(@) inside join to ensure type compatibility
+          - name: targetPort
+            variable:
+              value: "{{ allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0] }}"
+
       mutate:
         patchesJson6902: |-
           - op: add
@@ -60,17 +67,22 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
       context:
-        # We re-run the same logic to identify which port this pod "stole"
-        - name: takenPorts
-          apiCall:
-            urlPath: "/apis/coordination.k8s.io/v1/namespaces/{{request.namespace}}/leases"
-            jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
-        - name: allPorts
-          variable:
-            value: "{{ split('${ARGOCD_ENV_netbird_operator_router_port_range}', ',') }}"
-        - name: targetPort
-          variable:
-            value: "{{ allPorts[? !contains(takenPorts, join('', ['port-', @]))] | [0] }}"
+          # 1. Fetch existing leases - Use the default operator `||` to ensure an array
+          - name: takenPorts
+            apiCall:
+              urlPath: "/apis/coordination.k8s.io/v1/namespaces/{{request.namespace}}/leases"
+              # The backticks around [] are critical for JMESPath to recognize it as a literal array
+              jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
+          
+          # 2. Convert the comma-separated string
+          - name: allPorts
+            variable:
+              value: "{{ split('${ARGOCD_ENV_netbird_operator_router_port_range}', ',') }}"
+          
+          # 3. Use to_string(@) inside join to ensure type compatibility
+          - name: targetPort
+            variable:
+              value: "{{ allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0] }}"
       generate:
         apiVersion: coordination.k8s.io/v1
         kind: Lease
