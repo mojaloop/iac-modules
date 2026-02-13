@@ -21,21 +21,17 @@ spec:
           operator: Equals
           value: CREATE
       context:
-        # 1. Fetch leases. The `|| `[]`` ensures an empty array if none exist.
         - name: takenPorts
           apiCall:
-            urlPath: "/apis/coordination.k8s.io/v1/namespaces/{{request.namespace}}/leases"
+            urlPath: "/apis/coordination.k8s.io/v1/namespaces/netbird-op/leases"
             jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
-        
-        # 2. Split the range. The `|| `[]`` handles cases where the env var might be empty.
         - name: allPorts
           variable:
-            value: "{{ split('${ARGOCD_ENV_netbird_operator_router_port_range}' || '', ',') || `[]` }}"
-        
-        # 3. Use to_string and handle the array index safely.
+            value: "{{ split('51820,51821,51822,51823,51824,51825,51826,51827,51828,51829,51830', ',') }}"
         - name: targetPort
           variable:
             value: "{{ allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0] }}"
+
 
       mutate:
         patchesJson6902: |-
@@ -66,21 +62,17 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
       context:
-        # 1. Fetch leases. The `|| `[]`` ensures an empty array if none exist.
         - name: takenPorts
           apiCall:
-            urlPath: "/apis/coordination.k8s.io/v1/namespaces/{{request.namespace}}/leases"
+            urlPath: "/apis/coordination.k8s.io/v1/namespaces/netbird-op/leases"
             jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
-        
-        # 2. Split the range. The `|| `[]`` handles cases where the env var might be empty.
         - name: allPorts
           variable:
-            value: "{{ split('${ARGOCD_ENV_netbird_operator_router_port_range}' || '', ',') || `[]` }}"
-        
-        # 3. Use to_string and handle the array index safely.
+            value: "{{ split('51820,51821,51822,51823,51824,51825,51826,51827,51828,51829,51830', ',') }}"
         - name: targetPort
           variable:
             value: "{{ allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0] }}"
+            
       generate:
         apiVersion: coordination.k8s.io/v1
         kind: Lease
