@@ -5,7 +5,7 @@ metadata:
 spec:
   applyRules: All
   rules:
-    # RULE 1: MUTATE THE POD (Admission Phase)
+    # RULE 1: MUTATE THE POD
     - name: mutate-router-port
       match:
         any:
@@ -15,33 +15,26 @@ spec:
               selector:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
+      context:
+        - name: takenPorts
+          apiCall:
+            urlPath: "/apis/coordination.k8s.io/v1/namespaces/netbird-op/leases"
+            jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
+        - name: targetPort
+          variable:
+            value: >-
+              {{ [`51820`, `51821`, `51822`, `51823`, `51824`, `51825`, `51826`, `51827`, `51828`, `51829`, `51830`][? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [0] }}
+      # PRECONDITIONS moved to rule level
       preconditions:
         all:
         - key: "{{request.operation}}"
           operator: Equals
           value: CREATE
-      context:
-        # 1. Fetch leases, ensuring an empty list if none exist
-        - name: takenPorts
-          apiCall:
-            urlPath: "/apis/coordination.k8s.io/v1/namespaces/netbird-op/leases"
-            jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
-        
-        # 2. Logic: Define the list INSIDE the filter to prevent <nil> variable resolution errors
-        - name: targetPort
-          variable:
-            value: >-
-              {{ [`51820`, `51821`, `51822`, `51823`, `51824`, `51825`, `51826`, `51827`, `51828`, `51829`, `51830`][? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [0] }}
-
-      
-      # Ensure we don't try to patch if no ports are available
+        - key: "{{ targetPort }}"
+          operator: NotEquals
+          value: ""
       skipBackgroundRequests: true
       mutate:
-        preconditions:
-          all:
-          - key: "{{ targetPort }}"
-            operator: NotEquals
-            value: ""
         patchesJson6902: |-
           - op: add
             path: "/spec/containers/0/ports"
@@ -59,7 +52,7 @@ spec:
             path: "/spec/securityContext"
             value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}
 
-    # RULE 2: GENERATE THE LEASE (Post-Admission Phase)
+    # RULE 2: GENERATE THE LEASE
     - name: generate-port-lease
       match:
         any:
@@ -70,26 +63,22 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
       context:
-        # 1. Fetch leases, ensuring an empty list if none exist
         - name: takenPorts
           apiCall:
             urlPath: "/apis/coordination.k8s.io/v1/namespaces/netbird-op/leases"
             jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
-        
-        # 2. Logic: Define the list INSIDE the filter to prevent <nil> variable resolution errors
         - name: targetPort
           variable:
             value: >-
               {{ [`51820`, `51821`, `51822`, `51823`, `51824`, `51825`, `51826`, `51827`, `51828`, `51829`, `51830`][? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [0] }}
-
-      
-      # Prevent lease generation if range is exhausted
+      # PRECONDITIONS moved to rule level
+      preconditions:
+        all:
+        - key: "{{ targetPort }}"
+          operator: NotEquals
+          value: ""
+      skipBackgroundRequests: true
       generate:
-        preconditions:
-          all:
-          - key: "{{ targetPort }}"
-            operator: NotEquals
-            value: ""
         apiVersion: coordination.k8s.io/v1
         kind: Lease
         name: "port-{{targetPort}}"
