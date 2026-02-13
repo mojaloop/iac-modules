@@ -5,7 +5,8 @@ metadata:
 spec:
   applyRules: All
   rules:
-    - name: lease-and-mutate-router
+    # RULE 1: MUTATE THE POD (This happens during admission)
+    - name: mutate-router-port
       match:
         any:
           - resources:
@@ -24,30 +25,13 @@ spec:
           apiCall:
             urlPath: "/apis/coordination.k8s.io/v1/namespaces/{{request.namespace}}/leases"
             jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
-        
-        - name: rawPortRange
-          variable:
-            value: "${ARGOCD_ENV_netbird_operator_router_port_range}"
-
         - name: allPorts
           variable:
-            # Simplified split. Note: Avoid spaces in your ArgoCD env var string for best results.
-            value: "{{ split(rawPortRange, ',') }}"
-        
+            value: "{{ split('${ARGOCD_ENV_netbird_operator_router_port_range}', ',') }}"
         - name: targetPort
           variable:
-            # Explicitly join and compare. If nothing found, this will be null.
             value: "{{ allPorts[? !contains(takenPorts, join('', ['port-', @]))] | [0] }}"
-
-      # Add a second precondition to ensure a port was actually found before proceeding
-      skipBackgroundRequests: true
       mutate:
-        # Check that targetPort is not empty to avoid 'null' patches
-        preconditions:
-          all:
-          - key: "{{ targetPort }}"
-            operator: NotEquals
-            value: ""
         patchesJson6902: |-
           - op: add
             path: "/spec/containers/0/ports"
@@ -65,6 +49,28 @@ spec:
             path: "/spec/securityContext"
             value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}
 
+    # RULE 2: GENERATE THE LEASE (This happens after the pod is admitted)
+    - name: generate-port-lease
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+              namespaces: ["${ARGOCD_ENV_netbird_operator_namespace}"]
+              selector:
+                matchLabels:
+                  app.kubernetes.io/name: netbird-router
+      context:
+        # We re-run the same logic to identify which port this pod "stole"
+        - name: takenPorts
+          apiCall:
+            urlPath: "/apis/coordination.k8s.io/v1/namespaces/{{request.namespace}}/leases"
+            jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
+        - name: allPorts
+          variable:
+            value: "{{ split('${ARGOCD_ENV_netbird_operator_router_port_range}', ',') }}"
+        - name: targetPort
+          variable:
+            value: "{{ allPorts[? !contains(takenPorts, join('', ['port-', @]))] | [0] }}"
       generate:
         apiVersion: coordination.k8s.io/v1
         kind: Lease
