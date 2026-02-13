@@ -19,12 +19,9 @@ spec:
         - name: lockExists
           apiCall:
             urlPath: "/apis/coordination.k8s.io/v1/namespaces/netbird-op/leases/nb-router-lock"
-            # If the API returns 404, this becomes null
             jmesPath: "metadata.name"
       validate:
         message: "Another router pod is currently being provisioned. Retrying..."
-        # If the lock exists, DENY the admission. 
-        # The K8s Deployment controller will back off and retry in ~5-10 seconds.
         deny:
           conditions:
             all:
@@ -32,7 +29,7 @@ spec:
               operator: NotEquals
               value: ""
 
-    # RULE 2: THE PORT SELECTION (Same as your initial logic)
+    # RULE 2: THE PORT SELECTION & MUTATION
     - name: mutate-router-port
       match:
         any:
@@ -68,6 +65,7 @@ spec:
             path: "/spec/securityContext"
             value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}
 
+    # RULE 3: CREATE THE PORT LEASE
     - name: generate-port-lease
       match:
         any:
@@ -77,38 +75,59 @@ spec:
               selector:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
+      context:
+        # Re-calculate targetPort for the generate rule
+        - name: takenPorts
+          apiCall:
+            urlPath: "/apis/coordination.k8s.io/v1/namespaces/netbird-op/leases"
+            jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
+        - name: targetPort
+          variable:
+            value: "{{ [`51820`, `51821`, `51822`, `51823`, `51824`, `51825`, `51826`, `51827`, `51828`, `51829`][? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0] }}"
       generate:
-        # Create the actual port lease (permanent for the life of the pod)
-        - apiVersion: coordination.k8s.io/v1
-          kind: Lease
-          name: "port-{{targetPort}}"
-          namespace: "netbird-op"
-          data:
-            metadata:
-              labels: { "type": "nb-port-lease" }
-              ownerReferences:
-              - apiVersion: v1
-                kind: Pod
-                name: "{{request.object.metadata.name}}"
-                uid: "{{request.object.metadata.uid}}"
-        
-        # Create the Global Mutex (Short-lived/Self-destructing)
-        - apiVersion: coordination.k8s.io/v1
-          kind: Lease
-          name: "nb-router-lock"
-          namespace: "netbird-op"
-          data:
-            spec:
-              holderIdentity: "{{request.object.metadata.name}}"
-              # Very short duration; enough to let K8s finish the etcd write
-              leaseDurationSeconds: 10
-            metadata:
-              # Link to pod so if pod fails immediately, lock is cleared
-              ownerReferences:
-              - apiVersion: v1
-                kind: Pod
-                name: "{{request.object.metadata.name}}"
-                uid: "{{request.object.metadata.uid}}"
+        apiVersion: coordination.k8s.io/v1
+        kind: Lease
+        name: "port-{{targetPort}}"
+        namespace: "netbird-op"
+        synchronize: true
+        data:
+          metadata:
+            labels:
+              type: nb-port-lease
+            ownerReferences:
+            - apiVersion: v1
+              kind: Pod
+              name: "{{request.object.metadata.name}}"
+              uid: "{{request.object.metadata.uid}}"
+          spec:
+            holderIdentity: "{{request.object.metadata.name}}"
+
+    # RULE 4: CREATE THE GLOBAL MUTEX LOCK
+    - name: generate-global-lock
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+              namespaces: ["netbird-op"]
+              selector:
+                matchLabels:
+                  app.kubernetes.io/name: netbird-router
+      generate:
+        apiVersion: coordination.k8s.io/v1
+        kind: Lease
+        name: "nb-router-lock"
+        namespace: "netbird-op"
+        synchronize: true
+        data:
+          metadata:
+            ownerReferences:
+            - apiVersion: v1
+              kind: Pod
+              name: "{{request.object.metadata.name}}"
+              uid: "{{request.object.metadata.uid}}"
+          spec:
+            holderIdentity: "{{request.object.metadata.name}}"
+            leaseDurationSeconds: 10
 ---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
