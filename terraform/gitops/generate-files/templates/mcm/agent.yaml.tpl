@@ -16,7 +16,7 @@ spec:
         app.kubernetes.io/name: vault-agent
     spec:
       restartPolicy: Always
-      serviceAccountName: mcm
+      serviceAccountName: ${mcm_service_account_name}
       volumes:
         - name: mcm-secret-volume
           secret:
