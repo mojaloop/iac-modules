@@ -5,7 +5,6 @@ metadata:
 spec:
   applyRules: All
   rules:
-    # RULE 1: MUTATE THE POD
     - name: mutate-router-port
       match:
         any:
@@ -16,24 +15,25 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
       context:
-        - name: takenPorts
-          apiCall:
-            urlPath: "/apis/coordination.k8s.io/v1/namespaces/netbird-op/leases"
-            jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
+        - name: allPorts
+          variable:
+            value: ["51820", "51821", "51822", "51823", "51824", "51825", "51826", "51827", "51828", "51829"]
+        
+        # We use a modulo of the Pod Name's ASCII sum to pick a unique index 0-9
+        - name: portIndex
+          variable:
+            value: "{{ modulo(sum(map(&abs(subtract(id(@), 96)), split(request.object.metadata.name, ''))), 10) }}"
+            
         - name: targetPort
           variable:
-            value: >-
-              {{ [`51820`, `51821`, `51822`, `51823`, `51824`, `51825`, `51826`, `51827`, `51828`, `51829`, `51830`][? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [0] }}
-      # PRECONDITIONS moved to rule level
+            value: "{{ allPorts[{{portIndex}}] }}"
+
       preconditions:
         all:
         - key: "{{request.operation}}"
           operator: Equals
           value: CREATE
-        - key: "{{ targetPort }}"
-          operator: NotEquals
-          value: ""
-      skipBackgroundRequests: true
+
       mutate:
         patchesJson6902: |-
           - op: add
@@ -52,7 +52,6 @@ spec:
             path: "/spec/securityContext"
             value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}
 
-    # RULE 2: GENERATE THE LEASE
     - name: generate-port-lease
       match:
         any:
@@ -63,21 +62,15 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
       context:
-        - name: takenPorts
-          apiCall:
-            urlPath: "/apis/coordination.k8s.io/v1/namespaces/netbird-op/leases"
-            jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
+        - name: allPorts
+          variable:
+            value: ["51820", "51821", "51822", "51823", "51824", "51825", "51826", "51827", "51828", "51829"]
+        - name: portIndex
+          variable:
+            value: "{{ modulo(sum(map(&abs(subtract(id(@), 96)), split(request.object.metadata.name, ''))), 10) }}"
         - name: targetPort
           variable:
-            value: >-
-              {{ [`51820`, `51821`, `51822`, `51823`, `51824`, `51825`, `51826`, `51827`, `51828`, `51829`, `51830`][? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [0] }}
-      # PRECONDITIONS moved to rule level
-      preconditions:
-        all:
-        - key: "{{ targetPort }}"
-          operator: NotEquals
-          value: ""
-      skipBackgroundRequests: true
+            value: "{{ allPorts[{{portIndex}}] }}"
       generate:
         apiVersion: coordination.k8s.io/v1
         kind: Lease
@@ -86,9 +79,6 @@ spec:
         synchronize: true
         data:
           metadata:
-            labels:
-              type: nb-port-lease
-              assigned-to: "{{request.object.metadata.name}}"
             ownerReferences:
             - apiVersion: v1
               kind: Pod
@@ -96,7 +86,7 @@ spec:
               uid: "{{request.object.metadata.uid}}"
           spec:
             holderIdentity: "{{request.object.metadata.name}}"
-            leaseDurationSeconds: 30
+
 ---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
