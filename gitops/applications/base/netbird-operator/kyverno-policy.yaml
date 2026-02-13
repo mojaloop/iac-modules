@@ -21,22 +21,21 @@ spec:
           operator: Equals
           value: CREATE
       context:
-          # 1. Fetch existing leases - Use the default operator `||` to ensure an array
-          - name: takenPorts
-            apiCall:
-              urlPath: "/apis/coordination.k8s.io/v1/namespaces/{{request.namespace}}/leases"
-              # The backticks around [] are critical for JMESPath to recognize it as a literal array
-              jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
-          
-          # 2. Convert the comma-separated string
-          - name: allPorts
-            variable:
-              value: "{{ split('${ARGOCD_ENV_netbird_operator_router_port_range}', ',') }}"
-          
-          # 3. Use to_string(@) inside join to ensure type compatibility
-          - name: targetPort
-            variable:
-              value: "{{ allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0] }}"
+        # 1. Fetch leases. The `|| `[]`` ensures an empty array if none exist.
+        - name: takenPorts
+          apiCall:
+            urlPath: "/apis/coordination.k8s.io/v1/namespaces/{{request.namespace}}/leases"
+            jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
+        
+        # 2. Split the range. The `|| `[]`` handles cases where the env var might be empty.
+        - name: allPorts
+          variable:
+            value: "{{ split('${ARGOCD_ENV_netbird_operator_router_port_range}' || '', ',') || `[]` }}"
+        
+        # 3. Use to_string and handle the array index safely.
+        - name: targetPort
+          variable:
+            value: "{{ allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0] }}"
 
       mutate:
         patchesJson6902: |-
@@ -67,22 +66,21 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
       context:
-          # 1. Fetch existing leases - Use the default operator `||` to ensure an array
-          - name: takenPorts
-            apiCall:
-              urlPath: "/apis/coordination.k8s.io/v1/namespaces/{{request.namespace}}/leases"
-              # The backticks around [] are critical for JMESPath to recognize it as a literal array
-              jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
-          
-          # 2. Convert the comma-separated string
-          - name: allPorts
-            variable:
-              value: "{{ split('${ARGOCD_ENV_netbird_operator_router_port_range}', ',') }}"
-          
-          # 3. Use to_string(@) inside join to ensure type compatibility
-          - name: targetPort
-            variable:
-              value: "{{ allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0] }}"
+        # 1. Fetch leases. The `|| `[]`` ensures an empty array if none exist.
+        - name: takenPorts
+          apiCall:
+            urlPath: "/apis/coordination.k8s.io/v1/namespaces/{{request.namespace}}/leases"
+            jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name || `[]`"
+        
+        # 2. Split the range. The `|| `[]`` handles cases where the env var might be empty.
+        - name: allPorts
+          variable:
+            value: "{{ split('${ARGOCD_ENV_netbird_operator_router_port_range}' || '', ',') || `[]` }}"
+        
+        # 3. Use to_string and handle the array index safely.
+        - name: targetPort
+          variable:
+            value: "{{ allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0] }}"
       generate:
         apiVersion: coordination.k8s.io/v1
         kind: Lease
