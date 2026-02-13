@@ -24,21 +24,20 @@ spec:
           variable:
             value: ["51820", "51821", "51822", "51823", "51824", "51825", "51826", "51827", "51828", "51829", "51830"]
 
-        # 1. Grab the high-precision request time from the admission review
-        # Example: "2026-02-13T22:15:30.123456Z"
+        # Use the second-to-last digit of the request time as a seed
         - name: timeSeed
           variable:
             value: "{{ request.requestTime | split(@, '') | [-2] || '0' }}"
 
-        # 2. Map the last digit of the timestamp to a port offset (0-9)
+        # Map digits to an index offset
         - name: offset
           variable:
             value: "{{ contains('0', timeSeed) && `0` || contains('1', timeSeed) && `1` || contains('2', timeSeed) && `2` || contains('3', timeSeed) && `3` || contains('4', timeSeed) && `4` || contains('5', timeSeed) && `5` || contains('6', timeSeed) && `6` || contains('7', timeSeed) && `7` || contains('8', timeSeed) && `8` || `9` }}"
 
-        # 3. Select Port: Use the timestamp offset to pick a unique starting point
+        # Select Port: Filter available ports, then pick one using the offset
         - name: targetPort
           variable:
-            value: "{{ (allPorts[? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [offset]) || (allPorts[? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] |) }}"
+            value: "{{ (allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))]) | [offset] || (allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))]) | [0] }}"
 
       preconditions:
         all:
@@ -63,6 +62,9 @@ spec:
           - op: add
             path: "/spec/containers/0/env/-"
             value: {"name": "NB_LISTEN_PORT", "value": "{{targetPort}}"}
+          - op: add
+            path: "/spec/securityContext"
+            value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}
 
     - name: generate-port-lease
       match:
@@ -89,7 +91,7 @@ spec:
             value: "{{ contains('0', timeSeed) && `0` || contains('1', timeSeed) && `1` || contains('2', timeSeed) && `2` || contains('3', timeSeed) && `3` || contains('4', timeSeed) && `4` || contains('5', timeSeed) && `5` || contains('6', timeSeed) && `6` || contains('7', timeSeed) && `7` || contains('8', timeSeed) && `8` || `9` }}"
         - name: targetPort
           variable:
-            value: "{{ (allPorts[? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [offset]) || (allPorts[? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] |) }}"
+            value: "{{ (allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))]) | [offset] || (allPorts[? !contains(takenPorts, join('', ['port-', to_string(@)]))]) | [0] }}"
       generate:
         apiVersion: coordination.k8s.io/v1
         kind: Lease
@@ -105,6 +107,8 @@ spec:
               kind: Pod
               name: "{{request.object.metadata.name}}"
               uid: "{{request.object.metadata.uid}}"
+          spec:
+            holderIdentity: "{{request.object.metadata.name}}"
 ---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
