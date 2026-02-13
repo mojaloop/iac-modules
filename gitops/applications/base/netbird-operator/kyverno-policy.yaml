@@ -1,3 +1,25 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: nbrouter-port-leaser
+spec:
+  # Crucial: Ensure rules are applied in order
+  applyRules: All
+  rules:
+    - name: lease-and-mutate-router
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+              namespaces: ["${ARGOCD_ENV_netbird_operator_namespace}"]
+              selector:
+                matchLabels:
+                  app.kubernetes.io/name: netbird-router
+      preconditions:
+        any:
+        - key: "{{request.operation}}"
+          operator: Equals
+          value: CREATE
       context:
         # 1. Fetch existing leases
         - name: takenPorts
