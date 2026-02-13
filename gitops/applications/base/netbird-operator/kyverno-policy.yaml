@@ -24,19 +24,22 @@ spec:
           variable:
             value: ["51820", "51821", "51822", "51823", "51824", "51825", "51826", "51827", "51828", "51829", "51830"]
 
-        # Use UID because 'name' can be nil during server-side generation
-        - name: podSeed
+        # Use the UID to ensure uniqueness during admission
+        - name: podUid
           variable:
-            value: "{{ request.object.metadata.uid || request.object.metadata.name || '0' }}"
+            value: "{{ request.object.metadata.uid || '0' }}"
 
+        # Use the split/join trick to get the very last character as a string
         - name: seedChar
           variable:
-            value: "{{ podSeed | [-1:] }}"
+            value: "{{ podUid | split(@, '') | [-1] }}"
         
+        # Convert character to index 0-35
         - name: seedIndex
           variable:
             value: "{{ index('0123456789abcdefghijklmnopqrstuvwxyz', seedChar) || `0` }}"
 
+        # Select port: Try the seed index first. If taken, the filter will shift. 
         - name: targetPort
           variable:
             value: >-
@@ -87,12 +90,12 @@ spec:
         - name: allPorts
           variable:
             value: ["51820", "51821", "51822", "51823", "51824", "51825", "51826", "51827", "51828", "51829", "51830"]
-        - name: podSeed
+        - name: podUid
           variable:
-            value: "{{ request.object.metadata.uid || request.object.metadata.name || '0' }}"
+            value: "{{ request.object.metadata.uid || '0' }}"
         - name: seedChar
           variable:
-            value: "{{ podSeed | [-1:] }}"
+            value: "{{ podUid | split(@, '') | [-1] }}"
         - name: seedIndex
           variable:
             value: "{{ index('0123456789abcdefghijklmnopqrstuvwxyz', seedChar) || `0` }}"
@@ -101,11 +104,6 @@ spec:
             value: >-
               {{ (allPorts[? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [seedIndex]) || 
                  (allPorts[? !contains(takenPorts || `[]`, join('', ['port-', to_string(@)]))] | [0]) }}
-      preconditions:
-        all:
-        - key: "{{targetPort}}"
-          operator: NotEquals
-          value: ""
       generate:
         apiVersion: coordination.k8s.io/v1
         kind: Lease
