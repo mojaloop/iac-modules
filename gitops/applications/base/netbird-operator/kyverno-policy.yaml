@@ -20,12 +20,31 @@ spec:
             urlPath: "/apis/coordination.k8s.io/v1/namespaces/{{request.namespace}}/leases"
             jmesPath: "items[?metadata.labels.type=='nb-port-lease'].metadata.name"
         
-        # 2. Logic to pick the first available port from your range
-        # Parse range string like "51820-51830" and find first available port
+        # 2. Parse range and find first available port
+        - name: portRange
+          variable:
+            value: "${ARGOCD_ENV_netbird_operator_router_port_range}"
+        
+        - name: startPort
+          variable:
+            value: "{{ split(portRange, '-')[0] | to_number(@) }}"
+            
+        - name: endPort  
+          variable:
+            value: "{{ split(portRange, '-')[1] | to_number(@) }}"
+            
+        # Generate array of ports manually for common ranges
+        - name: allPorts
+          variable:
+            value: >-
+              {{ startPort == `51820` && endPort == `51830` && [`51820`, `51821`, `51822`, `51823`, `51824`, `51825`, `51826`, `51827`, `51828`, `51829`, `51830`] ||
+                 startPort == `51820` && endPort == `51825` && [`51820`, `51821`, `51822`, `51823`, `51824`, `51825`] ||
+                 [`51820`, `51821`, `51822`, `51823`, `51824`, `51825`, `51826`, `51827`, `51828`, `51829`, `51830`] }}
+        
         - name: targetPort
           variable:
             value: >-
-              {{ range(to_number(split('${ARGOCD_ENV_netbird_operator_router_port_range}', '-')[0]), to_number(split('${ARGOCD_ENV_netbird_operator_router_port_range}', '-')[1]) + `1`) | [? !contains(takenPorts, join('', ['port-', to_string(@)]))] | [0] }}
+              {{ allPorts | [? !contains(takenPorts, join('', ['port-', @]))] | [0] }}
 
       # 3. Create the Lease object linked to the Pod for auto-cleanup
       generate:
