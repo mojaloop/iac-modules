@@ -11,7 +11,7 @@ metadata:
   namespace: ${netbird_operator_namespace}
 spec:
   replicas: 1
-  annotation:
+  annotations:
     claim.hostport.rmb938.com/router: netbird-router-1
 ---
 apiVersion: hostport.rmb938.com/v1alpha1
@@ -35,7 +35,7 @@ metadata:
   namespace: ${netbird_operator_namespace}
 spec:
   replicas: 1
-  annotation:
+  annotations:
     claim.hostport.rmb938.com/router: netbird-router-2
 ---
 apiVersion: hostport.rmb938.com/v1alpha1
@@ -59,7 +59,7 @@ metadata:
   namespace: ${netbird_operator_namespace}
 spec:
   replicas: 1
-  annotation:
+  annotations:
     claim.hostport.rmb938.com/router: netbird-router-3
 ---
 apiVersion: hostport.rmb938.com/v1alpha1
