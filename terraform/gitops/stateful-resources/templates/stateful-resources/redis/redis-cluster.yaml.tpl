@@ -93,6 +93,11 @@ spec:
           matchLabels:
             role: leader
             clusterId: redis-cluster
+    tolerations:
+      - key: netbird/ready
+        operator: Exists
+        effect: NoExecute
+        tolerationSeconds: 600
   redisFollower:
     readinessProbe:
       failureThreshold: 5
@@ -154,6 +159,11 @@ spec:
           matchLabels:
             role: follower
             clusterId: redis-cluster
+    tolerations:
+      - key: netbird/ready
+        operator: Exists
+        effect: NoExecute
+        tolerationSeconds: 600
 # %{ endif }
   redisExporter:
     enabled: false
