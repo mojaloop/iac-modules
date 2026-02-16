@@ -7,11 +7,3 @@ spec:
   pools:
     - start: 51820
       end: 51830
----
-apiVersion: hostport.rmb938.com/v1alpha1
-kind: HostPortClaim
-metadata:
-  name: netbird-op-hostports
-  namespace: ${ARGOCD_ENV_netbird_operator_namespace}
-spec:
-  hostPortClassName: netbird-hostports
