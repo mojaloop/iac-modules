@@ -52,7 +52,7 @@ dependency "k8s_deploy" {
     private_dns_zone_id = "null"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
-  mock_outputs_merge_strategy_with_state  = "deep"
+  mock_outputs_merge_strategy_with_state  = "deep_map_only"
 }
 
 inputs = {
