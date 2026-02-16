@@ -24,9 +24,6 @@ spec:
       mutate:
         patchesJson6902: |-
           - op: add
-            path: /metadata/annotations/claim.hostport.rmb938.com~1router
-            value: netbird-op-hostports
-          - op: add
             path: "/spec/containers/0/ports"
             value: 
             - name: router
