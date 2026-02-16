@@ -4,6 +4,7 @@ resources:
   - namespace.yaml
   - nbopbootstrap-claim.yaml
   - nboppost-claim.yaml
+  - hostport-crs.yaml
   - kyverno-policy.yaml
 helmCharts:
   - name: kubernetes-operator

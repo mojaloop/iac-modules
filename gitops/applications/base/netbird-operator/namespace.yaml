@@ -4,3 +4,4 @@ metadata:
   name: ${ARGOCD_ENV_netbird_operator_namespace}
   labels:
     opt-out-mesh: "true"
+    hostport.rmb938.com: "true"
