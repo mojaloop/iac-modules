@@ -294,11 +294,11 @@ locals {
   velero_bucket                                    = data.gitlab_project_variable.velero_bucket.value
   vault_backup_bucket                              = data.gitlab_project_variable.object_store_vault_backup_bucket.value
   helm_proxy_repos_map = merge(var.helm_classic_proxy_repos != "none" ? {
-    for item in split(",", var.helm_classic_proxy_repos) : 
+    for item in split(",", var.helm_classic_proxy_repos) :
     split("=", item)[0] => split("=", item)[1]
     if length(trim(item, " ")) > 0 && length(split("=", item)) == 2
   } : {}, var.helm_oci_proxy_repos != "none" ? {
-    for item in split(",", var.helm_oci_proxy_repos) : 
+    for item in split(",", var.helm_oci_proxy_repos) :
     split("=", item)[0] => split("=", item)[1]
     if length(trim(item, " ")) > 0 && length(split("=", item)) == 2
   } : {})

@@ -93,6 +93,11 @@ spec:
           matchLabels:
             role: leader
             clusterId: redis-cluster
+    tolerations:
+      - key: netbird/ready
+        operator: Exists
+        effect: NoExecute
+        tolerationSeconds: 600
   redisFollower:
     readinessProbe:
       failureThreshold: 5
@@ -142,7 +147,7 @@ spec:
     topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: ScheduleAnyway
+        whenUnsatisfiable: DoNotSchedule # helps for pods not being moved to another node during a node restart
         labelSelector:
           matchLabels:
             role: follower
@@ -154,6 +159,11 @@ spec:
           matchLabels:
             role: follower
             clusterId: redis-cluster
+    tolerations:
+      - key: netbird/ready
+        operator: Exists
+        effect: NoExecute
+        tolerationSeconds: 600
 # %{ endif }
   redisExporter:
     enabled: false
@@ -201,7 +211,7 @@ spec:
             # affinity:
             # Tolerations: []
 # %{ if nodes >= 3 }
-    nodeConfVolume: true
+    nodeConfVolume: ${persistence_enabled}
     nodeConfVolumeClaimTemplate:
       spec:
         storageClassName: ${storage_class_name}

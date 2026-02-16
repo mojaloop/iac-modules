@@ -1,5 +1,6 @@
 external_load_balancer_dns: publicip
 wireguard_port: 31821
+wireguard_health_port: 31822
 dns_provider: aws
 create_ext_dns_user: true
 create_iam_user: true
