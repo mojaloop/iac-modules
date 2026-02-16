@@ -27,6 +27,14 @@ spec:
           operator: Exists
           effect: NoExecute
           tolerationSeconds: 600
+%{if length(tolerations) > 0 ~}
+%{ for t in tolerations ~}
+        - effect: "${t.effect}"
+          key: "${t.key}"
+          operator: "${t.operator}"
+          value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -44,15 +52,6 @@ spec:
       affinity:
         ${indent(8, yamlencode(node_pool_affinity))}
 # %{ endif }
-%{if length(tolerations) > 0 ~}
-      tolerations:
-%{ for t in tolerations ~}
-        - effect: "${t.effect}"
-          key: "${t.key}"
-          operator: "${t.operator}"
-          value: "${t.value}"
-%{ endfor ~}
-%{ endif ~}
 ---
 apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
