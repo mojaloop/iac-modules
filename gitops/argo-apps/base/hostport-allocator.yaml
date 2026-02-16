@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${ARGOCD_ENV_utils_base_hostport_allocator_app_name}
+  name: ${ARGOCD_ENV_utils_hostport_allocator_app_name}
   namespace: ${ARGOCD_ENV_utils_app_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_sync_wave}
