@@ -1,104 +1,53 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: nbrouter-port-leaser
+  name: nbrouter-add-security-context
+  annotations:
+    policies.kyverno.io/title: Add security context to nbrouter deployment
+    policies.kyverno.io/description: >-
+      This policy updates pod security context of nbrouter deployment
+    argocd.argoproj.io/sync-wave: "0"
+
 spec:
-  applyRules: All
   rules:
-    # RULE 1: UNIQUE NAME - MUTATION
-    - name: mutate-router-port-allocation
+    - name: nbrouter-add-security-context
       match:
         any:
           - resources:
-              kinds: ["Pod"]
-              namespaces: ["netbird-op"]
+              kinds:
+                - Pod
+              namespaces:
+                - ${ARGOCD_ENV_netbird_operator_namespace}
               selector:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
-      context:
-        # Use the Admission Request UID to break the race condition
-        - name: requestSeed
-          variable:
-            value: "{{ request.uid | split(@, '') | [-1] || '0' }}"
-        # Map the unique character to a static port string
-        - name: targetPort
-          variable:
-            value: >-
-              {{ contains('0a', requestSeed) && '51820' || 
-                 contains('1b', requestSeed) && '51821' || 
-                 contains('2c', requestSeed) && '51822' || 
-                 contains('3d', requestSeed) && '51823' || 
-                 contains('4e', requestSeed) && '51824' || 
-                 contains('5f', requestSeed) && '51825' || 
-                 contains('6g', requestSeed) && '51826' || 
-                 contains('7h', requestSeed) && '51827' || 
-                 contains('8i', requestSeed) && '51828' || '51829' }}
-      preconditions:
-        all:
-        - key: "{{request.operation}}"
-          operator: Equals
-          value: CREATE
       mutate:
         patchesJson6902: |-
           - op: add
+            path: /metadata/annotations/claim.hostport.rmb938.com~1router
+            value: netbird-op-hostports
+          - op: add
             path: "/spec/containers/0/ports"
             value: 
-            - containerPort: 51820
-              hostPort: {{ targetPort | to_number(@) }}
+            - name: router
+              containerPort: 51820
               protocol: UDP
           - op: add
             path: "/spec/containers/0/env/-"
             value: {"name": "NB_EXTERNAL_IP", "valueFrom": {"fieldRef": {"fieldPath": "status.hostIP"}}}
           - op: add
             path: "/spec/containers/0/env/-"
-            value: {"name": "NB_LISTEN_PORT", "value": "{{targetPort}}"}
+            value: {"name": "NB_LISTEN_PORT", "valueFrom": {"fieldRef": {"fieldPath": "metadata.annotations['port.hostport.rmb938.com/router']"}}}
           - op: add
             path: "/spec/securityContext"
             value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}
-
-    # RULE 2: UNIQUE NAME - GENERATION
-    - name: generate-router-port-lease
-      match:
+      preconditions:
         any:
-          - resources:
-              kinds: ["Pod"]
-              namespaces: ["netbird-op"]
-              selector:
-                matchLabels:
-                  app.kubernetes.io/name: netbird-router
-      context:
-        - name: requestSeed
-          variable:
-            value: "{{ request.uid | split(@, '') | [-1] || '0' }}"
-        - name: targetPort
-          variable:
-            value: >-
-              {{ contains('0a', requestSeed) && '51820' || 
-                 contains('1b', requestSeed) && '51821' || 
-                 contains('2c', requestSeed) && '51822' || 
-                 contains('3d', requestSeed) && '51823' || 
-                 contains('4e', requestSeed) && '51824' || 
-                 contains('5f', requestSeed) && '51825' || 
-                 contains('6g', requestSeed) && '51826' || 
-                 contains('7h', requestSeed) && '51827' || 
-                 contains('8i', requestSeed) && '51828' || '51829' }}
-      generate:
-        apiVersion: coordination.k8s.io/v1
-        kind: Lease
-        name: "port-{{targetPort}}"
-        namespace: "netbird-op"
-        synchronize: true
-        data:
-          metadata:
-            labels:
-              type: nb-port-lease
-            ownerReferences:
-            - apiVersion: v1
-              kind: Pod
-              name: "{{request.object.metadata.name}}"
-              uid: "{{request.object.metadata.uid}}"
-          spec:
-            holderIdentity: "{{request.object.metadata.name}}"
+          - key: "{{request.operation}}"
+            operator: In
+            value: ["CREATE", "UPDATE"]
+      skipBackgroundRequests: true
+  validationFailureAction: Audit
 ---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
