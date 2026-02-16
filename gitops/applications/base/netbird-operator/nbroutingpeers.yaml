@@ -7,12 +7,13 @@ metadata:
     app.kubernetes.io/component: operator
     app.kubernetes.io/instance: netbird-operator
     app.kubernetes.io/name: kubernetes-operator
+  annotations:
+    claim.hostport.rmb938.com/router: netbird-router-1
   name: router-1
   namespace: ${netbird_operator_namespace}
 spec:
   replicas: 1
-  annotations:
-    claim.hostport.rmb938.com/router: netbird-router-1
+  
 ---
 apiVersion: hostport.rmb938.com/v1alpha1
 kind: HostPortClaim
@@ -31,12 +32,13 @@ metadata:
     app.kubernetes.io/component: operator
     app.kubernetes.io/instance: netbird-operator
     app.kubernetes.io/name: kubernetes-operator
+  annotations:
+    claim.hostport.rmb938.com/router: netbird-router-2
   name: router-2
   namespace: ${netbird_operator_namespace}
 spec:
   replicas: 1
-  annotations:
-    claim.hostport.rmb938.com/router: netbird-router-2
+  
 ---
 apiVersion: hostport.rmb938.com/v1alpha1
 kind: HostPortClaim
@@ -55,12 +57,13 @@ metadata:
     app.kubernetes.io/component: operator
     app.kubernetes.io/instance: netbird-operator
     app.kubernetes.io/name: kubernetes-operator
+  annotations:
+    claim.hostport.rmb938.com/router: netbird-router-3
   name: router-3
   namespace: ${netbird_operator_namespace}
 spec:
   replicas: 1
-  annotations:
-    claim.hostport.rmb938.com/router: netbird-router-3
+  
 ---
 apiVersion: hostport.rmb938.com/v1alpha1
 kind: HostPortClaim
