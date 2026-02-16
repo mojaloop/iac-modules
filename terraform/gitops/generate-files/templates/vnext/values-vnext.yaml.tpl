@@ -489,3 +489,95 @@ transfers-event-handler-svc:
     builtin_ledger_svc_url: *BUILTIN_LEDGER_SVC_URL
     account_and_balance_coa_svc: *ACCOUNT_AND_BALANCE_COA_SVC
     settlements_svc_url: *SETTLEMENTS_SVC_URL
+
+connection-manager:
+  enabled: ${mcm_enabled}
+  db:
+    user: ${mcm_db_user}
+    passwordSecret: ${mcm_db_password_secret}
+    passwordSecretKey: ${mcm_db_password_secret_key}
+    host: ${mcm_db_host}
+    port: ${mcm_db_port}
+    schema: ${mcm_db_schema}
+    dfspSeed: ${mcm_dfsp_seed}
+    sslEnabled: true
+    sslVerify: false
+    sslCaSecret: ${mcm_db_tls_ca_secret_name}
+    sslCaSecretKey: ${mcm_db_tls_ca_secret_key}
+  api:
+    replicaCount: ${mcm_api_replica_count}
+    url: https://${mcm_fqdn}
+    extraTLS:
+      rootCert:
+        enabled: false
+    certManager:
+      enabled: true
+      serverCertSecretName: ${vault_certman_secretname}
+      serverCertSecretNamespace: ${mcm_namespace}
+    switchFQDN: ${public_subdomain}
+    switchId: ${hub_name}
+    vault:
+      auth:
+        k8s:
+          enabled: true
+          token: /var/run/secrets/kubernetes.io/serviceaccount/token
+          role: ${mcm_vault_k8s_role_name}
+          mountPoint: ${mcm_k8s_auth_path}
+      endpoint: http://vault-active.${vault_namespace}.svc.cluster.local:8200
+      mounts:
+        pki: ${mcm_pki_path}
+        kv: ${mcm_secret_path}
+        dfspClientCertBundle: ${mcm_dfsp_client_cert_bundle}
+        dfspInternalIPWhitelistBundle: ${mcm_dfsp_internal_whitelist_secret}
+        dfspExternalIPWhitelistBundle: ${mcm_dfsp_external_whitelist_secret}
+      pkiServerRole: ${mcm_pki_server_role}
+      pkiClientRole: ${mcm_pki_client_role}
+      signExpiryHours: 43800
+    serviceAccount:
+      externallyManaged: false
+      serviceAccountNameOverride: ${mcm_service_account_name}
+    rbac:
+      enabled: false
+    env:
+      KEYCLOAK_ENABLED: "true"
+      KEYCLOAK_BASE_URL: "https://${keycloak_fqdn}"
+      KEYCLOAK_DISCOVERY_URL: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/.well-known/openid-configuration"
+      KEYCLOAK_ADMIN_CLIENT_ID: "connection-manager-api-service"
+      KEYCLOAK_DFSPS_REALM: "${keycloak_dfsp_realm_name}"
+      KEYCLOAK_AUTO_CREATE_ACCOUNTS: "true"
+      ENABLE_KETO: "true"
+      KETO_WRITE_URL: ${keto_write_url}
+      CLIENT_URL: "https://${mcm_fqdn}"
+      KEYCLOAK_ADMIN_CLIENT_SECRET:
+        valueFrom:
+          secretKeyRef:
+            name: ${mcm_dfsp_admin_client_secret_name}
+            key: secret
+      OPENID_CLIENT_ID: "${dfsp_oidc_client_id}"
+      OPENID_CLIENT_SECRET:
+        valueFrom:
+          secretKeyRef:
+            name: ${dfsp_oidc_client_secret_secret}
+            key: secret
+  ui:
+    checkSessionUrl: https://${mcm_fqdn}/kratos/sessions/whoami
+    loginUrl: https://${auth_fqdn}/kratos/self-service/login/browser
+    loginProvider: keycloak
+    logoutUrl: /kratos/self-service/logout/browser?return_to=https%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_dfsp_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout
+    oauth:
+      enabled: true
+      hubOidcProviderUrl: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect"
+  ingress:
+    enabled: false
+  migrations:
+    enabled: true
+  config:
+    caCSRParametersData: |-
+      {
+        "ST": "",
+        "C": "",
+        "L": "",
+        "O": "${hub_name}",
+        "CN": "${public_subdomain}",
+        "OU": "${cluster_name}"
+      }

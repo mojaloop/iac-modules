@@ -258,12 +258,6 @@ variable "pm4ml_chart_repo" {
   description = "Helm chart repository URL for PM4ML"
 }
 
-variable "mcm_chart_repo" {
-  type        = string
-  default     = "https://mojaloop.github.io/helm/repo"
-  description = "Helm chart repository URL for MCM"
-}
-
 variable "mojaloop_reporting_templates_repo" {
   default = "https://mojaloop.github.io/reporting-k8s-templates"
   description = "repo for mojaloop k8s reporting templates"

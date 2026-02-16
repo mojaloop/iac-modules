@@ -1,9 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - vault-secret.yaml
   - vault-certificate.yaml
   - vault-agent.yaml
-  - vault-secret.yaml
   - keycloak-realm-cr.yaml
   - rbac.yaml
   - service-ingress-waypoint.yaml
@@ -30,8 +30,12 @@ helmCharts:
   repo: ${mcm_chart_repo}
   valuesFile: values-mcm.yaml
   namespace: ${mcm_namespace}
-  additionalValuesFiles:
-  - values-mcm-override.yaml
+- name: ml-testing-toolkit-cli
+  releaseName: mcm-rbac-tests
+  version: ${ml_testing_toolkit_cli_chart_version}
+  repo: ${mcm_chart_repo}
+  valuesFile: values-mcm-rbac-tests.yaml
+  namespace: ${mcm_namespace}
 patches:
   - target:
       kind: Service

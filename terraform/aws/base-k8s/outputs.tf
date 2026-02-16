@@ -11,6 +11,10 @@ output "external_load_balancer_dns" {
   value = aws_lb.lb.dns_name
 }
 
+output "external_load_balancer_private_ip" {
+  value = aws_lb.internal.dns_name
+}
+
 output "private_subdomain" {
   value = module.base_infra.public_int_zone.name
 }
@@ -20,7 +24,7 @@ output "public_subdomain" {
 }
 
 output "private_dns_zone_id" {
-  value = ""
+  value = module.base_infra.public_int_zone.id
 }
 
 output "internal_interop_switch_fqdn" {

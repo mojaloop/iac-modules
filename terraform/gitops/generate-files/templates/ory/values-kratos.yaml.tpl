@@ -123,7 +123,7 @@ kratos:
               hooks:
                 - hook: web_hook
                   config:
-                    url: http://kratos-role-webhook.${ory_namespace}.svc.cluster.local/inject-roles
+                    url: http://ory-services-kratos-role-webhook.${ory_namespace}.svc.cluster.local/inject-roles
                     method: POST
                     body: file:///etc/config/role-injection-body.jsonnet
                     response:
@@ -141,13 +141,25 @@ kratos:
 
         error:
           ui_url: https://${auth_fqdn}/ui/error
-        # registration:
-        #   lifespan: 10m
-        #   ui_url: https://${auth_fqdn}/ui/login/
-        #   after:
-        #     oidc:
-        #       hooks:
-        #         - hook: session
+
+        registration:
+          after:
+            oidc:
+              hooks:
+                - hook: web_hook
+                  config:
+                    url: http://ory-services-kratos-role-webhook.${ory_namespace}.svc.cluster.local/inject-roles
+                    method: POST
+                    body: file:///etc/config/role-injection-body.jsonnet
+                    response:
+                      parse: false
+                    auth:
+                      type: api_key
+                      config:
+                        name: Authorization
+                        value: Bearer kratos-webhook-token
+                        in: header
+                - hook: session
 
     log:
       level: debug

@@ -8,16 +8,15 @@ db:
   dfspSeed: ${dfsp_seed}
   sslEnabled: true
   sslVerify: false
-  ### Configure this if you want to pass a CA certificate of the server.
   sslCaSecret: ${db_tls_ca_secret_name}
   sslCaSecretKey: ${db_tls_ca_secret_key}
 
 api:
   image:
-    name: mojaloop/connection-manager-api
-    version: v3.7.1
+    version: ${mcm_api_image_tag}
   replicaCount: ${mcm_api_replica_count}
   url: https://${mcm_fqdn}
+  clientUrl: https://${mcm_fqdn}
   extraTLS:
     rootCert:
       enabled: false
@@ -45,46 +44,48 @@ api:
     pkiClientRole: ${pki_client_role}
     signExpiryHours: 43800
   serviceAccount:
-    externallyManaged: true
     name: ${mcm_service_account_name}
   rbac:
     enabled: false
-  annotations:
-    proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
+  keycloak:
+    enabled: true
+    baseUrl: https://${keycloak_fqdn}
+    discoveryUrl: https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/.well-known/openid-configuration
+    adminClientId: connection-manager-api-service
+    adminClientSecretName: ${mcm_dfsp_admin_client_secret}
+    adminClientSecretKey: secret
+    dfspsRealm: ${keycloak_dfsp_realm_name}
+    autoCreateAccounts: true
+  keto:
+    enabled: true
+    writeUrl: ${keto_write_url}
+  openid:
+    enabled: true
+    clientId: ${dfsp_oidc_client_id}
+    clientSecretName: ${dfsp_oidc_client_secret}
+    clientSecretKey: secret
 ui:
   checkSessionUrl: https://${mcm_fqdn}/kratos/sessions/whoami
   loginUrl: https://${auth_fqdn}/kratos/self-service/login/browser
   loginProvider: keycloak
-  logoutUrl: /kratos/self-service/logout/browser?return_to=https%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_hubop_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout
+  logoutUrl: /kratos/self-service/logout/browser?return_to=https%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_dfsp_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout
   oauth:
-    enabled: false # The authentication flow is handled by Kratos
-    hubOidcProviderUrl: "https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect"
-    # The following are not used when Kratos is handling authentication
-    # clientId: ${oauth_key}
-    # clientSecretName: ${oauth_secret_secret}
-    # clientSecretKey: ${oauth_secret_secret_key}
-  image:
-    name: mojaloop/connection-manager-ui
-    version: v1.11.0
+    enabled: true
+    hubOidcProviderUrl: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect"
 
 ingress:
-%{ if istio_create_ingress_gateways ~}
   enabled: false
-%{ else ~}
-  enabled: true
-%{ endif ~}
-  className: ${ingress_class}
-  host: ${mcm_fqdn}
-  tls:
-    - hosts:
-      - "*.${mcm_fqdn}"
-  annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
+
 migrations:
   enabled: true
-  script: migrate
-  deletePolicy: ""
+  env:
+    VAULT_ENDPOINT: ${vault_endpoint}
+    VAULT_AUTH_METHOD: K8S
+    VAULT_K8S_ROLE: ${mcm_vault_k8s_role_name}
+    VAULT_MOUNT_KV: ${mcm_secret_path}
+    VAULT_PKI_CLIENT_ROLE: ${pki_client_role}
+    VAULT_PKI_SERVER_ROLE: ${pki_server_role}
+    SWITCH_ID: ${switch_dfspid}
 
 config:
   caCSRParametersData: |-
@@ -92,7 +93,7 @@ config:
       "ST": "",
       "C": "",
       "L": "",
-      "O": "${env_o}",
-      "CN": "${env_cn}",
-      "OU": "${env_ou}"
+      "O": "${hub_name}",
+      "CN": "${switch_domain}",
+      "OU": "${cluster_name}"
     }

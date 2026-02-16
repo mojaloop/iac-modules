@@ -30,6 +30,8 @@ module "mojaloop" {
   keycloak_namespace                           = var.keycloak_namespace
   vault_namespace                              = var.vault_namespace
   cert_manager_namespace                       = var.cert_manager_namespace
+  hubop_oidc_client_secret                        = var.hubop_oidc_client_secret
+  hubop_oidc_client_id                     = var.hubop_oidc_client_id
   vault_secret_key                             = var.vault_secret_key
   role_assign_svc_secret                       = var.role_assign_svc_secret
   role_assign_svc_user                         = var.role_assign_svc_user
@@ -38,7 +40,6 @@ module "mojaloop" {
   istio_external_wildcard_gateway_name         = local.istio_external_wildcard_gateway_name
   istio_internal_wildcard_gateway_name         = local.istio_internal_wildcard_gateway_name
   mcm_enabled                                  = var.common_var_map.mcm_enabled
-  mcm_chart_version                            = var.app_var_map.mcm_chart_version
   mojaloop_enabled                             = var.common_var_map.mojaloop_enabled
   bulk_enabled                                 = var.app_var_map.bulk_enabled
   third_party_enabled                          = var.app_var_map.third_party_enabled
@@ -53,12 +54,14 @@ module "mojaloop" {
   oathkeeper_auth_provider_name                = local.oathkeeper_auth_provider_name
   vault_root_ca_name                           = "pki-${var.cluster_name}"
   keycloak_hubop_realm_name                    = var.keycloak_hubop_realm_name
-  mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
-  mcm_oidc_client_secret_secret        = var.mcm_oidc_client_secret_secret
-  mcm_oidc_client_secret_secret_key    = var.mcm_oidc_client_secret_secret_key
-  hubop_oidc_client_id                 = var.hubop_oidc_client_id
-  hubop_oidc_client_secret_secret      = var.hubop_oidc_client_secret_secret
-  smtp_from                            = var.app_var_map.smtp_from
+  keycloak_hubop_realm_display_name            = var.keycloak_hubop_realm_display_name
+  keycloak_dfsp_realm_name                     = var.keycloak_dfsp_realm_name
+  keycloak_dfsp_realm_display_name             = var.keycloak_dfsp_realm_display_name
+  mcm_admin_client_secret_name                 = var.mcm_admin_client_secret_name
+  mcm_dfsp_admin_client_secret                 = var.mcm_dfsp_admin_client_secret
+  dfsp_oidc_client_secret                      = var.dfsp_oidc_client_secret
+  dfsp_oidc_client_id                          = var.dfsp_oidc_client_id
+  smtp_from                                    = var.app_var_map.smtp_from
   smtp_from_display_name               = var.app_var_map.smtp_from_display_name
   smtp_reply_to                        = var.app_var_map.smtp_reply_to
   smtp_host                            = var.app_var_map.smtp_host
@@ -68,7 +71,6 @@ module "mojaloop" {
   smtp_auth                            = var.app_var_map.smtp_auth
   rbac_api_resources_file                      = var.rbac_api_resources_file
   mojaloop_values_override_file                = var.mojaloop_values_override_file
-  mcm_values_override_file                     = var.mcm_values_override_file
   finance_portal_values_override_file          = var.finance_portal_values_override_file
   values_hub_provisioning_override_file        = var.values_hub_provisioning_override_file
   values_reporting_k8s_templates_override_file = var.values_reporting_k8s_templates_override_file
@@ -98,10 +100,10 @@ module "mojaloop" {
   traces_endpoint                              = var.traces_endpoint
   namespace_meta                               = local.namespace_meta
   mojaloop_charts_repo                         = local.mojaloop_charts_repo
-  mcm_chart_repo                               = local.mcm_chart_repo
   mojaloop_helm_repo                           = local.mojaloop_helm_repo
   reporting_templates_chart_repo               = local.mojaloop_reporting_templates_repo
   mojaloop_helm_version                        = var.app_var_map.mojaloop_helm_version
+  mcm_chart_version                            = var.app_var_map.mcm_chart_version
   helm_proxy_repos_map                         = local.helm_proxy_repos_map
 }
 
@@ -229,7 +231,6 @@ module "vnext" {
   keycloak_namespace                   = var.keycloak_namespace
   vault_namespace                      = var.vault_namespace
   cert_manager_namespace               = var.cert_manager_namespace
-  hubop_oidc_client_secret_secret      = var.hubop_oidc_client_secret_secret
   vault_secret_key                     = var.vault_secret_key
   role_assign_svc_secret               = var.role_assign_svc_secret
   role_assign_svc_user                 = var.role_assign_svc_user
@@ -239,7 +240,6 @@ module "vnext" {
   istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
   vnext_chart_version                  = var.app_var_map.vnext_chart_version
   mcm_enabled                          = var.common_var_map.mcm_enabled
-  mcm_chart_version                    = var.app_var_map.mcm_chart_version
   vnext_enabled                        = var.common_var_map.vnext_enabled
   bulk_enabled                         = var.app_var_map.bulk_enabled
   local_vault_kv_root_path             = local.local_vault_kv_root_path
@@ -248,10 +248,12 @@ module "vnext" {
   ory_namespace                        = var.ory_namespace
   bof_release_name                     = local.bof_release_name
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
-  keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
+  keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
+  keycloak_dfsp_realm_display_name     = var.keycloak_dfsp_realm_display_name
   mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
-  mcm_oidc_client_secret_secret        = var.mcm_oidc_client_secret_secret
-  mcm_oidc_client_secret_secret_key    = var.mcm_oidc_client_secret_secret_key
+  mcm_dfsp_admin_client_secret         = var.mcm_dfsp_admin_client_secret
+  dfsp_oidc_client_secret              = var.dfsp_oidc_client_secret
+  dfsp_oidc_client_id                  = var.dfsp_oidc_client_id
   smtp_from                            = var.app_var_map.smtp_from
   smtp_from_display_name               = var.app_var_map.smtp_from_display_name
   smtp_reply_to                        = var.app_var_map.smtp_reply_to
@@ -262,6 +264,7 @@ module "vnext" {
   smtp_auth                            = var.app_var_map.smtp_auth
   rbac_api_resources_file              = var.rbac_api_resources_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
+  pm4mls                               = merge(local.pm4ml_var_map, local.proxy_pm4ml_var_map)
   platform_stateful_res_config         = module.config_deepmerge.merged
   object_store_api_url                 = var.object_store_api_url
   object_store_region                  = var.object_store_region
@@ -326,6 +329,12 @@ variable "private_network_cidr" {
   type        = string
 }
 
+variable "hubop_oidc_client_secret" {
+  type    = string
+  default = "hubop-oidc-secret"
+}
+
+
 variable "vault_secret_key" {
   type    = string
   default = "secret"
@@ -381,16 +390,34 @@ variable "mcm_admin_client_secret_name" {
   default     = "mcm-admin-client-secret"
 }
 
-variable "mcm_oidc_client_secret_secret" {
+variable "mcm_dfsp_admin_client_secret" {
   type        = string
-  description = "MCM OIDC client secret name in Vault"
-  default     = "mcm-oidc-client-secret"
+  description = "name of MCM admin client secret for dfsps realm"
+  default     = "mcm-dfsp-admin-client-secret"
 }
 
-variable "mcm_oidc_client_secret_secret_key" {
+variable "dfsp_oidc_client_secret" {
   type        = string
-  description = "MCM OIDC client secret key in Vault"
-  default     = "secret"
+  description = "name of DFSP OIDC client secret for dfsps realm"
+  default     = "dfsp-oidc-client-secret"
+}
+
+variable "dfsp_oidc_client_id" {
+  type        = string
+  description = "OIDC client ID for DFSP users in dfsps realm"
+  default     = "dfsp-oidc"
+}
+
+variable "keycloak_dfsp_realm_name" {
+  type        = string
+  description = "name of realm for DFSP/MCM managed resources"
+  default     = "dfsps"
+}
+
+variable "keycloak_dfsp_realm_display_name" {
+  type        = string
+  description = "display name of realm for DFSP/MCM managed resources"
+  default     = "DFSP Users"
 }
 
 variable "rbac_api_resources_file" {
@@ -398,10 +425,6 @@ variable "rbac_api_resources_file" {
 }
 
 variable "mojaloop_values_override_file" {
-  type = string
-}
-
-variable "mcm_values_override_file" {
   type = string
 }
 
@@ -462,7 +485,6 @@ locals {
   namespace_meta                      = var.namespace_meta_config_file == "" ? {} : yamldecode(file(var.namespace_meta_config_file))
   pm4ml_chart_repo                    = startswith(var.pm4ml_chart_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.pm4ml_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.pm4ml_chart_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.pm4ml_chart_repo)[1]}", var.pm4ml_chart_repo) : try(local.helm_proxy_repos_map[var.pm4ml_chart_repo], var.pm4ml_chart_repo)
   mojaloop_charts_repo                = startswith(var.mojaloop_charts_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.mojaloop_charts_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.mojaloop_charts_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.mojaloop_charts_repo)[1]}", var.mojaloop_charts_repo) : try(local.helm_proxy_repos_map[var.mojaloop_charts_repo], var.mojaloop_charts_repo)
-  mcm_chart_repo                      = startswith(var.mcm_chart_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.mcm_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.mcm_chart_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.mcm_chart_repo)[1]}", var.mcm_chart_repo) : try(local.helm_proxy_repos_map[var.mcm_chart_repo], var.mcm_chart_repo)
   mojaloop_helm_repo                  = startswith(var.mojaloop_helm_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.mojaloop_helm_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.mojaloop_helm_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.mojaloop_helm_repo)[1]}", var.mojaloop_helm_repo) : try(local.helm_proxy_repos_map[var.mojaloop_helm_repo], var.mojaloop_helm_repo)
   mojaloop_reporting_templates_repo   = startswith(var.mojaloop_reporting_templates_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.mojaloop_reporting_templates_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.mojaloop_reporting_templates_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.mojaloop_reporting_templates_repo)[1]}", var.mojaloop_reporting_templates_repo) : try(local.helm_proxy_repos_map[var.mojaloop_reporting_templates_repo], var.mojaloop_reporting_templates_repo)
 }
