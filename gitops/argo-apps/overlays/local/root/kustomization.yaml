@@ -22,6 +22,7 @@ resources:
   - ../../../base/base-monitoring.yaml
   - ../../../base/kyverno.yaml
   - ../../../base/kiali.yaml
+  - ../../../base/hostport-allocator.yaml
 
   # xplane database config
   - ../../../base/xplane-provider-config.yaml
