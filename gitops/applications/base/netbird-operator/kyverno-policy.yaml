@@ -25,7 +25,7 @@ spec:
         patchesJson6902: |-
           - op: add
             path: /metadata/annotations/claim.hostport.rmb938.com~1router
-            value: "netbird-{{request.object.metadata.labels.\"app.kubernetes.io/instance\" || request.object.metadata.labels.\"app.kubernetes.io/name\"}}"
+            value: "netbird-{{ request.object.metadata.ownerReferences[0].name | split(@, '-') | [0:-1] | join('-', @) }}"
           - op: add
             path: "/spec/containers/0/ports"
             value: 
