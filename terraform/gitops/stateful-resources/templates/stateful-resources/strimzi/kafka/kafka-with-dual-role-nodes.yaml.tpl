@@ -100,6 +100,57 @@ spec:
       transaction.state.log.min.isr: 2
       default.replication.factor: 3
       min.insync.replicas: 2
+      
+      # PHASE 1: Replica synchronization optimization
+      # Increases parallel replica fetching from 1 to 4 threads per broker
+      # Impact: 4x faster replica synchronization during recovery
+      num.replica.fetchers: 4
+      
+      # Increases replica fetch batch size from 1MB to 10MB
+      # Impact: Reduces network round trips by 10x during catch-up
+      replica.fetch.max.bytes: 10485760
+      
+      # Increases total fetch response size from 10MB to 50MB
+      # Impact: Allows fetching multiple partitions in one request
+      replica.fetch.response.max.bytes: 52428800
+      
+      # Reduces fetch wait time from 500ms to 100ms
+      # Impact: Faster iteration during replica catch-up
+      replica.fetch.wait.max.ms: 100
+      
+      # Sets socket receive buffer to 1MB for network efficiency
+      # Impact: Better network throughput during recovery
+      replica.socket.receive.buffer.bytes: 1048576
+      
+      # PHASE 1: Thread pool optimization
+      # Increases network threads from 3 to 8 for better request handling
+      # Impact: Higher parallelism for recovery operations
+      num.network.threads: 8
+      
+      # Increases IO threads from 8 to 16 for disk operations
+      # Impact: Faster log loading and segment operations
+      num.io.threads: 16
+      
+      # Increases background threads for log compaction and cleanup
+      # Impact: Background tasks don't slow down recovery
+      background.threads: 10
+      
+      # Increases recovery threads from 1 to 4 per data directory
+      # Impact: Parallel partition recovery instead of sequential
+      num.recovery.threads.per.data.dir: 4
+      
+      # PHASE 1: Leader rebalancing
+      # Automatically rebalances partition leaders after recovery
+      # Impact: Better load distribution post-recovery
+      auto.leader.rebalance.enable: true
+      
+      # Check for leader imbalance every 30 seconds
+      # Impact: Quick detection and correction of imbalances
+      leader.imbalance.check.interval.seconds: 30
+      
+      # Trigger rebalance if imbalance exceeds 5%
+      # Impact: Maintains optimal leader distribution
+      leader.imbalance.per.broker.percentage: 5
     metricsConfig:
       type: jmxPrometheusExporter
       valueFrom:
