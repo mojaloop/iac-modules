@@ -14,18 +14,16 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
       context:
-        # 1. Lookup the HostPortClaim (Namespaced Resource)
-        - name: hpc_resource
+        # 1. Lookup the HostPortClaim to get the HostPort resource name
+        - name: hostportclaim
           apiCall:
-            # Path must start with /apis/ and include the VERSION and NAMESPACES keyword
-            urlPath: "/apis/://hostport.rmb938.com{{request.namespace}}/hostportclaims/netbird-{{request.object.metadata.ownerReferences[0].name | split(@, '-') | [0:-1] | join('-', @)}}"
+            urlPath: "/apis/hostport.rmb938.com/v1alpha1/namespaces/{{ request.namespace }}/hostportclaims/netbird-{{ request.object.metadata.ownerReferences[0].name | split(@, '-') | [0:-1] | join('-', @) }}"
             jmesPath: "spec.hostPortName"
-        # 2. Lookup the Cluster-Scoped HostPort (Non-namespaced)
-        - name: hp_resource
+        # 2. Lookup the actual HostPort to get the allocated port number
+        - name: hostport
           apiCall:
-            # Format for cluster-scoped: /apis/<group>/<version>/<kind>/<name>
-            urlPath: "/apis/://hostport.rmb938.com{{hpc_resource}}"
-            jmesPath: "spec.port"
+            urlPath: "/apis/hostport.rmb938.com/v1alpha1/hostports/{{ hostportclaim }}"
+            jmesPath: "status.port"
       mutate:
         patchesJson6902: |-
           - op: add
@@ -50,11 +48,17 @@ spec:
             path: "/spec/securityContext"
             value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}
       preconditions:
-        any:
-          - key: "{{request.operation}}"
+        all:
+          - key: "{{ request.operation }}"
             operator: In
             value: ["CREATE", "UPDATE"]
-      skipBackgroundRequests: true
+          - key: "{{ hostportclaim }}"
+            operator: NotEquals
+            value: ""
+          - key: "{{ hostport }}"
+            operator: NotEquals
+            value: ""
+            skipBackgroundRequests: true
   validationFailureAction: Audit
 ---
 apiVersion: kyverno.io/v1
