@@ -31,6 +31,7 @@ spec:
             value: 
             - name: router
               containerPort: 51820
+              hostPort: 1
               protocol: UDP
           - op: add
             path: "/spec/containers/0/env/-"
