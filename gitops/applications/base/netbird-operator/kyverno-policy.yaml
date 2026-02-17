@@ -35,7 +35,7 @@ spec:
             value: 
             - name: router
               containerPort: 51820
-              hostPort: {{ hp_resource }}
+              hostPort: {{ hostport }}
               protocol: UDP
           - op: add
             path: "/spec/containers/0/env/-"
@@ -43,7 +43,7 @@ spec:
           # Static injection of the port into the ENV (more reliable than fieldRef for annotations)
           - op: add
             path: "/spec/containers/0/env/-"
-            value: {"name": "NB_LISTEN_PORT", "value": "{{ hp_resource }}"}
+            value: {"name": "NB_LISTEN_PORT", "value": "{{ hostport }}"}
           - op: add
             path: "/spec/securityContext"
             value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}
@@ -52,13 +52,7 @@ spec:
           - key: "{{ request.operation }}"
             operator: In
             value: ["CREATE", "UPDATE"]
-          - key: "{{ hostportclaim }}"
-            operator: NotEquals
-            value: ""
-          - key: "{{ hostport }}"
-            operator: NotEquals
-            value: ""
-            skipBackgroundRequests: true
+      skipBackgroundRequests: true
   validationFailureAction: Audit
 ---
 apiVersion: kyverno.io/v1
