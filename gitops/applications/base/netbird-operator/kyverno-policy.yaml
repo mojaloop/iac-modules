@@ -14,15 +14,17 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
       context:
-        # 1. Look up the HostPortClaim based on the Deployment name logic
+        # 1. Look up the HostPortClaim (Namespaced Resource)
         - name: hpc_resource
           apiCall:
+            # Format: /apis/<group>/<version>/namespaces/<ns>/<kind>/<name>
             urlPath: "/apis/://hostport.rmb938.com{{request.namespace}}/hostportclaims/netbird-{{ request.object.metadata.ownerReferences[0].name | split(@, '-') | [0:-1] | join('-', @) }}"
             jmesPath: "spec.hostPortName"
 
-        # 2. Look up the HostPort resource using the ID found in the Claim
+        # 2. Look up the HostPort (Cluster-Scoped Resource)
         - name: hp_resource
           apiCall:
+            # Format: /apis/<group>/<version>/<kind>/<name>
             urlPath: "/apis/://hostport.rmb938.com{{ hpc_resource }}"
             jmesPath: "spec.port"
 
