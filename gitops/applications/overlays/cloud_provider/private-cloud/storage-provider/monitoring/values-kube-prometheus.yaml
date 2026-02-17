@@ -148,7 +148,10 @@ kube-state-metrics:
       - apiGroups: ["pxc.percona.com"]
         resources: ["perconaxtradbclusterbackups"]
         verbs: ["list", "watch"]
-
+      - apiGroups: ["psmdb.percona.com"]
+        resources: ["perconaservermongodbackups"]
+        verbs: ["list", "watch"]
+        
   customResourceState:
     enabled: true   
     create: true   
