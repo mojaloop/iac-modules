@@ -530,9 +530,7 @@ zitadel_perc_pgbouncer_cpu_request: "100m"
 zitadel_perc_pgbouncer_memory_request: "64Mi"
 # end of zitadel db settins
 
-# zitadel post config tf workspace management policies
-zitadel_post_config_init_tf_management_policies: "Observe"
-zitadel_post_config_tf_management_policies: "Observe"
+
 # zitadel post config crossplane management policies
 zitadel_post_config_init_xplane_management_policies: "'''*'''"
 zitadel_post_config_init_is_existing_user: "'false'"

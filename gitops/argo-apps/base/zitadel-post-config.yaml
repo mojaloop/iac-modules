@@ -111,12 +111,6 @@ spec:
         - name: "zitadel_post_config_init_output_secret"
           value: "zitadel-post-config-init-output"
 
-        - name: "zitadel_post_config_init_tf_management_policies"
-          value: "${ARGOCD_ENV_security_zitadel_post_config_init_tf_management_policies}"
-
-        - name: "zitadel_post_config_tf_management_policies"
-          value: "${ARGOCD_ENV_security_zitadel_post_config_tf_management_policies}"
-
         - name: "zitadel_post_config_init_xplane_management_policies"
           value: "${ARGOCD_ENV_security_zitadel_post_config_init_xplane_management_policies}"
 
