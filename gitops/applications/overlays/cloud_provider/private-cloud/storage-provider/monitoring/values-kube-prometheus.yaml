@@ -120,7 +120,7 @@ kube-state-metrics:
   
   networkPolicy:
     enabled: false
-  
+
   prometheus:
     monitor:
       enabled: true
@@ -140,6 +140,59 @@ kube-state-metrics:
           targetLabel: service
           replacement: ''
           action: replace
+
+  rbac:
+    create: true
+    useClusterRole: true
+    extraRules:
+      - apiGroups: ["pxc.percona.com"]
+        resources: ["perconaxtradbclusterbackups"]
+        verbs: ["list", "watch"]
+
+  customResourceState:
+    enabled: true   
+    create: true   
+    config:
+      kind: CustomResourceStateMetrics
+      spec:
+        resources:
+          - groupVersionKind:
+              group: pxc.percona.com
+              version: "v1"
+              kind: PerconaXtraDBClusterBackup
+            metricNamePrefix: pxc_backup
+            labelsFromPath:
+              backup_name: [metadata, name]
+              namespace:   [metadata, namespace]
+              cluster:     [spec, pxcCluster]
+              storage:     [spec, storageName]
+            metrics:
+              - name: "status"
+                help: "Backup job status"
+                each:
+                  type: StateSet
+                  stateSet:
+                    labelName: status
+                    path: [status, state]
+                    list: [Starting, Running, Succeeded, Failed, Error]
+
+              - name: "completed_timestamp"
+                help: "Unix timestamp when backup completed"
+                each:
+                  type: Gauge
+                  gauge:
+                    path: [status, completed]
+                    valueType: timestamp
+                    nilIsZero: true
+
+              - name: "info"
+                help: "Backup destination info"
+                each:
+                  type: Info
+                  info:
+                    labelsFromPath:
+                      destination: [status, destination]
+
 
 prometheus-node-exporter:
   enabled: true
