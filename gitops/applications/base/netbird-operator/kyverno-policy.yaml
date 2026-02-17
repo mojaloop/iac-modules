@@ -2,43 +2,50 @@ apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
   name: nbrouter-add-security-context
-  annotations:
-    policies.kyverno.io/title: Add security context to nbrouter deployment
-    policies.kyverno.io/description: >-
-      This policy updates pod security context of nbrouter deployment
-    argocd.argoproj.io/sync-wave: "0"
-
 spec:
   rules:
     - name: nbrouter-add-security-context
       match:
         any:
           - resources:
-              kinds:
-                - Pod
-              namespaces:
-                - ${ARGOCD_ENV_netbird_operator_namespace}
+              kinds: ["Pod"]
+              namespaces: ["${ARGOCD_ENV_netbird_operator_namespace}"]
               selector:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
+      context:
+        # 1. Look up the HostPortClaim based on the Deployment name logic
+        - name: hpc_resource
+          apiCall:
+            urlPath: "/apis/://hostport.rmb938.com{{request.namespace}}/hostportclaims/netbird-{{ request.object.metadata.ownerReferences[0].name | split(@, '-') | [0:-1] | join('-', @) }}"
+            jmesPath: "spec.hostPortName"
+
+        # 2. Look up the HostPort resource using the ID found in the Claim
+        - name: hp_resource
+          apiCall:
+            urlPath: "/apis/://hostport.rmb938.com{{ hpc_resource }}"
+            jmesPath: "spec.port"
+
       mutate:
         patchesJson6902: |-
           - op: add
             path: /metadata/annotations/claim.hostport.rmb938.com~1router
             value: "netbird-{{ request.object.metadata.ownerReferences[0].name | split(@, '-') | [0:-1] | join('-', @) }}"
+          # Inject the ACTUAL port into the spec immediately
           - op: add
             path: "/spec/containers/0/ports"
             value: 
             - name: router
               containerPort: 51820
-              hostPort: 1
+              hostPort: {{ hp_resource }}
               protocol: UDP
           - op: add
             path: "/spec/containers/0/env/-"
             value: {"name": "NB_EXTERNAL_IP", "valueFrom": {"fieldRef": {"fieldPath": "status.hostIP"}}}
+          # Static injection of the port into the ENV (more reliable than fieldRef for annotations)
           - op: add
             path: "/spec/containers/0/env/-"
-            value: {"name": "NB_LISTEN_PORT", "valueFrom": {"fieldRef": {"fieldPath": "metadata.annotations['port.hostport.rmb938.com/router']"}}}
+            value: {"name": "NB_LISTEN_PORT", "value": "{{ hp_resource }}"}
           - op: add
             path: "/spec/securityContext"
             value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}
