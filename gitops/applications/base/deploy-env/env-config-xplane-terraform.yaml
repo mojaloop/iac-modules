@@ -77,6 +77,8 @@ spec:
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: env-config
+  managementPolicies:
+    - ${ARGOCD_ENV_env_config_tf_management_policies}
   writeConnectionSecretToRef:
     namespace: ${ARGOCD_ENV_gitlab_namespace}
     name: ${ARGOCD_ENV_deploy_env_config_output_secret}
