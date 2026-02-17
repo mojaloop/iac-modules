@@ -20,17 +20,12 @@ spec:
             # Path must start with /apis/ and include the VERSION and NAMESPACES keyword
             urlPath: "/apis/://hostport.rmb938.com{{request.namespace}}/hostportclaims/netbird-{{request.object.metadata.ownerReferences[0].name | split(@, '-') | [0:-1] | join('-', @)}}"
             jmesPath: "spec.hostPortName"
-            default: ""
-
         # 2. Lookup the Cluster-Scoped HostPort (Non-namespaced)
         - name: hp_resource
           apiCall:
             # Format for cluster-scoped: /apis/<group>/<version>/<kind>/<name>
             urlPath: "/apis/://hostport.rmb938.com{{hpc_resource}}"
             jmesPath: "spec.port"
-            default: "0"
-
-
       mutate:
         patchesJson6902: |-
           - op: add
