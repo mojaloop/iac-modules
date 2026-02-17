@@ -101,13 +101,6 @@ spec:
       default.replication.factor: 3
       min.insync.replicas: 2
 
-    config:
-      offsets.topic.replication.factor: 3
-      transaction.state.log.replication.factor: 3
-      transaction.state.log.min.isr: 2
-      default.replication.factor: 3
-      min.insync.replicas: 2
-
       # RISK: MEDIUM - Increases parallel replica fetching from 1 to 4 threads per broker
       # Impact: 4x faster replica synchronization during recovery
       # Default: 1 | Suggestion: 4
