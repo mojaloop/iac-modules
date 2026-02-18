@@ -1,5 +1,81 @@
 #values: https://github.com/prometheus-community/helm-charts/blob/kube-prometheus-stack-80.0.0/charts/kube-prometheus-stack/values.yaml
 
+additionalPrometheusRulesMap:
+  percona-pxc-recording-rules:
+    groups:
+      - name: percona.pxc.backup.job.recording
+        interval: 1m
+        rules:
+          - record: job:percona_pxc_backup_latest_start_time:max
+            expr: |
+              max by (namespace, owner_name, job_name) (
+                kube_job_status_start_time
+                * on (namespace, job_name) group_right()
+                kube_job_owner{
+                  owner_name=~"cron-common-(mojaloop|platform).*",
+                  owner_name!~".*mongodb.*",
+                  owner_is_controller="true"
+                }
+              )
+              == on (namespace, owner_name) group_left()
+              max by (namespace, owner_name) (
+                kube_job_status_start_time
+                * on (namespace, job_name) group_right()
+                kube_job_owner{
+                  owner_name=~"cron-common-(mojaloop|platform).*",
+                  owner_name!~".*mongodb.*",
+                  owner_is_controller="true"
+                }
+              )
+
+          - record: job:percona_pxc_backup_latest_failed:sum
+            expr: |
+              clamp_max(job:percona_pxc_backup_latest_start_time:max, 1)
+              * on (namespace, job_name) group_left()
+              (kube_job_status_failed != 0)
+
+          - record: job:percona_pxc_backup_latest_active:sum
+            expr: |
+              clamp_max(job:percona_pxc_backup_latest_start_time:max, 1)
+              * on (namespace, job_name) group_left()
+              (kube_job_status_active > 0)
+
+  percona-pxc-alerts:
+    groups:
+      - name: percona.pxc.backup.job
+        interval: 1m
+        rules:
+          - alert: PerconaPXCBackupJobFailed
+            expr: job:percona_pxc_backup_latest_failed:sum > 0
+            for: 2m
+            labels:
+              severity: critical
+              component: database
+              db_type: mysql
+              layer: infrastructure
+            annotations:
+              summary: "PXC backup job {{ $labels.job_name }} failed ({{ $labels.namespace }}/{{ $labels.owner_name }})"
+              description: |
+                K8s Job for CronJob {{ $labels.owner_name }} has failed.
+                Namespace: {{ $labels.namespace }}
+                Job: {{ $labels.job_name }}
+
+          - alert: PerconaPXCBackupCronJobSuspended
+            expr: |
+              kube_cronjob_spec_suspend{
+                cronjob=~"cron-common-(mojaloop|platform).*",
+                cronjob!~".*mongodb.*"
+              } == 1
+            for: 1h
+            labels:
+              severity: warning
+              component: database
+              db_type: mysql
+              layer: infrastructure
+            annotations:
+              summary: "PXC backup CronJob {{ $labels.cronjob }} is suspended"
+              description: |
+                CronJob has spec.suspend=true - no jobs will run.
 
 prometheusOperator:
   enabled: true
@@ -41,18 +117,11 @@ prometheus:
       cluster: ${ARGOCD_ENV_cluster_label_value}
     
     disableCompaction: false
-    configMaps:
-      - prometheus-percona-pxc-recording-rules
-      - prometheus-percona-pxc-alerts
     additionalArgs:
       - name: storage.tsdb.min-block-duration
         value: ${ARGOCD_ENV_tsdb_min_block_duration}
       - name: storage.tsdb.max-block-duration
         value: ${ARGOCD_ENV_tsdb_max_block_duration}
-      - name: rule-files
-        value: /etc/prometheus/configmaps/prometheus-percona-pxc-recording-rules/rules.yaml
-      - name: rule-files
-        value: /etc/prometheus/configmaps/prometheus-percona-pxc-alerts/alerts.yaml
 
     storageSpec:
       volumeClaimTemplate:
