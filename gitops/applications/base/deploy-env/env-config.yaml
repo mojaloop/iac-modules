@@ -213,6 +213,7 @@ spec:
     environments: ${ARGOCD_ENV_environment_list}
     kvPath: "${ARGOCD_ENV_vault_kv_secret}"
     envTokenTTL: "${ARGOCD_ENV_env_token_ttl}"
+    namespace: ${ARGOCD_ENV_vault_namespace}
   providerConfigsRef:
     vaultProvider: vault-provider
     kubernetesProvider: kubernetes-provider
