@@ -41,12 +41,19 @@ prometheus:
       cluster: ${ARGOCD_ENV_cluster_label_value}
     
     disableCompaction: false
+    configMaps:
+      - prometheus-percona-pxc-recording-rules
+      - prometheus-percona-pxc-alerts
     additionalArgs:
       - name: storage.tsdb.min-block-duration
         value: ${ARGOCD_ENV_tsdb_min_block_duration}
       - name: storage.tsdb.max-block-duration
         value: ${ARGOCD_ENV_tsdb_max_block_duration}
-    
+      - name: rule-files
+        value: /etc/prometheus/configmaps/prometheus-percona-pxc-recording-rules/rules.yaml
+      - name: rule-files
+        value: /etc/prometheus/configmaps/prometheus-percona-pxc-alerts/alerts.yaml
+
     storageSpec:
       volumeClaimTemplate:
         spec:
@@ -145,9 +152,6 @@ kube-state-metrics:
     create: true
     useClusterRole: true
     extraRules:
-      - apiGroups: ["pxc.percona.com"]
-        resources: ["perconaxtradbclusterbackups"]
-        verbs: ["list", "watch"]
       - apiGroups: ["psmdb.percona.com"]
         resources: ["perconaservermongodbbackups"]
         verbs: ["list", "watch"]
@@ -159,42 +163,6 @@ kube-state-metrics:
       kind: CustomResourceStateMetrics
       spec:
         resources:
-          - groupVersionKind:
-              group: pxc.percona.com
-              version: "v1"
-              kind: PerconaXtraDBClusterBackup
-            metricNamePrefix: pxc_backup
-            labelsFromPath:
-              backup_name: [metadata, name]
-              namespace:   [metadata, namespace]
-              cluster:     [spec, pxcCluster]
-              storage:     [spec, storageName]
-            metrics:
-              - name: "status"
-                help: "Backup job status"
-                each:
-                  type: StateSet
-                  stateSet:
-                    labelName: status
-                    path: [status, state]
-                    list: [Starting, Running, Succeeded, Failed, Error]
-
-              - name: "completed_timestamp"
-                help: "Unix timestamp when backup completed"
-                each:
-                  type: Gauge
-                  gauge:
-                    path: [status, completed]
-                    valueType: timestamp
-                    nilIsZero: true
-
-              - name: "info"
-                help: "Backup destination info"
-                each:
-                  type: Info
-                  info:
-                    labelsFromPath:
-                      destination: [status, destination]
           - groupVersionKind:
               group: psmdb.percona.com
               version: "v1"

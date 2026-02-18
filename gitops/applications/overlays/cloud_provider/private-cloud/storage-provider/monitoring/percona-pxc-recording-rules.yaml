@@ -1,0 +1,38 @@
+groups:
+  - name: percona.pxc.backup.job.recording
+    interval: 1m
+    rules:
+
+      - record: job:percona_pxc_backup_latest_start_time:max
+        expr: |
+          max by (namespace, owner_name, job_name) (
+            kube_job_status_start_time
+            * on (namespace, job_name) group_right()
+            kube_job_owner{
+              owner_name=~"cron-common-(mojaloop|platform).*",
+              owner_name!~".*mongodb.*",
+              owner_is_controller="true"
+            }
+          )
+          == on (namespace, owner_name) group_left()
+          max by (namespace, owner_name) (
+            kube_job_status_start_time
+            * on (namespace, job_name) group_right()
+            kube_job_owner{
+              owner_name=~"cron-common-(mojaloop|platform).*",
+              owner_name!~".*mongodb.*",
+              owner_is_controller="true"
+            }
+          )
+
+      - record: job:percona_pxc_backup_latest_failed:sum
+        expr: |
+          clamp_max(job:percona_pxc_backup_latest_start_time:max, 1)
+          * on (namespace, job_name) group_left()
+          (kube_job_status_failed != 0)
+
+      - record: job:percona_pxc_backup_latest_active:sum
+        expr: |
+          clamp_max(job:percona_pxc_backup_latest_start_time:max, 1)
+          * on (namespace, job_name) group_left()
+          (kube_job_status_active > 0)
