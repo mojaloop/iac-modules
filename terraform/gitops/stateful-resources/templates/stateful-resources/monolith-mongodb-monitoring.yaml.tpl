@@ -84,3 +84,11 @@ spec:
       app.kubernetes.io/name: mongodb-${cluster_name}-metrics
   endpoints:
   - port: metrics
+    # The interval is hardcoded to 1m to ensure metrics are scraped at a higher frequency.
+    # This is necessary because the dashboard uses the $interval variable in rate queries
+    # instead of the recommended $__rate_interval, requiring more frequent data shipping
+    # to maintain accurate and timely dashboard metrics.
+    interval: 1m 
+    metricRelabelings:
+    - sourceLabels: [job]
+      targetLabel: env # dashboard expects env variable as primary db selector
