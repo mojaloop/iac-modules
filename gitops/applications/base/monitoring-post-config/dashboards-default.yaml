@@ -58,8 +58,8 @@ spec:
     matchLabels:
       dashboards: "grafana"
   grafanaCom:
-    id: 2583
-    revision: 2
+    id: 16504
+    revision: 1
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
