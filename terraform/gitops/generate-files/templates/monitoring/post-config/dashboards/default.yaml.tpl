@@ -39,21 +39,19 @@ spec:
       dashboards: "grafana"
   url: "https://raw.githubusercontent.com/mojaloop/iac-modules/${grafana_dashboard_tag_iac_modules}/assets/grafana-dashboards/mysql-exporter.json"
 ---
-# NOTE: There is some problem with the dashboard. It is not being added to grafana and operator is in retry loop. 
-# Does not show logs either
-# apiVersion: grafana.integreatly.org/v1beta1
-# kind: GrafanaDashboard
-# metadata:
-#   name: mongodb
-# spec:
-#   folder: default
-#   instanceSelector:
-#     matchLabels:
-#       dashboards: "grafana"
-#   grafanaCom:
-#     id: 2583
-#     revision: 2
-# ---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mongodb
+spec:
+  folder: default
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  grafanaCom:
+    id: 16504
+    revision: 1
+---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
