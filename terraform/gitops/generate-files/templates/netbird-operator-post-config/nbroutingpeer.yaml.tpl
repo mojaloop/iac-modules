@@ -7,10 +7,72 @@ metadata:
     app.kubernetes.io/component: operator
     app.kubernetes.io/instance: netbird-operator
     app.kubernetes.io/name: kubernetes-operator
-  name: router
+  name: router-1
   namespace: ${netbird_operator_namespace}
 spec:
+  replicas: 1
   tolerations:
     - key: "netbird/ready"
       operator: "Exists"
       effect: "NoExecute"
+---
+apiVersion: hostport.rmb938.com/v1alpha1
+kind: HostPortClaim
+metadata:
+  name: netbird-router-1
+  namespace: ${ARGOCD_ENV_netbird_operator_namespace}
+spec:
+  hostPortClassName: netbird-hostports
+---
+apiVersion: netbird.io/v1
+kind: NBRoutingPeer
+metadata:
+  finalizers:
+    - netbird.io/cleanup
+  labels:
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/instance: netbird-operator
+    app.kubernetes.io/name: kubernetes-operator
+  name: router-2
+  namespace: ${netbird_operator_namespace}
+spec:
+  replicas: 1
+  tolerations:
+    - key: "netbird/ready"
+      operator: "Exists"
+      effect: "NoExecute"
+---
+apiVersion: hostport.rmb938.com/v1alpha1
+kind: HostPortClaim
+metadata:
+  name: netbird-router-2
+  namespace: ${ARGOCD_ENV_netbird_operator_namespace}
+spec:
+  hostPortClassName: netbird-hostports
+---
+apiVersion: netbird.io/v1
+kind: NBRoutingPeer
+metadata:
+  finalizers:
+    - netbird.io/cleanup
+  labels:
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/instance: netbird-operator
+    app.kubernetes.io/name: kubernetes-operator
+  name: router-3
+  namespace: ${netbird_operator_namespace}
+spec:
+  replicas: 1
+  tolerations:
+    - key: "netbird/ready"
+      operator: "Exists"
+      effect: "NoExecute"
+---
+apiVersion: hostport.rmb938.com/v1alpha1
+kind: HostPortClaim
+metadata:
+  name: netbird-router-3
+  namespace: ${ARGOCD_ENV_netbird_operator_namespace}
+spec:
+  hostPortClassName: netbird-hostports
+---
