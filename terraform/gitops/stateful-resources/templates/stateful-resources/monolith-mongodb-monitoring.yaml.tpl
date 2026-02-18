@@ -20,7 +20,7 @@ spec:
         - --mongodb.uri=mongodb://$(MONGODB_USERNAME):$(MONGODB_PASSWORD)@${externalservice_name}.${namespace}:${port}/admin?ssl=true&tlsInsecure=true
         - --mongodb.direct-connect=true
         - --compatible-mode
-        - --discovering-mode
+        - --collect-all
         ports:
         - name: metrics
           containerPort: 9216
