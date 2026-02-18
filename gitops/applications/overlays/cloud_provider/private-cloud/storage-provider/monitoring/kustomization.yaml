@@ -7,6 +7,16 @@ configMapGenerator:
   - ./alloy-config.alloy
   options:
     disableNameSuffixHash: true
+- name: prometheus-percona-pxc-recording-rules
+  files:
+  - rules.yaml=./percona-pxc-recording-rules.yaml
+  options:
+    disableNameSuffixHash: true
+- name: prometheus-percona-pxc-alerts
+  files:
+  - alerts.yaml=./percona-pxc-alerts.yaml
+  options:
+    disableNameSuffixHash: true
 
 helmCharts:
   - name: kube-prometheus-stack
