@@ -198,7 +198,7 @@ spec:
     vaultProvider: vault-provider
     httpProvider: http-conf
   managementPolicies:
-    - "${ARGOCD_ENV_env_config_xplane_management_policies}"
+    - ${ARGOCD_ENV_env_config_xplane_management_policies}
 
 
 ---
@@ -219,4 +219,4 @@ spec:
     kubernetesProvider: kubernetes-provider
     gitlabProvider: gitlab-provider
   managementPolicies:
-    - "${ARGOCD_ENV_env_config_xplane_management_policies}"
+    - ${ARGOCD_ENV_env_config_xplane_management_policies}
