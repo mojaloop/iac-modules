@@ -10,7 +10,7 @@ spec:
     namespace: ${ARGOCD_ENV_gitlab_namespace}
     argocdNamespace:  ${ARGOCD_ENV_argocd_namespace}
     environments: ${ARGOCD_ENV_environment_list}
-    expiresAt: "2025-12-31T23:59:59Z"
+    expiresAt: "2027-12-31T23:59:59Z"
     groupVariables:
     - key: "NEXUS_FQDN"
       value: "nexusproxy.${ARGOCD_ENV_nexus_dns_subdomain}"
