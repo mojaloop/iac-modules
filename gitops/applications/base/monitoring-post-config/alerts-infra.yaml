@@ -94,8 +94,7 @@ groups:
         expr: |
           (
             kube_job_status_failed{
-              job_name=~"cron-common-(mojaloop|platform).*",
-              job_name!~".*mongodb.*"
+              job_name=~"xb-cron-common-(mojaloop|platform).*"
             } > 0
           )
           and on (namespace, job_name)
