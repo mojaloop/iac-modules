@@ -93,50 +93,20 @@ groups:
       - alert: PerconaPXCBackupJobFailed
         expr: |
           (
-            max by (namespace, owner_name, job_name) (
-              kube_job_status_start_time
-              * on (namespace, job_name) group_right()
-              kube_job_owner{
-                owner_name=~"cron-common-(mojaloop|platform).*",
-                owner_name!~".*mongodb.*",
-                owner_is_controller="true"
-              }
-            )
-            == on (namespace, owner_name) group_left()
-            max by (namespace, owner_name) (
-              kube_job_status_start_time
-              * on (namespace, job_name) group_right()
-              kube_job_owner{
-                owner_name=~"cron-common-(mojaloop|platform).*",
-                owner_name!~".*mongodb.*",
-                owner_is_controller="true"
-              }
-            )
+            kube_job_status_failed{
+              job_name=~"cron-common-(mojaloop|platform).*",
+              job_name!~".*mongodb.*"
+            } > 0
           )
-          * on (namespace, job_name) group_left()
-          (kube_job_status_failed != 0) > 0
+          and on (namespace, job_name)
+          (
+            (time() - kube_job_status_start_time) < 100800
+          )
         for: 2m
         labels:
           severity: critical
           component: database
           db_type: mysql
         annotations:
-          summary: "PXC backup job {{ $labels.job_name }} failed ({{ $labels.namespace }}/{{ $labels.owner_name }})"
-          description: "K8s Job for CronJob {{ $labels.owner_name }} has failed. Namespace: {{ $labels.namespace }} | Job: {{ $labels.job_name }}"
-
-      - alert: PerconaPXCBackupCronJobSuspended
-        expr: |
-          kube_cronjob_spec_suspend{
-            cronjob=~"cron-common-(mojaloop|platform).*",
-            cronjob!~".*mongodb.*"
-          } == 1
-        for: 1h
-        labels:
-          severity: warning
-          component: database
-          db_type: mysql
-        annotations:
-          summary: "PXC backup CronJob {{ $labels.cronjob }} is suspended"
-          description: "CronJob has spec.suspend=true - no jobs will run."
-
-
+          summary: "PXC backup job {{ $labels.job_name }} failed ({{ $labels.namespace }})"
+          description: "Recent backup job has failed. Namespace: {{ $labels.namespace }} | Job: {{ $labels.job_name }}"
