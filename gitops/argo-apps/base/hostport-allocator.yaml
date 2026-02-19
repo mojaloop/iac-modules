@@ -10,6 +10,15 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 
 spec:
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: MutatingAdmissionWebhook
+      jsonPointers:
+        - /webhooks/*/clientConfig/caBundle
+    - group: admissionregistration.k8s.io
+      kind: ValidatingAdmissionWebhook
+      jsonPointers:
+        - /webhooks/*/clientConfig/caBundle
   project: default
   syncPolicy:
     automated:
