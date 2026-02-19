@@ -320,6 +320,14 @@ spec:
             - name: "monitoring_alloy_limits_cpu"
               value: "${ARGOCD_ENV_monitoring_alloy_limits_cpu}"
 
+            # hostport allocator
+            - name: "utils_hostport_allocator_version"
+              value: "${ARGOCD_ENV_utils_hostport_allocator_version}"
+            - name: "utils_hostport_allocator_namespace"
+              value: "${ARGOCD_ENV_utils_hostport_allocator_namespace}"
+            - name: "utils_hostport_allocator_app_name"
+              value: "${ARGOCD_ENV_utils_hostport_allocator_app_name}"
+
   providerConfigsRef:
     scK8sProviderName: sc-kubernetes-provider
     scHelmProviderName: sc-helm-provider
