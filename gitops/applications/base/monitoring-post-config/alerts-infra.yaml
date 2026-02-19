@@ -87,10 +87,10 @@ groups:
           summary: "Container={{ $labels.container }} in pod={{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last ${ARGOCD_ENV_prometheus_rate_interval} minutes."
           description: "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last ${ARGOCD_ENV_prometheus_rate_interval} minutes.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
-  - name: percona.pxc.backup
+  - name: mysql_backup
     interval: 1m
     rules:
-      - alert: PerconaPXCBackupJobFailed
+      - alert: MySQL Backup Job Failed
         expr: |
           (
             kube_job_status_failed{
