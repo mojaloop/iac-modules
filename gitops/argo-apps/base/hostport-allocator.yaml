@@ -13,12 +13,12 @@ spec:
   ignoreDifferences:
     - group: admissionregistration.k8s.io
       kind: MutatingWebhookConfiguration
-      jsonPointers:
-        - /webhooks/*/clientConfig/caBundle
+      jqPathExpressions:
+        - ".webhooks[]?.clientConfig.caBundle"
     - group: admissionregistration.k8s.io
       kind: ValidatingWebhookConfiguration
-      jsonPointers:
-        - /webhooks/*/clientConfig/caBundle
+      jqPathExpressions:
+        - ".webhooks[]?.clientConfig.caBundle"
   project: default
   syncPolicy:
     automated:
