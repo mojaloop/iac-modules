@@ -390,5 +390,11 @@ spec:
           value: "${ARGOCD_ENV_velero_post_config_sc_snapshot_volumes}"
 
         #hostport allocator
-        - name: "hostport_allocator_version"
+        - name: "utils_hostport_allocator_version"
           value: "${ARGOCD_ENV_utils_hostport_allocator_version}"
+
+        - name: "utils_hostport_allocator_namespace"
+          value: "${ARGOCD_ENV_utils_hostport_allocator_namespace}"
+
+        - name: "utils_hostport_allocator_app_name"
+          value: "${ARGOCD_ENV_utils_hostport_allocator_app_name}"
