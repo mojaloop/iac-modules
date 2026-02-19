@@ -107,5 +107,5 @@ groups:
           component: database
           db_type: mysql
         annotations:
-          summary: "PXC backup job {{ $labels.job_name }} failed ({{ $labels.namespace }})"
+          summary: "Namespace: {{ $labels.namespace }}, Job: {{ $labels.job_name }} failed"
           description: "Recent backup job has failed. Namespace: {{ $labels.namespace }} | Job: {{ $labels.job_name }}"
