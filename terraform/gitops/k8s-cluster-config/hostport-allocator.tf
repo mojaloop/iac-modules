@@ -20,7 +20,7 @@ locals {
 variable "hostport_allocator_version" {
   type        = string
   description = "hostport_allocator_version"
-  default     = "0.17.0"
+  default     = "0.1.17"
 }
 variable "hostport_allocator_sync_wave" {
   type        = string
