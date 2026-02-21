@@ -129,7 +129,6 @@ netbird_operator_helm_version: '0.1.15'
 kyverno_chart_version: '3.5.2'
 vault_backup_schedule: "0 */12 * * *" # Every 12 hours
 vault_backupjob_image: "ghcr.io/mojaloop/vault-utils:0.0.4"
-grafana_dashboard_tag_iac_modules: "feature/storage-cluster"
 monitoring_workload_tolerations: []
 grafana_dashboard_tag_iac_modules: "feature/storage-cluster"
 #  - key: "workload-class.mojaloop.io/MONITORING"
