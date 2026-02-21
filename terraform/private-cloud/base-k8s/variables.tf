@@ -89,9 +89,3 @@ variable "dns_provider" {
 variable "node_pools" {
   type = any
 }
-
-variable "target_group_vpn_health_port" {
-  type = string
-  default = "31821"
-  description = "not used for private cloud"
-}
