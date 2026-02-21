@@ -212,11 +212,6 @@ output "vpc_id" {
 output "availability_zones" {
   value = ["empty"]
 }
-
-output "target_group_vpn_health_port" {
-  value = var.target_group_vpn_health_port
-}
-
 locals {
 
   secrets_var_map = merge(var.app_var_map.create_iam_user ? {
