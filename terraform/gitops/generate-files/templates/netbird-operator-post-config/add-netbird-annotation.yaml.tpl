@@ -158,11 +158,7 @@ spec:
         patchesJson6902: |-
           - op: add
             path: "/spec/containers/0/ports"
-            value: 
-            - name: router
-              containerPort: 51820
-              hostPort: {{ hostport }}
-              protocol: UDP
+            value: [{"name": "router", "containerPort": 51820, "hostPort": "{{ hostport }}", "protocol": "UDP"}]
           - op: add
             path: "/spec/containers/0/env/-"
             value: {"name": "NB_EXTERNAL_IP", "valueFrom": {"fieldRef": {"fieldPath": "status.hostIP"}}}
@@ -170,8 +166,11 @@ spec:
             path: "/spec/containers/0/env/-"
             value: {"name": "NB_LISTEN_PORT", "value": "{{ hostport }}"}
           - op: add
+            path: "/spec/containers/0/securityContext"
+            value: {"privileged": true, "capabilities": {"add": ["NET_ADMIN"]}}
+          - op: add
             path: "/spec/securityContext"
-            value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}], "privileged": true}
+            value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}
       preconditions:
         all:
           - key: "{{ request.operation }}"
