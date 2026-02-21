@@ -119,6 +119,7 @@ spec:
                   runAsUser: 0
                   runAsGroup: 0
                   runAsNonRoot: false
+                  privileged: true
                   capabilities:
                     add:
                       - NET_ADMIN
@@ -169,7 +170,7 @@ spec:
             value: {"name": "NB_LISTEN_PORT", "value": "{{ hostport }}"}
           - op: add
             path: "/spec/securityContext"
-            value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}
+            value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}], "privileged": true}
       preconditions:
         all:
           - key: "{{ request.operation }}"
