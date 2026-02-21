@@ -127,53 +127,53 @@ spec:
                       value: "1"
 ---
 apiVersion: kyverno.io/v1
-  kind: ClusterPolicy
-  metadata:
-    name: nbrouter-mutate
-  spec:
-    rules:
-      - name: nbrouter-mutate
-        match:
-          any:
-            - resources:
-                kinds: ["Pod"]
-                namespaces: ["${netbird_operator_namespace}"]
-                selector:
-                  matchLabels:
-                    app.kubernetes.io/name: netbird-router
-        context:
-          # 1. Lookup the HostPortClaim to get the HostPort resource name
-          - name: hostportclaim
-            apiCall:
-              urlPath: "/apis/hostport.rmb938.com/v1alpha1/namespaces/{{ request.namespace }}/hostportclaims/netbird-{{ request.object.metadata.ownerReferences[0].name | split(@, '-') | [0:-1] | join('-', @) }}"
-              jmesPath: "spec.hostPortName"
-          # 2. Lookup the actual HostPort to get the allocated port number
-          - name: hostport
-            apiCall:
-              urlPath: "/apis/hostport.rmb938.com/v1alpha1/hostports/{{ hostportclaim }}"
-              jmesPath: "status.port"
-        mutate:
-          patchesJson6902: |-
-            - op: add
-              path: "/spec/containers/0/ports"
-              value: 
-              - name: router
-                containerPort: 51820
-                hostPort: {{ hostport }}
-                protocol: UDP
-            - op: add
-              path: "/spec/containers/0/env/-"
-              value: {"name": "NB_EXTERNAL_IP", "valueFrom": {"fieldRef": {"fieldPath": "status.hostIP"}}}
-            - op: add
-              path: "/spec/containers/0/env/-"
-              value: {"name": "NB_LISTEN_PORT", "value": "{{ hostport }}"}
-            - op: add
-              path: "/spec/securityContext"
-              value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}
-        preconditions:
-          all:
-            - key: "{{ request.operation }}"
-              operator: In
-              value: ["CREATE", "UPDATE"]
-        skipBackgroundRequests: true
-    validationFailureAction: Audit
+kind: ClusterPolicy
+metadata:
+  name: nbrouter-mutate
+spec:
+  rules:
+    - name: nbrouter-mutate
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+              namespaces: ["${netbird_operator_namespace}"]
+              selector:
+                matchLabels:
+                  app.kubernetes.io/name: netbird-router
+      context:
+        # 1. Lookup the HostPortClaim to get the HostPort resource name
+        - name: hostportclaim
+          apiCall:
+            urlPath: "/apis/hostport.rmb938.com/v1alpha1/namespaces/{{ request.namespace }}/hostportclaims/netbird-{{ request.object.metadata.ownerReferences[0].name | split(@, '-') | [0:-1] | join('-', @) }}"
+            jmesPath: "spec.hostPortName"
+        # 2. Lookup the actual HostPort to get the allocated port number
+        - name: hostport
+          apiCall:
+            urlPath: "/apis/hostport.rmb938.com/v1alpha1/hostports/{{ hostportclaim }}"
+            jmesPath: "status.port"
+      mutate:
+        patchesJson6902: |-
+          - op: add
+            path: "/spec/containers/0/ports"
+            value: 
+            - name: router
+              containerPort: 51820
+              hostPort: {{ hostport }}
+              protocol: UDP
+          - op: add
+            path: "/spec/containers/0/env/-"
+            value: {"name": "NB_EXTERNAL_IP", "valueFrom": {"fieldRef": {"fieldPath": "status.hostIP"}}}
+          - op: add
+            path: "/spec/containers/0/env/-"
+            value: {"name": "NB_LISTEN_PORT", "value": "{{ hostport }}"}
+          - op: add
+            path: "/spec/securityContext"
+            value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}
+      preconditions:
+        all:
+          - key: "{{ request.operation }}"
+            operator: In
+            value: ["CREATE", "UPDATE"]
+      skipBackgroundRequests: true
+  validationFailureAction: Audit
