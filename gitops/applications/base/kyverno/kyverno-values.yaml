@@ -28,18 +28,6 @@ backgroundController:
             - watch
             - update
             - patch
-        - apiGroups:
-            - "coordination.k8s.io"
-          resources:
-            - "leases"
-          verbs:
-            - get
-            - list
-            - watch
-            - create
-            - delete
-            - patch
-            - update
 
 cleanupController:
   resources:
@@ -55,14 +43,6 @@ admissionController:
   rbac:
     coreClusterRole:
       extraResources:
-        - apiGroups:
-            - "coordination.k8s.io"
-          resources:
-            - "leases"
-          verbs:
-            - get
-            - list
-            - watch
         - apiGroups:
             - "hostport.rmb938.com"
           resources:
