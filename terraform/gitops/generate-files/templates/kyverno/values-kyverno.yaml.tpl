@@ -80,3 +80,12 @@ admissionController:
             - get
             - list
             - watch
+        - apiGroups:
+            - "hostport.rmb938.com"
+          resources:
+            - "hostportclaims"
+            - "hostports"
+          verbs:
+            - get
+            - list
+            - watch
