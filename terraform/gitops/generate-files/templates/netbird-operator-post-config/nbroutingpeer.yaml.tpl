@@ -72,7 +72,7 @@ apiVersion: hostport.rmb938.com/v1alpha1
 kind: HostPortClaim
 metadata:
   name: netbird-router-3
-  namespace: ${ARGOCD_ENV_netbird_operator_namespace}
+  namespace: ${netbird_operator_namespace}
 spec:
   hostPortClassName: netbird-hostports
 ---
