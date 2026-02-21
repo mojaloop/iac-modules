@@ -9,7 +9,7 @@ spec:
         any:
           - resources:
               kinds: ["Pod"]
-              namespaces: ["${ARGOCD_ENV_netbird_operator_namespace}"]
+              namespaces: ["${netbird_operator_namespace}"]
               selector:
                 matchLabels:
                   app.kubernetes.io/name: netbird-router
