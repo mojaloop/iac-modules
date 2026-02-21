@@ -25,7 +25,8 @@ spec:
         name: "{{request.object.metadata.ownerReferences[0].name | split(@, '-') | [0:-1] | join('-', @)}}"
         namespace: ${netbird_operator_namespace}
         spec:
-          hostPortClassName: netbird-hostports
+          data:
+            hostPortClassName: netbird-hostports
     - name: clone-netbird-secret-for-matching-pods
       match:
         any:
@@ -69,9 +70,9 @@ spec:
 %{ endfor ~}
       preconditions:
         all:
-        - key: "{{request.operation}}"
-          operator: In
-          value: ["CREATE", "UPDATE"]
+          - key: "{{request.operation}}"
+            operator: In
+            value: ["CREATE", "UPDATE"]
       context:
         # 1. Lookup the HostPortClaim to get the HostPort resource name
         - name: hostportclaim
@@ -89,43 +90,43 @@ spec:
             path: "/spec/containers/-"
             value:
               name: netbird
-                image: netbirdio/netbird:${netbird_image_version}
-                imagePullPolicy: Always
-                args:
-                  - --setup-key-file
-                  - /etc/nbkey
-                  - -m
-                  - ${netbird_management_url}
-                env:
-                  - name: NB_SETUP_KEY
-                    valueFrom:
-                      secretKeyRef:
-                        name: ${netbird_setup_key_secret_name}
-                        key: ${netbird_setup_key_secret_key}
-                  - name: NB_MANAGEMENT_URL
-                    value: ${netbird_management_url}
-                  - name: NB_EXTERNAL_IP
-                    valueFrom:
-                      fieldRef:
-                        fieldPath: status.hostIP
-                  - name: NB_LISTEN_PORT
-                    value: "{{ hostport }}"
-                ports:
-                  - name: router
-                    containerPort: 51820
-                    hostPort: "{{ hostport }}"
-                    protocol: UDP
-                securityContext:
-                  runAsUser: 0
-                  runAsGroup: 0
-                  runAsNonRoot: false
-                  privileged: true
-                  capabilities:
-                    add:
-                      - NET_ADMIN
-                  sysctls:
-                    - name: net.ipv4.ip_forward
-                      value: "1"
+              image: netbirdio/netbird:${netbird_image_version}
+              imagePullPolicy: Always
+              args:
+                - --setup-key-file
+                - /etc/nbkey
+                - -m
+                - ${netbird_management_url}
+              env:
+                - name: NB_SETUP_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${netbird_setup_key_secret_name}
+                      key: ${netbird_setup_key_secret_key}
+                - name: NB_MANAGEMENT_URL
+                  value: ${netbird_management_url}
+                - name: NB_EXTERNAL_IP
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: status.hostIP
+                - name: NB_LISTEN_PORT
+                  value: "{{ hostport }}"
+              ports:
+                - name: router
+                  containerPort: 51820
+                  hostPort: "{{ hostport }}"
+                  protocol: UDP
+              securityContext:
+                runAsUser: 0
+                runAsGroup: 0
+                runAsNonRoot: false
+                privileged: true
+                capabilities:
+                  add:
+                    - NET_ADMIN
+                sysctls:
+                  - name: net.ipv4.ip_forward
+                    value: "1"
 ---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
