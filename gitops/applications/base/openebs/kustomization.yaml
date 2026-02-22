@@ -10,3 +10,6 @@ helmCharts:
     repo: https://openebs.github.io/openebs
     valuesFile: openebs-values.yaml
     namespace: ${ARGOCD_ENV_sc_openebs_namespace}
+
+patchesStrategicMerge:
+  - kubectl-image-patch.yaml
