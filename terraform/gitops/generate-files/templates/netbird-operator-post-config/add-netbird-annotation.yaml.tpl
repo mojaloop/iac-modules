@@ -124,9 +124,12 @@ spec:
                 capabilities:
                   add:
                     - NET_ADMIN
-                sysctls:
-                  - name: net.ipv4.ip_forward
-                    value: "1"
+          - op: add
+            path: "/spec/securityContext"
+            value:
+              sysctls:
+                - name: net.ipv4.ip_forward
+                  value: "1"
 ---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
@@ -166,8 +169,8 @@ spec:
             path: "/spec/containers/0/env/-"
             value: {"name": "NB_LISTEN_PORT", "value": "{{ hostport }}"}
           - op: add
-            path: "/spec/containers/0/securityContext"
-            value: {"privileged": true, "capabilities": {"add": ["NET_ADMIN"]}}
+            path: "/spec/containers/0/securityContext/privileged"
+            value: true
           - op: add
             path: "/spec/securityContext"
             value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}
