@@ -68,3 +68,18 @@ spec:
   # Or use 0.0.0.0/0 for absolute wildcard access
   prefixes:
     - 0.0.0.0/0
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stunner-internal-mirror
+  namespace: "${ARGOCD_ENV_stunner_impl_namespace}"
+spec:
+  type: ClusterIP
+  selector:
+    stunner.l7mp.io/related-gateway-name: udp-gateway
+  ports:
+    - name: stun-udp
+      protocol: UDP
+      port: 31821       # Match the external port Netbird expects
+      targetPort: 3478  # Match STUNner's internal port
