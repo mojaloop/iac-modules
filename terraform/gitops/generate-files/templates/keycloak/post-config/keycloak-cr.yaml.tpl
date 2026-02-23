@@ -39,7 +39,7 @@ spec:
                 echo waiting for DNS ; sleep 5; done;
             imagePullPolicy: IfNotPresent
           - name: convert-pem-to-jks
-            image: openjdk:17-jdk-slim
+            image: eclipse-temurin:21-jdk
             command:
             - sh
             - -c
