@@ -10,7 +10,9 @@ spec:
     namespace: ${ARGOCD_ENV_gitlab_namespace}
     argocdNamespace:  ${ARGOCD_ENV_argocd_namespace}
     environments: ${ARGOCD_ENV_environment_list}
-    expiresAt: "2027-02-14T23:59:59Z" # change this
+    groupName: "iac"
+    classicHelmRepoBaseUrl: "${ARGOCD_ENV_classic_helm_repo_base_url}"
+    ociHelmRepoBaseUrl: "${ARGOCD_ENV_oci_helm_repo_base_url}"
     groupVariables:
     - key: "NEXUS_FQDN"
       value: "nexusproxy.${ARGOCD_ENV_nexus_dns_subdomain}"
