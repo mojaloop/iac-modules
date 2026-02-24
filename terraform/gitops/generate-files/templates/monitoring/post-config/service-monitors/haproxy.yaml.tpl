@@ -9,7 +9,7 @@ spec:
   staticConfigs:
     - targets:
         ## The following doesn't need to be grafana's FQDN, any internal FQDN that resolves to the HAProxy service would work.
-        - ${grafana_private_fqdn}:9101
+        - ${grafana_private_fqdn}:9100
       labels:
         job: haproxy
   metricsPath: /metrics
