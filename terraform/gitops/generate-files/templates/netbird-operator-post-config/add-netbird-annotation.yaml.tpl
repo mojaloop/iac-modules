@@ -110,10 +110,10 @@ spec:
                   capabilities:
                     add:
                       - NET_ADMIN
-              securityContext:
-                sysctls:
-                  - name: net.ipv4.ip_forward
-                    value: "1"
+            securityContext:
+              sysctls:
+                - name: net.ipv4.ip_forward
+                  value: "1"
 ---
 %{ endfor ~}
 ---
