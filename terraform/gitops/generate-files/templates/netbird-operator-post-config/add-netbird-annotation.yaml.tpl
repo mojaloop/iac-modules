@@ -1,4 +1,34 @@
 ---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: clone-netbird-secret-for-matching-pods
+  annotations:
+    argocd.argoproj.io/sync-wave: "${kyverno_sync_wave}"
+spec:
+  rules:
+    - name: clone-netbird-secret-for-matching-pods
+      match:
+        any:
+%{ for label in netbird_target_labels ~}
+          - resources:
+              kinds:
+                - Pod
+              selector:
+                matchLabels:
+                  ${label.name}: "${label.value}"
+%{ endfor ~}
+      generate:
+        synchronize: true
+        apiVersion: v1
+        kind: Secret
+        name: ${netbird_setup_key_name}
+        namespace: "{{request.object.metadata.namespace}}"
+        clone:
+          namespace: "${netbird_setup_key_namespace}"
+          name: ${netbird_setup_key_name}
+
+---
 %{ for label in netbird_target_labels ~}
 apiVersion: hostport.rmb938.com/v1alpha1
 kind: HostPortClaim
