@@ -8,12 +8,12 @@ metadata:
 spec:
   rules:
     - name: create-hostport-claim-for-netbird-sidecars
+      skipBackgroundRequests: false 
       match:
         any:
 %{ for label in netbird_target_labels ~}
           - resources:
-              kinds:
-                - Pod
+              kinds: [Deployment, DaemonSet, StatefulSet]
               selector:
                 matchLabels:
                   ${label.name}: "${label.value}"
@@ -22,18 +22,18 @@ spec:
         synchronize: true
         apiVersion: hostport.rmb938.com/v1alpha1
         kind: HostPortClaim
-        name: "{{request.object.metadata.ownerReferences[0].name | split(@, '-') | [0:-1] | join('-', @)}}"
+        name: "{{ request.object.metadata.name }}"
         namespace: ${netbird_operator_namespace}
         spec:
           data:
             hostPortClassName: netbird-hostports
     - name: clone-netbird-secret-for-matching-pods
+      skipBackgroundRequests: false
       match:
         any:
 %{ for label in netbird_target_labels ~}
           - resources:
-              kinds:
-                - Pod
+              kinds: [Deployment, DaemonSet, StatefulSet]
               selector:
                 matchLabels:
                   ${label.name}: "${label.value}"
@@ -73,6 +73,9 @@ spec:
           - key: "{{request.operation}}"
             operator: In
             value: ["CREATE", "UPDATE"]
+          - key: "{{ hostport }}"
+            operator: NotEquals
+            value: ""
       context:
         # 1. Lookup the HostPortClaim to get the HostPort resource name
         - name: hostportclaim
