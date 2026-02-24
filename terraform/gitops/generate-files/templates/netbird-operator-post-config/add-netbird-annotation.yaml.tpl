@@ -71,7 +71,7 @@ spec:
               ports:
                 - name: router
                   containerPort: 51820
-                  hostPort: "{{ hostport }}"
+                  hostPort: {{ hostport }}
                   protocol: UDP
               securityContext:
                 runAsUser: 0
