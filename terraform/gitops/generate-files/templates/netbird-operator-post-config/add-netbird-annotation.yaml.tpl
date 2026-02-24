@@ -72,48 +72,50 @@ spec:
             urlPath: "/apis/hostport.rmb938.com/v1alpha1/hostports/{{ hostportclaim }}"
             jmesPath: "status.port"
       mutate:
-        patchStrategicMerge:
-          spec:
-            containers:
-              - name: netbird
-                image: netbirdio/netbird:${netbird_image_version}
-                imagePullPolicy: Always
-                args:
-                  - --setup-key-file
-                  - /etc/nbkey
-                  - -m
-                  - ${netbird_management_url}
-                env:
-                  - name: NB_SETUP_KEY
-                    valueFrom:
-                      secretKeyRef:
-                        name: ${netbird_setup_key_secret_name}
-                        key: ${netbird_setup_key_secret_key}
-                  - name: NB_MANAGEMENT_URL
-                    value: ${netbird_management_url}
-                  - name: NB_EXTERNAL_IP
-                    valueFrom:
-                      fieldRef:
-                        fieldPath: status.hostIP
-                  - name: NB_LISTEN_PORT
-                    value: "{{ hostport }}"
-                ports:
-                  - name: router
-                    containerPort: 51820
-                    hostPort: {{ hostport }}
-                    protocol: UDP
-                securityContext:
-                  runAsUser: 0
-                  runAsGroup: 0
-                  runAsNonRoot: false
-                  privileged: true
-                  capabilities:
-                    add:
-                      - NET_ADMIN
-            securityContext:
-              sysctls:
-                - name: net.ipv4.ip_forward
-                  value: "1"
+        patchesJson6902: |-
+          - op: add
+            path: "/spec/containers/-"
+            value:
+              name: netbird
+              image: netbirdio/netbird:${netbird_image_version}
+              imagePullPolicy: Always
+              args:
+                - --setup-key-file
+                - /etc/nbkey
+                - -m
+                - ${netbird_management_url}
+              env:
+                - name: NB_SETUP_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${netbird_setup_key_secret_name}
+                      key: ${netbird_setup_key_secret_key}
+                - name: NB_MANAGEMENT_URL
+                  value: ${netbird_management_url}
+                - name: NB_EXTERNAL_IP
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: status.hostIP
+                - name: NB_LISTEN_PORT
+                  value: "{{ hostport }}"
+              ports:
+                - name: router
+                  containerPort: 51820
+                  hostPort: {{ hostport }}
+                  protocol: UDP
+              securityContext:
+                runAsUser: 0
+                runAsGroup: 0
+                runAsNonRoot: false
+                privileged: true
+                capabilities:
+                  add:
+                    - NET_ADMIN
+          - op: add
+            path: "/spec/securityContext/sysctls"
+            value:
+              - name: net.ipv4.ip_forward
+                value: "1"
 ---
 %{ endfor ~}
 ---
