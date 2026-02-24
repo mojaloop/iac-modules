@@ -1,53 +1,12 @@
 ---
-apiVersion: kyverno.io/v1
-kind: ClusterPolicy
+%{ for label in netbird_target_labels ~}
+apiVersion: hostport.rmb938.com/v1alpha1
+kind: HostPortClaim
 metadata:
-  name: create-netbird-hostport-claim
-  annotations:
-    argocd.argoproj.io/sync-wave: "${kyverno_sync_wave}"
+  name: ${label.value}
+  namespace: ${netbird_operator_namespace}
 spec:
-  rules:
-    - name: create-hostport-claim-for-netbird-sidecars
-      skipBackgroundRequests: false 
-      match:
-        any:
-%{ for label in netbird_target_labels ~}
-          - resources:
-              kinds: [Deployment, DaemonSet, StatefulSet]
-              selector:
-                matchLabels:
-                  ${label.name}: "${label.value}"
-%{ endfor ~}
-      generate:
-        synchronize: true
-        apiVersion: hostport.rmb938.com/v1alpha1
-        kind: HostPortClaim
-        name: "{{ request.object.metadata.name }}"
-        namespace: ${netbird_operator_namespace}
-        spec:
-          data:
-            hostPortClassName: netbird-hostports
-    - name: clone-netbird-secret-for-matching-pods
-      skipBackgroundRequests: false
-      match:
-        any:
-%{ for label in netbird_target_labels ~}
-          - resources:
-              kinds: [Deployment, DaemonSet, StatefulSet]
-              selector:
-                matchLabels:
-                  ${label.name}: "${label.value}"
-%{ endfor ~}
-      generate:
-        synchronize: true
-        apiVersion: v1
-        kind: Secret
-        name: ${netbird_setup_key_name}
-        namespace: "{{request.object.metadata.namespace}}"
-        clone:
-          namespace: "${netbird_setup_key_namespace}"
-          name: ${netbird_setup_key_name}
-
+  hostPortClassName: netbird-hostports
 ---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
@@ -60,14 +19,12 @@ spec:
     - name: inject-netbird-annotation
       match:
         any:
-%{ for label in netbird_target_labels ~}
           - resources:
               kinds:
                 - Pod
               selector:
                 matchLabels:
                   ${label.name}: "${label.value}"
-%{ endfor ~}
       preconditions:
         all:
           - key: "{{request.operation}}"
@@ -80,7 +37,7 @@ spec:
         # 1. Lookup the HostPortClaim to get the HostPort resource name
         - name: hostportclaim
           apiCall:
-            urlPath: "/apis/hostport.rmb938.com/v1alpha1/namespaces/${netbird_operator_namespace}/hostportclaims/{{ request.object.metadata.ownerReferences[0].name | split(@, '-') | [0:-1] | join('-', @) }}"
+            urlPath: "/apis/hostport.rmb938.com/v1alpha1/namespaces/${netbird_operator_namespace}/hostportclaims/${label.value}"
             jmesPath: "spec.hostPortName"
         # 2. Lookup the actual HostPort to get the allocated port number
         - name: hostport
@@ -133,6 +90,8 @@ spec:
               sysctls:
                 - name: net.ipv4.ip_forward
                   value: "1"
+---
+%{ endfor ~}
 ---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
