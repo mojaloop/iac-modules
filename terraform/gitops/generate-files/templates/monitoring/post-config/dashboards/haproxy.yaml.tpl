@@ -1,7 +1,7 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
 metadata:
-  name: HAProxy
+  name: haproxy
 spec:
   instanceSelector:
     matchLabels:
@@ -12,7 +12,7 @@ kind: GrafanaDashboard
 metadata:
   name: haproxy-node-exporter-full
 spec:
-  folder: HAProxy
+  folder: haproxy
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
@@ -23,7 +23,7 @@ kind: GrafanaDashboard
 metadata:
   name: haproxy-node-exporter-network
 spec:
-  folder: HAProxy
+  folder: haproxy
   instanceSelector:
     matchLabels:
       dashboards: "grafana"

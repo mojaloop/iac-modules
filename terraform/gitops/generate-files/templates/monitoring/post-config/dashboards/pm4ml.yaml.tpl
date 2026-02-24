@@ -1,7 +1,7 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
 metadata:
-  name: PM4ML
+  name: pm4ml
 spec:
   instanceSelector:
     matchLabels:
@@ -12,7 +12,7 @@ kind: GrafanaDashboard
 metadata:
   name: mojaloop-connector
 spec:
-  folder: PM4ML
+  folder: pm4ml
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
