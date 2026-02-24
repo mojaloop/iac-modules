@@ -31,7 +31,7 @@ metadata:
   namespace: ${istio_nb_egress_waypoint_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: "${istio_gateways_sync_wave}"
-    netbird.io/setup-key: istio-netbird-setup-key
+    #netbird.io/setup-key: istio-netbird-setup-key
 spec:
   gatewayClassName: istio-waypoint
   listeners:
