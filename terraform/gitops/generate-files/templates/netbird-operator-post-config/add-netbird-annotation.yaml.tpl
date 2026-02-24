@@ -30,9 +30,6 @@ spec:
           - key: "{{request.operation}}"
             operator: In
             value: ["CREATE", "UPDATE"]
-          - key: "{{ hostport }}"
-            operator: NotEquals
-            value: ""
       context:
         # 1. Lookup the HostPortClaim to get the HostPort resource name
         - name: hostportclaim
