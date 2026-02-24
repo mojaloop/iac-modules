@@ -74,7 +74,7 @@ spec:
       mutate:
         patchesJson6902: |-
           - op: add
-            path: "/spec/containers"
+            path: "/spec/containers/~"
             value:
               - name: netbird
                 image: netbirdio/netbird:${netbird_image_version}
