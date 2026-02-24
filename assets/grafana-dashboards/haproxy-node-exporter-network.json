@@ -38,7 +38,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -96,7 +96,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "sum(rate(node_network_receive_bytes_total{device=~\"$interface\"}[$__rate_interval]))",
           "legendFormat": "RX",
@@ -109,7 +109,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -167,7 +167,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "sum(rate(node_network_transmit_bytes_total{device=~\"$interface\"}[$__rate_interval]))",
           "legendFormat": "TX",
@@ -180,7 +180,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -238,7 +238,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "node_netstat_Tcp_CurrEstab",
           "legendFormat": "Established",
@@ -251,7 +251,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -309,7 +309,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Tcp_RetransSegs[$__rate_interval])",
           "legendFormat": "Retransmits/s",
@@ -335,7 +335,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -432,7 +432,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_network_receive_bytes_total{device=~\"$interface\"}[$__rate_interval])",
           "legendFormat": "RX {{device}}",
@@ -441,7 +441,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_network_transmit_bytes_total{device=~\"$interface\"}[$__rate_interval])",
           "legendFormat": "TX {{device}}",
@@ -454,7 +454,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -511,7 +511,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "node_network_receive_bytes_total{device=~\"$interface\"}",
@@ -522,7 +522,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "node_network_transmit_bytes_total{device=~\"$interface\"}",
@@ -550,7 +550,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -647,7 +647,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_network_receive_packets_total{device=~\"$interface\"}[$__rate_interval])",
           "legendFormat": "RX {{device}}",
@@ -656,7 +656,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_network_transmit_packets_total{device=~\"$interface\"}[$__rate_interval])",
           "legendFormat": "TX {{device}}",
@@ -669,7 +669,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -753,7 +753,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_network_receive_multicast_total{device=~\"$interface\"}[$__rate_interval])",
           "legendFormat": "RX Multicast {{device}}",
@@ -762,7 +762,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_network_receive_compressed_total{device=~\"$interface\"}[$__rate_interval])",
           "legendFormat": "RX Compressed {{device}}",
@@ -771,7 +771,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_network_transmit_compressed_total{device=~\"$interface\"}[$__rate_interval])",
           "legendFormat": "TX Compressed {{device}}",
@@ -797,7 +797,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -894,7 +894,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_network_receive_errs_total{device=~\"$interface\"}[$__rate_interval])",
           "legendFormat": "RX Errors {{device}}",
@@ -903,7 +903,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_network_transmit_errs_total{device=~\"$interface\"}[$__rate_interval])",
           "legendFormat": "TX Errors {{device}}",
@@ -916,7 +916,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1013,7 +1013,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_network_receive_drop_total{device=~\"$interface\"}[$__rate_interval])",
           "legendFormat": "RX Drops {{device}}",
@@ -1022,7 +1022,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_network_transmit_drop_total{device=~\"$interface\"}[$__rate_interval])",
           "legendFormat": "TX Drops {{device}}",
@@ -1035,7 +1035,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1119,7 +1119,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_network_receive_fifo_total{device=~\"$interface\"}[$__rate_interval])",
           "legendFormat": "RX FIFO {{device}}",
@@ -1128,7 +1128,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_network_transmit_fifo_total{device=~\"$interface\"}[$__rate_interval])",
           "legendFormat": "TX FIFO {{device}}",
@@ -1137,7 +1137,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_network_receive_frame_total{device=~\"$interface\"}[$__rate_interval])",
           "legendFormat": "RX Frame {{device}}",
@@ -1146,7 +1146,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_network_transmit_colls_total{device=~\"$interface\"}[$__rate_interval])",
           "legendFormat": "TX Collisions {{device}}",
@@ -1155,7 +1155,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_network_transmit_carrier_total{device=~\"$interface\"}[$__rate_interval])",
           "legendFormat": "TX Carrier Errors {{device}}",
@@ -1181,7 +1181,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1265,7 +1265,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "node_netstat_Tcp_CurrEstab",
           "legendFormat": "Established",
@@ -1274,7 +1274,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Tcp_ActiveOpens[$__rate_interval])",
           "legendFormat": "Active Opens/s",
@@ -1283,7 +1283,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Tcp_PassiveOpens[$__rate_interval])",
           "legendFormat": "Passive Opens/s",
@@ -1296,7 +1296,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1380,7 +1380,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Tcp_InSegs[$__rate_interval])",
           "legendFormat": "In Segments/s",
@@ -1389,7 +1389,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Tcp_OutSegs[$__rate_interval])",
           "legendFormat": "Out Segments/s",
@@ -1398,7 +1398,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Tcp_RetransSegs[$__rate_interval])",
           "legendFormat": "Retransmits/s",
@@ -1411,7 +1411,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1495,7 +1495,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Tcp_InErrs[$__rate_interval])",
           "legendFormat": "In Errors/s",
@@ -1504,7 +1504,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Tcp_OutRsts[$__rate_interval])",
           "legendFormat": "Out Resets/s",
@@ -1513,7 +1513,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_TcpExt_TCPSynRetrans[$__rate_interval])",
           "legendFormat": "SYN Retransmits/s",
@@ -1522,7 +1522,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_TcpExt_TCPTimeouts[$__rate_interval])",
           "legendFormat": "Timeouts/s",
@@ -1535,7 +1535,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1619,7 +1619,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_TcpExt_ListenDrops[$__rate_interval])",
           "legendFormat": "Listen Drops/s",
@@ -1628,7 +1628,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_TcpExt_ListenOverflows[$__rate_interval])",
           "legendFormat": "Listen Overflows/s",
@@ -1637,7 +1637,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "node_netstat_TcpExt_TCPOFOQueue",
           "legendFormat": "Out-of-Order Queue",
@@ -1646,7 +1646,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_TcpExt_TCPRcvQDrop[$__rate_interval])",
           "legendFormat": "Rcv Queue Drops/s",
@@ -1672,7 +1672,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1756,7 +1756,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Udp_InDatagrams[$__rate_interval])",
           "legendFormat": "In Datagrams/s",
@@ -1765,7 +1765,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Udp_OutDatagrams[$__rate_interval])",
           "legendFormat": "Out Datagrams/s",
@@ -1778,7 +1778,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1862,7 +1862,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Udp_InErrors[$__rate_interval])",
           "legendFormat": "In Errors/s",
@@ -1871,7 +1871,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Udp_NoPorts[$__rate_interval])",
           "legendFormat": "No Port/s",
@@ -1880,7 +1880,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Udp_RcvbufErrors[$__rate_interval])",
           "legendFormat": "Rcvbuf Errors/s",
@@ -1889,7 +1889,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Udp_SndbufErrors[$__rate_interval])",
           "legendFormat": "Sndbuf Errors/s",
@@ -1902,7 +1902,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1981,7 +1981,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Udp6_InDatagrams[$__rate_interval])",
           "legendFormat": "In Datagrams/s",
@@ -1990,7 +1990,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Udp6_OutDatagrams[$__rate_interval])",
           "legendFormat": "Out Datagrams/s",
@@ -2003,7 +2003,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2082,7 +2082,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Udp6_InErrors[$__rate_interval])",
           "legendFormat": "In Errors/s",
@@ -2091,7 +2091,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Udp6_NoPorts[$__rate_interval])",
           "legendFormat": "No Port/s",
@@ -2100,7 +2100,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Udp6_RcvbufErrors[$__rate_interval])",
           "legendFormat": "Rcvbuf Errors/s",
@@ -2109,7 +2109,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Udp6_SndbufErrors[$__rate_interval])",
           "legendFormat": "Sndbuf Errors/s",
@@ -2135,7 +2135,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2214,7 +2214,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Icmp_InMsgs[$__rate_interval])",
           "legendFormat": "In Msgs/s",
@@ -2223,7 +2223,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Icmp_OutMsgs[$__rate_interval])",
           "legendFormat": "Out Msgs/s",
@@ -2232,7 +2232,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Icmp_InErrors[$__rate_interval])",
           "legendFormat": "Errors/s",
@@ -2245,7 +2245,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2324,7 +2324,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Icmp6_InMsgs[$__rate_interval])",
           "legendFormat": "In Msgs/s",
@@ -2333,7 +2333,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Icmp6_OutMsgs[$__rate_interval])",
           "legendFormat": "Out Msgs/s",
@@ -2342,7 +2342,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Icmp6_InErrors[$__rate_interval])",
           "legendFormat": "Errors/s",
@@ -2368,7 +2368,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2447,7 +2447,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_softnet_processed_total[$__rate_interval])",
           "legendFormat": "Processed/s (cpu{{cpu}})",
@@ -2456,7 +2456,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_softnet_dropped_total[$__rate_interval])",
           "legendFormat": "Dropped/s (cpu{{cpu}})",
@@ -2465,7 +2465,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_softnet_times_squeezed_total[$__rate_interval])",
           "legendFormat": "Squeezed/s (cpu{{cpu}})",
@@ -2478,7 +2478,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2557,7 +2557,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_IpExt_InOctets[$__rate_interval])",
           "legendFormat": "In Octets/s (IPv4)",
@@ -2566,7 +2566,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_IpExt_OutOctets[$__rate_interval])",
           "legendFormat": "Out Octets/s (IPv4)",
@@ -2575,7 +2575,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Ip6_InOctets[$__rate_interval])",
           "legendFormat": "In Octets/s (IPv6)",
@@ -2584,7 +2584,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "rate(node_netstat_Ip6_OutOctets[$__rate_interval])",
           "legendFormat": "Out Octets/s (IPv6)",
@@ -2610,7 +2610,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2706,7 +2706,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "node_network_up",
           "format": "table",
@@ -2717,7 +2717,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "node_network_speed_bytes",
           "format": "table",
@@ -2728,7 +2728,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "expr": "node_network_mtu_bytes",
           "format": "table",
@@ -2776,6 +2776,24 @@
     "list": [
       {
         "current": {
+          "selected": false,
+          "text": "Prometheus",
+          "value": "prometheus"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {
           "text": [
             "eth0"
           ],
@@ -2785,7 +2803,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "prometheus"
+          "uid": "${datasource}"
         },
         "definition": "label_values(node_network_up, device)",
         "includeAll": true,
