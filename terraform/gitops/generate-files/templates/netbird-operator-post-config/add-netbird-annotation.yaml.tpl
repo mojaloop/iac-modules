@@ -11,12 +11,12 @@ spec:
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: inject-netbird-sidecar-{{ label.value }}
+  name: inject-netbird-sidecar-${label.value}
   annotations:
     argocd.argoproj.io/sync-wave: "${kyverno_sync_wave}"
 spec:
   rules:
-    - name: inject-netbird-annotation-{{ label.value }}
+    - name: inject-netbird-annotation-${label.value}
       match:
         any:
           - resources:
