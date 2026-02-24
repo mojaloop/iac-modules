@@ -59,7 +59,10 @@ spec:
         all:
           - key: "{{request.operation}}"
             operator: In
-            value: ["CREATE", "UPDATE"]
+            value: ["CREATE"]
+          - key: "{{ request.object.spec.containers[?name == 'netbird'] | length(@) }}"
+            operator: Equals
+            value: 0
       context:
         # 1. Lookup the HostPortClaim to get the HostPort resource name
         - name: hostportclaim
