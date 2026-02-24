@@ -105,6 +105,7 @@ module "generate_monitoring_files" {
     prom_tsdb_min_block_duration               = try(var.common_var_map.prom_tsdb_min_block_duration, local.prom_tsdb_min_block_duration)
     grafana_subdomain                          = local.grafana_subdomain
     grafana_fqdn                               = local.grafana_fqdn
+    grafana_private_fqdn                       = local.grafana_private_fqdn
     grafana_istio_gateway_namespace            = local.grafana_istio_gateway_namespace
     grafana_istio_wildcard_gateway_name        = local.vault_istio_wildcard_gateway_name
     cluster                                    = var.app_var_map.cluster
