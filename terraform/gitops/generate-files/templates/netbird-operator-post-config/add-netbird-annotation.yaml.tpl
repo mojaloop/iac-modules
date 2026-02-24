@@ -72,10 +72,9 @@ spec:
             urlPath: "/apis/hostport.rmb938.com/v1alpha1/hostports/{{ hostportclaim }}"
             jmesPath: "status.port"
       mutate:
-        patchesJson6902: |-
-          - op: add
-            path: "/spec/containers/~"
-            value:
+        patchStrategicMerge:
+          spec:
+            containers:
               - name: netbird
                 image: netbirdio/netbird:${netbird_image_version}
                 imagePullPolicy: Always
@@ -111,12 +110,10 @@ spec:
                   capabilities:
                     add:
                       - NET_ADMIN
-          - op: add
-            path: "/spec/securityContext"
-            value:
-              sysctls:
-                - name: net.ipv4.ip_forward
-                  value: "1"
+              securityContext:
+                sysctls:
+                  - name: net.ipv4.ip_forward
+                    value: "1"
 ---
 %{ endfor ~}
 ---
