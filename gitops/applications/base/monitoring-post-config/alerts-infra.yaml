@@ -109,3 +109,28 @@ groups:
         annotations:
           summary: "Namespace: {{ $labels.namespace }}, Job: {{ $labels.job_name }} failed"
           description: "Recent backup job has failed. Namespace: {{ $labels.namespace }} | Job: {{ $labels.job_name }}"
+  - name: mongodb_backup
+    interval: 1m
+    rules:
+      
+      - alert: MongoDB Backup Job Failed
+        expr: |
+          (
+            count by (namespace) (
+              psmdb_backup_status{status="error"} == 1
+            ) > 0
+          )
+          and on (namespace)
+          (
+            (time() - max by (namespace) (
+              psmdb_backup_completed_timestamp
+            )) > 100800
+          )
+        for: 2m
+        labels:
+          severity: critical
+          component: database
+          db_type: mongodb
+        annotations:
+          summary: "MongoDB backup failing in {{ $labels.namespace }} - no success in 28h+"
+          description: "Recent backup job has failed. Namespace: {{ $labels.namespace }}"
