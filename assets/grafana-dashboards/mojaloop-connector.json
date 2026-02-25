@@ -2925,13 +2925,13 @@
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "definition": "label_values(mojaloop_connector_outbound_party_lookup_request_count,namespace)",
+        "definition": "label_values(mojaloop_connector_default_process_start_time_seconds,namespace)",
         "includeAll": false,
         "name": "namespace",
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(mojaloop_connector_outbound_party_lookup_request_count,namespace)",
+          "query": "label_values(mojaloop_connector_default_process_start_time_seconds,namespace)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
