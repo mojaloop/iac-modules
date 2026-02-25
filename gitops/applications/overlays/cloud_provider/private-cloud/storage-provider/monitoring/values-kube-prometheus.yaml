@@ -147,7 +147,10 @@ kube-state-metrics:
     - name: ksm-crd-config
       configMap:
         name: ksm-crd-config
-
+        items:
+          - key: ksm-crd-config.yaml
+            path: ksm-crd-config.yaml
+            
   extraVolumeMounts:
     - name: ksm-crd-config
       mountPath: /etc/ksm-crd
