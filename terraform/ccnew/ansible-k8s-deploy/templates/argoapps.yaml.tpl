@@ -242,6 +242,8 @@ argocd_override:
           argocd_admin_rbac_group: "${argocd_admin_rbac_group}"
           log_level: "${zitadel_log_level}"
           rdbms_provider: "${zitadel_rdbms_provider}"
+          post_config_init_xplane_management_policies: "${zitadel_post_config_init_xplane_management_policies}"
+          post_config_init_is_existing_user: "${zitadel_post_config_init_is_existing_user}"
         zitadel_percona_provider:
           postgres_replicas: "${zitadel_perc_postgres_replicas}"
           postgres_proxy_replicas: "${zitadel_perc_postgres_proxy_replicas}"
