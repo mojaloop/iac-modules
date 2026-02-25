@@ -631,3 +631,5 @@ env_loki_bucket_storage_size: "30Gi"
 
 # env vault backup
 vault_backup_bucket_storage_size: "10Gi"
+
+env_onboard_iac_terraform_modules_tag: ""
