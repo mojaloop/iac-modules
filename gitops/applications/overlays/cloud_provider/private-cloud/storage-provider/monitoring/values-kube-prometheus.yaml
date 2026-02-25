@@ -140,6 +140,19 @@ kube-state-metrics:
           replacement: ''
           action: replace
 
+  extraArgs:
+    - --custom-resource-state-config-file=/etc/ksm-crd/ksm-crd-config.yaml
+
+  extraVolumes:
+    - name: ksm-crd-config
+      configMap:
+        name: ksm-crd-config
+
+  extraVolumeMounts:
+    - name: ksm-crd-config
+      mountPath: /etc/ksm-crd
+      readOnly: true
+
   rbac:
     create: true
     useClusterRole: true
@@ -148,50 +161,50 @@ kube-state-metrics:
         resources: ["perconaservermongodbbackups"]
         verbs: ["list", "watch"]
 
-  customResourceState:
-    enabled: true   
-    create: true   
-    config:
-      kind: CustomResourceStateMetrics
-      spec:
-        resources:
-          - groupVersionKind:
-              group: psmdb.percona.com
-              version: "v1"
-              kind: PerconaServerMongoDBBackup
-            metricNamePrefix: psmdb_backup
-            labelsFromPath:
-              backup_name: [metadata, name]
-              namespace:   [metadata, namespace]
-              cluster:     [spec, clusterName]
-              storage:     [spec, storageName]
-              type:        [spec, type]       
-            metrics:
-              - name: "status"
-                help: "MongoDB backup status"
-                each:
-                  type: StateSet
-                  stateSet:
-                    labelName: status
-                    path: [status, state]
-                    list: [waiting, requested, running, error, ready]
+  # customResourceState:
+  #   enabled: true   
+  #   create: true   
+  #   config:
+  #     kind: CustomResourceStateMetrics
+  #     spec:
+  #       resources:
+  #         - groupVersionKind:
+  #             group: psmdb.percona.com
+  #             version: "v1"
+  #             kind: PerconaServerMongoDBBackup
+  #           metricNamePrefix: psmdb_backup
+  #           labelsFromPath:
+  #             backup_name: [metadata, name]
+  #             namespace:   [metadata, namespace]
+  #             cluster:     [spec, clusterName]
+  #             storage:     [spec, storageName]
+  #             type:        [spec, type]       
+  #           metrics:
+  #             - name: "status"
+  #               help: "MongoDB backup status"
+  #               each:
+  #                 type: StateSet
+  #                 stateSet:
+  #                   labelName: status
+  #                   path: [status, state]
+  #                   list: [waiting, requested, running, error, ready]
 
-              - name: "completed_timestamp"
-                help: "Unix timestamp when MongoDB backup completed"
-                each:
-                  type: Gauge
-                  gauge:
-                    path: [status, completed]
-                    valueType: timestamp
-                    nilIsZero: true
+  #             - name: "completed_timestamp"
+  #               help: "Unix timestamp when MongoDB backup completed"
+  #               each:
+  #                 type: Gauge
+  #                 gauge:
+  #                   path: [status, completed]
+  #                   valueType: timestamp
+  #                   nilIsZero: true
 
-              - name: "info"
-                help: "MongoDB backup destination info"
-                each:
-                  type: Info
-                  info:
-                    labelsFromPath:
-                      destination: [status, destination]
+  #             - name: "info"
+  #               help: "MongoDB backup destination info"
+  #               each:
+  #                 type: Info
+  #                 info:
+  #                   labelsFromPath:
+  #                     destination: [status, destination]
 
 
 prometheus-node-exporter:
