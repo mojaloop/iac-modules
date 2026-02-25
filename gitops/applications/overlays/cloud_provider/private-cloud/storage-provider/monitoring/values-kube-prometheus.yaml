@@ -157,6 +157,9 @@ kube-state-metrics:
     create: true
     useClusterRole: true
     extraRules:
+      - apiGroups: ["apiextensions.k8s.io"]
+        resources: ["customresourcedefinitions"]
+        verbs: ["list", "watch"]
       - apiGroups: ["psmdb.percona.com"]
         resources: ["perconaservermongodbbackups"]
         verbs: ["list", "watch"]
