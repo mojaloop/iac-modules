@@ -27,7 +27,7 @@ path "${var.kv_path}/metadata/${each.value}/*" {
 }
 
 path "${var.kv_path}/data/tenancy/*" {
-  capabilities = ["read", "list"]git push
+  capabilities = ["read", "list"]
 }
 
 path "${var.kv_path}/data/gitlab/*" {
