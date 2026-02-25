@@ -143,15 +143,12 @@ kube-state-metrics:
   extraArgs:
     - --custom-resource-state-config-file=/etc/ksm-crd/ksm-crd-config.yaml
 
-  extraVolumes:
+  volumes:
     - name: ksm-crd-config
       configMap:
         name: ksm-crd-config
-        items:
-          - key: ksm-crd-config.yaml
-            path: ksm-crd-config.yaml
-            
-  extraVolumeMounts:
+
+  volumeMounts:
     - name: ksm-crd-config
       mountPath: /etc/ksm-crd
       readOnly: true
