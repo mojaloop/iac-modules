@@ -95,7 +95,6 @@ spec:
       enabled: true
       totp: false
       emailVerified: false
-      serviceAccountClientId: dfsp-jwt
       disableableCredentialTypes: []
       requiredActions: []
       notBefore: 0
