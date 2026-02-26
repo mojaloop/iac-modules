@@ -125,6 +125,6 @@ groups:
           component: database
           db_type: mongodb
         annotations:
-          summary: "Namespace: {{ $labels.namespace }},  backup name: {{ $labels.backup_name }} failed"
+          summary: "Namespace: {{ $labels.namespace }}, backup name: {{ $labels.backup_name }} failed"
           description: "Recent MongoDB backup has failed. Namespace: {{ $labels.namespace }} | Cluster: {{ $labels.cluster }} | Type: {{ $labels.type }} | Storage: {{ $labels.storage }}"
 
