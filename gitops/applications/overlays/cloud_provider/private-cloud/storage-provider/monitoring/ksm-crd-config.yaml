@@ -31,6 +31,15 @@ spec:
               valueType: timestamp
               nilIsZero: true
 
+        - name: "start_timestamp"
+          help: "Unix timestamp when MongoDB backup started"
+          each:
+            type: Gauge
+            gauge:
+              path: [status, start]
+              valueType: timestamp
+              nilIsZero: true
+
         - name: "info"
           help: "MongoDB backup destination info"
           each:
