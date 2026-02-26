@@ -99,7 +99,7 @@ groups:
           )
           and on (namespace, job_name)
           (
-            (time() - kube_job_status_start_time) < 100800
+            (time() - kube_job_status_start_time) < 90000
           )
         for: 0m
         labels:
@@ -117,7 +117,7 @@ groups:
           )
           and on (namespace, backup_name)
           (
-            (time() - psmdb_backup_start_timestamp) < 90000
+            (time() - psmdb_backup_start_timestamp) < 960
           )
         for: 0m
         labels:
