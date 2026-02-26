@@ -87,8 +87,8 @@ groups:
           summary: "Container={{ $labels.container }} in pod={{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last ${ARGOCD_ENV_prometheus_rate_interval} minutes."
           description: "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last ${ARGOCD_ENV_prometheus_rate_interval} minutes.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
-  - name: mysql_backup
-    interval: 1m
+  - name: database_backup
+    interval: 5m
     rules:
       - alert: MySQL Backup Job Failed
         expr: |
@@ -101,7 +101,7 @@ groups:
           (
             (time() - kube_job_status_start_time) < 100800
           )
-        for: 2m
+        for: 0m
         labels:
           severity: critical
           component: database
@@ -109,10 +109,6 @@ groups:
         annotations:
           summary: "Namespace: {{ $labels.namespace }}, Job: {{ $labels.job_name }} failed"
           description: "Recent backup job has failed. Namespace: {{ $labels.namespace }} | Job: {{ $labels.job_name }}"
-
-  - name: mongodb_backup
-    interval: 5m
-    rules:
       
       - alert: MongoDB Backup Job Failed
         expr: |
@@ -129,6 +125,6 @@ groups:
           component: database
           db_type: mongodb
         annotations:
-          summary: "MongoDB backup {{ $labels.backup_name }} failed ({{ $labels.namespace }})"
+          summary: "Namespace: {{ $labels.namespace }},  backup name: {{ $labels.backup_name }} failed"
           description: "Recent MongoDB backup has failed. Namespace: {{ $labels.namespace }} | Cluster: {{ $labels.cluster }} | Type: {{ $labels.type }} | Storage: {{ $labels.storage }}"
 
