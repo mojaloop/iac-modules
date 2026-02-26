@@ -29,7 +29,7 @@ spec:
       masked: false
       environmentScope: "*"
     - key: "NEXUS_DOCKER_REPO_LISTENING_PORT"
-      value: "${ARGOCD_ENV_nexus_docker_repo_listening_port}"
+      value: "443"
       protected: true
       masked: false
       environmentScope: "*"
@@ -64,12 +64,12 @@ spec:
       masked: false
       environmentScope: "*"
     - key: "OBJECTSTORE_PORT"
-      value: "${ARGOCD_ENV_obj_store_gw_port}"
+      value: "443"
       protected: true
       masked: false
       environmentScope: "*"
     - key: "TENANT_VAULT_LISTENING_PORT"
-      value: "${ARGOCD_ENV_tenant_vault_listening_port}"
+      value: "443"
       protected: true
       masked: false
       environmentScope: "*"
@@ -84,12 +84,12 @@ spec:
       masked: false
       environmentScope: "*"
     - key: "GITLAB_ADMIN_RBAC_GROUP"
-      value: "${ARGOCD_ENV_gitlab_admin_rbac_group}"
+      value: "tenant-admins"
       protected: true
       masked: false
       environmentScope: "*"
     - key: "GITLAB_READONLY_RBAC_GROUP"
-      value: "${ARGOCD_ENV_gitlab_readonly_rbac_group}"
+      value: "tenant-viewers"
       protected: true
       masked: false
       environmentScope: "*"
