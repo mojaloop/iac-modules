@@ -635,5 +635,4 @@ vault_backup_bucket_storage_size: "10Gi"
 
 env_onboard_iac_terraform_modules_tag: ""
 # env configurations
-env_config_tf_management_policies:  "Observe"
 env_config_xplane_management_policies:  "'''*'''"
