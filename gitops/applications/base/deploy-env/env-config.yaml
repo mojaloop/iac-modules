@@ -94,7 +94,7 @@ spec:
       masked: false
       environmentScope: "*"
     - key: "NETBIRD_API_HOST"
-      value: "netbird.${ARGOCD_ENV_netbird_dns_subdomain}"
+      value: "https://netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443"
       protected: true
       masked: false
       environmentScope: "*"
