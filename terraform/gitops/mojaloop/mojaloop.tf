@@ -140,6 +140,7 @@ module "generate_mojaloop_files" {
     enable_istio_injection                                            = try(var.app_var_map.enable_istio_injection, false)
     mojaloop_tolerations                                              = try(yamlencode(var.app_var_map.mojaloop_tolerations), []) ## TODO: need to pass this variable
     account_lookup_service_affinity                                   = yamlencode(var.app_var_map.workload_definitions.account_lookup_service.affinity_definition)
+    als_oracles_affinity                                              = try(yamlencode(var.app_var_map.workload_definitions.als_oracles.affinity_definition), null)
     account_lookup_admin_service_affinity                             = try(yamlencode(var.app_var_map.workload_definitions.account_lookup_service.affinity_definition), null)
     quoting_service_affinity                                          = try(yamlencode(var.app_var_map.workload_definitions.quoting_service.affinity_definition), null)
     ml_api_adapter_service_affinity                                   = try(yamlencode(var.app_var_map.workload_definitions.core_api_adapters.affinity_definition), null)
