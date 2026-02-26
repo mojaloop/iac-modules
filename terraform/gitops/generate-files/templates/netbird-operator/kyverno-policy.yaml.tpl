@@ -30,16 +30,16 @@ spec:
             path: "/spec/containers/0/ports"
             value: 
             - name: router
-              containerPort: 51820
+              containerPort: {{ hostport }}
               hostPort: {{ hostport }}
               protocol: UDP
           - op: add
             path: "/spec/containers/0/env/-"
-            value: {"name": "NB_EXTERNAL_IP", "valueFrom": {"fieldRef": {"fieldPath": "status.hostIP"}}}
+            value: {"name": "NB_EXTERNAL_IP_MAP", "valueFrom": {"fieldRef": {"fieldPath": "status.hostIP"}}}
           # Static injection of the port into the ENV (more reliable than fieldRef for annotations)
           - op: add
             path: "/spec/containers/0/env/-"
-            value: {"name": "NB_LISTEN_PORT", "value": "{{ hostport }}"}
+            value: {"name": "NB_WIREGUARD_PORT", "value": "{{ hostport }}"}
           - op: add
             path: "/spec/securityContext"
             value: {"sysctls": [{"name": "net.ipv4.ip_forward", "value": "1"}]}

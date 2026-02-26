@@ -95,15 +95,19 @@ spec:
                       key: ${netbird_setup_key_secret_key}
                 - name: NB_MANAGEMENT_URL
                   value: ${netbird_management_url}
-                - name: NB_EXTERNAL_IP
+                - name: NB_ADMIN_URL
+                  value: ${netbird_management_url}
+                - name: NB_SIGNALING_URL
+                  value: ${netbird_management_url}
+                - name: NB_EXTERNAL_IP_MAP
                   valueFrom:
                     fieldRef:
                       fieldPath: status.hostIP
-                - name: NB_LISTEN_PORT
+                - name: NB_WIREGUARD_PORT
                   value: "{{ hostport }}"
               ports:
                 - name: router
-                  containerPort: 51820
+                  containerPort: {{ hostport }}
                   hostPort: {{ hostport }}
                   protocol: UDP
               securityContext:
@@ -152,13 +156,13 @@ spec:
         patchesJson6902: |-
           - op: add
             path: "/spec/containers/0/ports"
-            value: [{"name": "router", "containerPort": 51820, "hostPort": "{{ hostport }}", "protocol": "UDP"}]
+            value: [{"name": "router", "containerPort": {{ hostport }}, "hostPort": {{ hostport }}, "protocol": "UDP"}]
           - op: add
             path: "/spec/containers/0/env/-"
-            value: {"name": "NB_EXTERNAL_IP", "valueFrom": {"fieldRef": {"fieldPath": "status.hostIP"}}}
+            value: {"name": "NB_EXTERNAL_IP_MAP", "valueFrom": {"fieldRef": {"fieldPath": "status.hostIP"}}}
           - op: add
             path: "/spec/containers/0/env/-"
-            value: {"name": "NB_LISTEN_PORT", "value": "{{ hostport }}"}
+            value: {"name": "NB_WIREGUARD_PORT", "value": "{{ hostport }}"}
           - op: add
             path: "/spec/containers/0/securityContext/privileged"
             value: true
