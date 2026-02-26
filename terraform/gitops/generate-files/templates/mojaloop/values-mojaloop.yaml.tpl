@@ -267,6 +267,10 @@ account-lookup-service:
 
 als-msisdn-oracle:
   enabled: true
+# %{ if als_oracles_affinity != null }
+  affinity:
+    ${indent(4, als_oracles_affinity)}
+# %{ endif }
   config:
     db_password: *ALS_DB_PASSWORD
     db_secret: *ALS_DB_SECRET
