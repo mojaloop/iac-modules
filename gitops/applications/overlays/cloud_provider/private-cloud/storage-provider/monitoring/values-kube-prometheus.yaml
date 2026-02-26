@@ -188,28 +188,9 @@ kube-state-metrics:
   #               each:
   #                 type: StateSet
   #                 stateSet:
-  #                   labelName: status
-  #                   path: [status, state]
-  #                   list: [waiting, requested, running, error, ready]
-
-  #             - name: "completed_timestamp"
-  #               help: "Unix timestamp when MongoDB backup completed"
-  #               each:
-  #                 type: Gauge
-  #                 gauge:
-  #                   path: [status, completed]
-  #                   valueType: timestamp
-  #                   nilIsZero: true
-
-  #             - name: "info"
-  #               help: "MongoDB backup destination info"
-  #               each:
-  #                 type: Info
-  #                 info:
-  #                   labelsFromPath:
-  #                     destination: [status, destination]
-
-
+  # Note: kube-state-metrics customResourceState configuration is managed via
+  # an external ksm-crd-config.yaml file mounted as a ConfigMap. This file
+  # intentionally does not duplicate that configuration.
 prometheus-node-exporter:
   enabled: true
   
