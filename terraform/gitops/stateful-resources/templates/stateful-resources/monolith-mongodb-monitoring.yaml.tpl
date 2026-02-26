@@ -15,12 +15,13 @@ spec:
     spec:
       containers:
       - name: mongodb-exporter
-        image: percona/mongodb_exporter:0.40
+        image: percona/mongodb_exporter:0.48
         args:
-        - --mongodb.uri=mongodb://$(MONGODB_USERNAME):$(MONGODB_PASSWORD)@${externalservice_name}.${namespace}:${port}/admin?ssl=true&tlsInsecure=true
+        - --mongodb.uri=mongodb://$(MONGODB_USERNAME):$(MONGODB_PASSWORD)@${externalservice_name}.${namespace}:${port}/admin?replicaSet=rs0&tlsInsecure=true&ssl=true
         - --mongodb.direct-connect=true
         - --compatible-mode
         - --collect-all
+        - --log.level=info
         ports:
         - name: metrics
           containerPort: 9216
