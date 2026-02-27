@@ -40,8 +40,8 @@ spec:
       name: ${replset_name}
       size: ${replset_size}
       expose:
-        enabled: false
-        type: ClusterIP
+        enabled: true
+        type: LoadBalancer
       resources:
         limits:
           cpu: ${replset_limits_cpu}
