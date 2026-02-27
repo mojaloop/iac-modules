@@ -190,7 +190,7 @@ spec:
       environmentScope: "*"
     - key: "MONITORING_DOMAIN"
       value: "${ARGOCD_ENV_monitoring_dns_subdomain}"
-      protected: false
+      protected: true
       masked: false
       environmentScope: "*"
   providerConfigsRef:
