@@ -43,10 +43,10 @@ helmCharts:
   #   valuesFile: values-loki.yaml
   #   namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: loki
-    releaseName: loki-official-helm # TODO: update release name to 'loki' once bitnami loki is removed 
-    version: 6.45.2          # TODO: use exist helm parameter and update it to this version
+    releaseName: ${ARGOCD_ENV_loki_release_name} # TODO: update release name to 'loki' once bitnami loki is removed 
+    version: ${ARGOCD_ENV_loki_helm_version}          # TODO: use exist helm parameter and update it to this version
     repo: https://grafana.github.io/helm-charts
-    valuesFile: values-loki-official-helm.yaml
+    valuesFile: values-loki.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: tempo-distributed
     releaseName: central
