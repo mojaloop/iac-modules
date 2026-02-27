@@ -485,6 +485,13 @@ global:
   # for internal usage only, not to be configured by users.
   autoscalingv2API: true
   waypoint:
+    resources:
+      requests:
+        cpu: 300m
+        memory: 256Mi
+      limits:
+        cpu: "2"
+        memory: 1Gi
     tolerations:
       - key: "netbird/ready"
         operator: "Exists"
