@@ -8,7 +8,7 @@ pilot:
   cni:
     enabled: true
   autoscaleEnabled: true
-# %{ if cluster.master_node_count + cluster.worker_node_count >= 3 }
+# %{ if cluster.master_node_count + cluster.agent_node_count >= 3 }
   autoscaleMin: 3
   autoscaleMax: 5
   replicaCount: 3

@@ -41,7 +41,7 @@ spec:
     allowedRoutes:
       namespaces:
         from: All  # Allow cross-namespace usage
-# %{ if cluster.master_node_count + cluster.worker_node_count >= 3 }
+# %{ if cluster.master_node_count + cluster.agent_node_count >= 3 }
   infrastructure:
     parametersRef:
       group: ""
