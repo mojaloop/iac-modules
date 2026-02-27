@@ -48,6 +48,7 @@ module "generate_istio_files" {
     istio_cni_platform     = var.istio_cni_platform
     istio_nb_egress_waypoint_name        = var.istio_nb_egress_waypoint_name
     istio_nb_egress_waypoint_namespace   = var.istio_nb_egress_waypoint_namespace
+    cluster                              = var.app_var_map.cluster
   }
 
   file_list       = [for f in fileset(local.istio_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.istio_app_file, f))]
