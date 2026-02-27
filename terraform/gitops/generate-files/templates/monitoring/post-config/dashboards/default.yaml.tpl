@@ -45,6 +45,9 @@ metadata:
   name: mongodb
 spec:
   folder: default
+  datasources:
+    - inputName: "DS_PROMETHEUS.INTERNAL-ODMONT.COM"
+      datasourceName: "Prometheus" 
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
