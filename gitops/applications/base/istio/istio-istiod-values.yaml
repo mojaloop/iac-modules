@@ -8,25 +8,9 @@ pilot:
   cni:
     enabled: true
   autoscaleEnabled: true
-# %{ if cluster.master_node_count + cluster.agent_node_count >= 3 }
-  autoscaleMin: 3
-  autoscaleMax: 5
-  replicaCount: 3
-  affinity:
-    podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-              - key: app
-                operator: In
-                values:
-                  - istiod
-          topologyKey: "kubernetes.io/hostname"
-# %{ else }
   autoscaleMin: 1
   autoscaleMax: 5
   replicaCount: 1
-# %{ endif }
   rollingMaxSurge: 100%
   rollingMaxUnavailable: 25%
 
