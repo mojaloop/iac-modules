@@ -36,12 +36,12 @@ helmCharts:
     repo: https://prometheus-community.github.io/helm-charts
     valuesFile: values-kube-prometheus.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
-  - name: grafana-loki
-    releaseName: ${ARGOCD_ENV_loki_release_name}
-    version: ${ARGOCD_ENV_loki_helm_version}
-    repo: oci://registry-1.docker.io/bitnamicharts
-    valuesFile: values-loki.yaml
-    namespace: ${ARGOCD_ENV_monitoring_namespace}
+  # - name: grafana-loki
+  #   releaseName: ${ARGOCD_ENV_loki_release_name}
+  #   version: ${ARGOCD_ENV_loki_helm_version}
+  #   repo: oci://registry-1.docker.io/bitnamicharts
+  #   valuesFile: values-loki.yaml
+  #   namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: loki
     releaseName: loki-official-helm # TODO: update release name to 'loki' once bitnami loki is removed 
     version: 6.45.2          # TODO: use exist helm parameter and update it to this version
@@ -60,12 +60,12 @@ helmCharts:
     repo:  https://grafana.github.io/helm-charts
     valuesFile: values-vulture.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
-  - name: loki-canary       #remove with bitnami loki
-    releaseName: control-center-loki-canary
-    version: ${ARGOCD_ENV_loki_canary_helm_version}
-    repo: https://grafana.github.io/helm-charts
-    valuesFile: values-loki-canary.yaml
-    namespace: ${ARGOCD_ENV_monitoring_namespace}
+  # - name: loki-canary       #remove with bitnami loki
+  #   releaseName: control-center-loki-canary
+  #   version: ${ARGOCD_ENV_loki_canary_helm_version}
+  #   repo: https://grafana.github.io/helm-charts
+  #   valuesFile: values-loki-canary.yaml
+  #   namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: alloy
     releaseName: alloy
     version: 1.4.0           #parametrize helm version
