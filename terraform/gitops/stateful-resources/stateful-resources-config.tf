@@ -103,7 +103,7 @@ resource "local_file" "strimzi-crs" {
 
       node_pool_name               = "${each.key}-nodepool"
       node_pool_size               = each.value.local_operator_config.node_pool_size
-      scrape_interval              = each.value.local_operator_config.scrape_interval
+      scrape_interval              = try(each.value.local_operator_config.scrape_interval, null)
       node_pool_storage_size       = each.value.local_operator_config.kafka_data.storage_size
       node_pool_storage_class_name = each.value.local_operator_config.kafka_data.storage_class_name
       node_pool_affinity           = each.value.local_operator_config.kafka_data.affinity_definition
