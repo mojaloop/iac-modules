@@ -109,7 +109,7 @@ crossplane_packages_objectstores_version: "v0.2.0"
 crossplane_packages_aws_documentdb_version: "v0.6.0"
 crossplane_packages_aws_rds_version: "v0.4.0"
 crossplane_packages_sc_mysql_version: "v0.8.0"
-crossplane_packages_sc_mongodb_version: "v0.5.1"
+crossplane_packages_sc_mongodb_version: "v0.5.1" # TODO: update when PR released https://github.com/mojaloop/iac-crossplane-packages/pull/121/changes
 max_pods_per_node: 110
 velero_plugin_version: 'v1.12.1'
 velero_helm_version: '10.0.1'
