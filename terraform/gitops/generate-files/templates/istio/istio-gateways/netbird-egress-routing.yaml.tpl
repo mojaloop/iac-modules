@@ -41,3 +41,34 @@ spec:
     allowedRoutes:
       namespaces:
         from: All  # Allow cross-namespace usage
+# %{ if cluster.master_node_count + cluster.agent_node_count >= 3 }
+  infrastructure:
+    parametersRef:
+      group: ""
+      kind: ConfigMap
+      name: nb-egress-waypoint
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nb-egress-waypoint
+data:
+  deployment: |
+    spec:
+      replicas: 3
+      template:
+        spec:
+          topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: "topology.kubernetes.io/zone"
+            whenUnsatisfiable: ScheduleAnyway
+            labelSelector:
+              matchLabels:
+                gateway.networking.k8s.io/gateway-name: nb-egress-waypoint
+          - maxSkew: 1
+            topologyKey: "kubernetes.io/hostname"
+            whenUnsatisfiable: DoNotSchedule
+            labelSelector:
+              matchLabels:
+                gateway.networking.k8s.io/gateway-name: nb-egress-waypoint
+# %{ endif }
