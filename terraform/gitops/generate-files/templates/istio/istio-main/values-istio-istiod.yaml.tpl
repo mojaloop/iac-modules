@@ -187,6 +187,9 @@ meshConfig:
       ISTIO_META_DNS_CAPTURE: "true"
       # Enable automatic address allocation, optional
       ISTIO_META_DNS_AUTO_ALLOCATE: "true"
+  defaultHttpRetryPolicy:
+    attempts: 2
+    retryOn: "reset" ## "reset,connect-failure,refused-stream"
   extensionProviders:
     - name: ${oathkeeper_auth_provider_name}
       envoyExtAuthzHttp:
