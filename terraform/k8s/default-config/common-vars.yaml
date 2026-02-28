@@ -126,7 +126,7 @@ internal_cc_hosts: 'vault,grafana,loki,mimir,traces'
 internal_sc_hosts: 'cephobjectstore'
 netbird_target_labels: 'app=rook-ceph-operator,app=csi-rbdplugin-provisioner,app=csi-rbdplugin,app=csi-cephfsplugin-provisioner,app=csi-cephfsplugin,gateway.networking.k8s.io/gateway-name=nb-egress-waypoint'
 opt_out_namespace_list: 'strimzi,storage'
-netbird_image_version: '0.60.3'
+netbird_image_version: '0.66.0'
 netbird_operator_helm_version: '0.1.15'
 kyverno_chart_version: '3.5.2'
 vault_backup_schedule: "0 */12 * * *" # Every 12 hours
