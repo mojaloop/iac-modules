@@ -1,0 +1,223 @@
+#gitlab config
+apiVersion: gitlab.mojaloop.io/v1alpha1
+kind: EnvConfig
+metadata:
+  name: environments
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  parameters:
+    gitlabFqdn: gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}
+    namespace: ${ARGOCD_ENV_gitlab_namespace}
+    argocdNamespace:  ${ARGOCD_ENV_argocd_namespace}
+    environments: ${ARGOCD_ENV_environment_list}
+    classicHelmRepoBaseUrl: "${ARGOCD_ENV_classic_helm_repo_base_url}"
+    ociHelmRepoBaseUrl: "${ARGOCD_ENV_oci_helm_repo_base_url}"
+    groupVariables:
+    - key: "NEXUS_FQDN"
+      value: "nexusproxy.${ARGOCD_ENV_nexus_dns_subdomain}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "REGISTRY_MIRROR_FQDN"
+      value: "harbor-registry.${ARGOCD_ENV_harbor_dns_subdomain}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "ZITADEL_FQDN"
+      value: "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "NEXUS_DOCKER_REPO_LISTENING_PORT"
+      value: "443"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "OBJECTSTORE_FQDN"
+      value: "${ARGOCD_ENV_object_storage_endpoint}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "OBJECTSTORE_REGIONAL_ENDPOINT"
+      value: "${ARGOCD_ENV_object_storage_regional_endpoint}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "OBJECTSTORE_REGION"
+      value: "${ARGOCD_ENV_object_storage_region}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "OBJECT_STORAGE_PATH_STYLE"
+      value: "${ARGOCD_ENV_object_storage_path_style}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "OBJECT_STORE_INSECURE_CONNECTION"
+      value: "${ARGOCD_ENV_object_store_insecure_connection}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "OBJECT_STORE_INSECURE_SKIP_VERIFY"
+      value: "${ARGOCD_ENV_object_store_insecure_skip_verify}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "OBJECTSTORE_PORT"
+      value: "443"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "TENANT_VAULT_LISTENING_PORT"
+      value: "443"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "KV_SECRET_PATH"
+      value: "${ARGOCD_ENV_vault_kv_secret}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "VAULT_SERVER_URL"
+      value: "https://$VAULT_FQDN"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "GITLAB_ADMIN_RBAC_GROUP"
+      value: "tenant-admins"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "GITLAB_READONLY_RBAC_GROUP"
+      value: "tenant-viewers"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "NETBIRD_API_HOST"
+      value: "https://netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "NETBIRD_VERSION"
+      value: "${ARGOCD_ENV_netbird_client_version}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "KUBERNETES_OIDC_ENABLED"
+      value: "true"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "KUBERNETES_OIDC_ISSUER"
+      value: "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "KUBERNETES_OIDC_GROUPS_PREFIX"
+      value: ""
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "KUBERNETES_OIDC_USERNAME_PREFIX"
+      value: ""
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "KUBERNETES_OIDC_USERNAME_CLAIM"
+      value: "email"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "KUBERNETES_OIDC_GROUPS_CLAIM"
+      value: "${ARGOCD_ENV_kubernetes_oidc_groups_claim}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "MIMIR_GW_FQDN"
+      value: "https://mimir.${ARGOCD_ENV_grafana_dns_subdomain}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "CC_CIDR_BLOCK"
+      value: "${ARGOCD_ENV_cc_cidr_block}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "SC_CIDR_BLOCK"
+      value: "${ARGOCD_ENV_sc_cidr_block}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "CC_DOMAIN"
+      value: "${ARGOCD_ENV_cc_domain}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "SC_DOMAIN"
+      value: "${ARGOCD_ENV_sc_domain}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "NEXUS_READONLY_USERNAME"
+      value: "${ARGOCD_ENV_nexus_readonly_username}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "REGISTRY_MIRROR_READONLY_USERNAME"
+      value: "${ARGOCD_ENV_harbor_readonly_username}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+    - key: "sc_api_host"
+      value: "${ARGOCD_ENV_capi_cluster_kubeapi_fqdn}"
+      protected: false
+      masked: false
+      environmentScope: "*"
+    - key: "sc_api_port"
+      value: "${ARGOCD_ENV_capi_cluster_kubeapi_port}"
+      protected: false
+      masked: false
+      environmentScope: "*"
+    - key: "HELM_OCI_PROXY_REPOS"
+      value: "${ARGOCD_ENV_nexus_helm_oci_proxy_repos}"
+      protected: false
+      masked: false
+      environmentScope: "*"
+    - key: "HELM_CLASSIC_PROXY_REPOS"
+      value: "${ARGOCD_ENV_nexus_helm_classic_proxy_repos}"
+      protected: false
+      masked: false
+      environmentScope: "*"
+    - key: "MONITORING_DOMAIN"
+      value: "${ARGOCD_ENV_monitoring_dns_subdomain}"
+      protected: true
+      masked: false
+      environmentScope: "*"
+  providerConfigsRef:
+    gitlabProvider: gitlab-provider
+    kubernetesProvider: kubernetes-provider
+    vaultProvider: vault-provider
+    httpProvider: http-conf
+  managementPolicies:
+    - ${ARGOCD_ENV_env_config_xplane_management_policies}
+
+
+---
+#Vault config
+apiVersion: vault.mojaloop.io/v1alpha1
+kind: VaultEnvConfig
+metadata:
+  name: environments
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  parameters:
+    environments: ${ARGOCD_ENV_environment_list}
+    kvPath: "${ARGOCD_ENV_vault_kv_secret}"
+    envTokenTTL: "${ARGOCD_ENV_env_token_ttl}"
+    namespace: ${ARGOCD_ENV_vault_namespace}
+  providerConfigsRef:
+    vaultProvider: vault-provider
+    kubernetesProvider: kubernetes-provider
+    gitlabProvider: gitlab-provider
+  managementPolicies:
+    - ${ARGOCD_ENV_env_config_xplane_management_policies}

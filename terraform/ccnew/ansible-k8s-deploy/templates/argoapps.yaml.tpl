@@ -581,8 +581,10 @@ argocd_override:
           ceph_bucket_max_objects: "${ceph_bucket_max_objects}"
           ceph_bucket_max_size:  "${ceph_bucket_max_size}"
           env_token_ttl: "${env_token_ttl}"
+          tf_management_policies: "${env_config_tf_management_policies}"
+          xplane_management_policies: "${env_config_xplane_management_policies}"
         onboard:
-          terraform_modules_tag: "${iac_terraform_modules_tag}"
+          terraform_modules_tag: "${env_onboard_iac_terraform_modules_tag != "" ? env_onboard_iac_terraform_modules_tag : iac_terraform_modules_tag}"
           object_storage_provider: "${object_storage_provider}"
           cloud_platform: "${cloud_platform}"
           cloud_region: "${cloud_region}"
