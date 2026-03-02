@@ -9,7 +9,7 @@ loki:
   # NEW SCHEMA - tsdb/v13 with different prefix from old boltdb-shipper
   schemaConfig:
     configs:
-      - from: "2024-11-04"  # Use today's date for new schema start
+      - from: "2024-11-04"
         store: tsdb
         object_store: s3
         schema: v13
@@ -122,7 +122,7 @@ ingester:
         name: ${object_store_loki_credentials_secret_name}
   persistence:
     enabled: true
-    size: 10Gi
+    size: ${loki_ingester_pvc_size}
   zoneAwareReplication:
     enabled: false
   extraArgs:
