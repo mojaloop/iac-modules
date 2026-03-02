@@ -87,6 +87,44 @@ groups:
           summary: "Container={{ $labels.container }} in pod={{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last ${ARGOCD_ENV_prometheus_rate_interval} minutes."
           description: "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last ${ARGOCD_ENV_prometheus_rate_interval} minutes.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
-
-
+  - name: database_backup
+    interval: 5m
+    rules:
+      - alert: MySQL Backup Job Failed
+        expr: |
+          (
+            kube_job_status_failed{
+              job_name=~"xb-cron-common-(mojaloop|platform).*"
+            } > 0
+          )
+          and on (namespace, job_name)
+          (
+            (time() - kube_job_status_start_time) < 90000
+          )
+        for: 0m
+        labels:
+          severity: critical
+          component: database
+          db_type: mysql
+        annotations:
+          summary: "Namespace: {{ $labels.namespace }}, Job: {{ $labels.job_name }} failed"
+          description: "Recent backup job has failed. Namespace: {{ $labels.namespace }} | Job: {{ $labels.job_name }}"
+      
+      - alert: MongoDB Backup Job Failed
+        expr: |
+          (
+            psmdb_backup_status{status="error"} == 1
+          )
+          and on (namespace, backup_name)
+          (
+            (time() - psmdb_backup_start_timestamp) < 90000
+          )
+        for: 0m
+        labels:
+          severity: critical
+          component: database
+          db_type: mongodb
+        annotations:
+          summary: "Namespace: {{ $labels.namespace }}, backup name: {{ $labels.backup_name }} failed"
+          description: "Recent MongoDB backup has failed. Namespace: {{ $labels.namespace }} | Cluster: {{ $labels.cluster }} | Type: {{ $labels.type }} | Storage: {{ $labels.storage }}"
 
