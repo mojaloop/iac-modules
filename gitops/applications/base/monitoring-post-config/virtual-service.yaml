@@ -55,7 +55,7 @@ spec:
             prefix: /
       route:
         - destination:
-            host: ${ARGOCD_ENV_loki_release_name}-gateway
+            host: "${ARGOCD_ENV_loki_release_name}-gateway"
             port:
               number: 80
 ---
