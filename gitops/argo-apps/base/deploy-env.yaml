@@ -165,8 +165,5 @@ spec:
         - name: "classic_helm_repo_base_url"
           value: "https://nexus.${ARGOCD_ENV_nexus_ui_dns_subdomain}/repository"
 
-        - name: "env_config_tf_management_policies"
-          value: "${ARGOCD_ENV_deploy_env_config_tf_management_policies}"
-
         - name: "env_config_xplane_management_policies"
           value: "${ARGOCD_ENV_deploy_env_config_xplane_management_policies}"
