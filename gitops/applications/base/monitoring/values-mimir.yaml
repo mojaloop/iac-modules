@@ -173,7 +173,7 @@ gateway:
   enabledNonEnterprise: true
   nginx:
     config:
-      resolver: "169.254.20.10"
+      resolver: ${ARGOCD_ENV_dns_resolver}
 
 # Memcached configuration
 chunks-cache:
