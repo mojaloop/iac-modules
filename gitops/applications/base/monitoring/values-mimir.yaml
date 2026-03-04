@@ -171,8 +171,9 @@ alertmanager:
 
 gateway:
   enabledNonEnterprise: true
-  nginxConfig:
-    resolver: "169.254.20.10 valid=5s ipv6=off"
+  nginx:
+    config:
+      resolver: "169.254.20.10"
 
 # Memcached configuration
 chunks-cache:
