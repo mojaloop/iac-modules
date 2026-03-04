@@ -171,6 +171,8 @@ alertmanager:
 
 gateway:
   enabledNonEnterprise: true
+  dnsConfig:
+    resolver: 169.254.20.10
 
 # Memcached configuration
 chunks-cache:
