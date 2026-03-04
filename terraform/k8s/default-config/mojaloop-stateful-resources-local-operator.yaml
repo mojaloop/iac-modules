@@ -433,7 +433,7 @@ mojaloop-kafka:
     resource_namespace: moja-kafka
     override_service_name: mojaloop-kafka-kafka-bootstrap
     node_pool_size: 3
-    scrape_interval: 60
+    scrape_interval: 60s
     resource_helm_repo: oci://registry-1.docker.io/bitnamicharts
     resource_helm_chart: kafka
     resource_helm_chart_version: 26.5.0
