@@ -195,7 +195,10 @@ resource "local_file" "dbaas-crs-mysql" {
         dbdeploy_name_prefix         = each.value.external_resource_config.dbdeploy_name_prefix
         namespace                    = each.value.resource_namespace
         appNamespace                 = each.value.resource_namespace
-        consumer_app_externalname_services = jsonencode(local.consumer_app_externalname_services[each.key])
+
+        consumer_app_externalname_services         = jsonencode(local.consumer_app_externalname_services[each.key])
+        consumer_app_replica_externalname_services = jsonencode(local.consumer_app_replica_externalname_services[each.key])
+
         consumer_app_secret          = local.ca_bundle_secrets_by_monolith[each.key]
         cr_version                   = each.value.dbaas_resource_config.cr_version
         db_username                  = each.value.external_resource_config.username
@@ -449,6 +452,18 @@ locals {
     db_server => [
       for _, resource in local.managed_stateful_resources :
       resource.logical_service_config.logical_service_name
+      if resource.monolith_db_server == db_server && resource.enabled
+    ]
+  }
+
+  consumer_app_replica_externalname_services = {
+    for db_server in distinct([
+      for _, resource in local.managed_stateful_resources :
+      resource.monolith_db_server if resource.enabled
+    ]) :
+    db_server => [
+      for _, resource in local.managed_stateful_resources :
+      resource.logical_service_config.logical_replica_service_name
       if resource.monolith_db_server == db_server && resource.enabled
     ]
   }

@@ -15,6 +15,7 @@ spec:
     dbUsername: ${db_username}
     dbName: "${db_name}"
     consumerAppsExternalServices: ${consumer_app_externalname_services}
+    consumerAppsReplicaExternalServices: ${consumer_app_replica_externalname_services}
     waypointName: ${istio_nb_egress_waypoint_name}
     waypointNamespace: ${istio_nb_egress_waypoint_namespace}
     consumerAppsSecret:
@@ -53,6 +54,9 @@ spec:
         annotations: {}
         labels: {}
       replicas: ${haproxy_replicas}
+      exposeReplicas:
+        type: LoadBalancer
+        onlyReaders: true
       resources:
         requests:
           memory: ${haproxy_requests_memory}
