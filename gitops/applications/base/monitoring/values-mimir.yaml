@@ -192,9 +192,9 @@ rollout_operator:
   enabled: false
 
 # Global settings
-global:
-  dnsService: "external-dns" 
-  dnsNamespace: "ext-dns"
+# global:
+#   dnsService: "external-dns" 
+#   dnsNamespace: "ext-dns"
 
 # Runtime configuration for memberlist (gossip ring)
 runtimeConfig: {}
