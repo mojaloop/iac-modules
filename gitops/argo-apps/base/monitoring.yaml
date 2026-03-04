@@ -327,3 +327,6 @@ spec:
 
         - name: "dns_hyphenated_subdomain"
           value: "${ARGOCD_ENV_monitoring_monitoring_dns_hyphenated_subdomain}"
+
+        - name: "dns_resolver"
+          value: "${ARGOCD_ENV_dns_bind_address}"
