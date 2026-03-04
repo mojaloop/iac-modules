@@ -171,10 +171,8 @@ alertmanager:
 
 gateway:
   enabledNonEnterprise: true
-  dnsPolicy: "None"
-  dnsConfig:
-    nameservers:
-      - 169.254.20.10
+  nginxConfig:
+    resolver: "169.254.20.10 valid=5s ipv6=off"
 
 # Memcached configuration
 chunks-cache:
