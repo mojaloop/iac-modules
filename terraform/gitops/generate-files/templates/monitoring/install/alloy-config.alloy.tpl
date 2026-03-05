@@ -76,12 +76,19 @@ stage.static_labels {
     }
 }
 
-forward_to = [loki.write.local_loki.receiver]
+forward_to = [loki.write.local_loki.receiver, loki.write.central_loki.receiver]
 }
 
-// Push to Loki Gateway
+// Push to Local Loki Gateway
 loki.write "local_loki" {
 endpoint {
     url = "http://${loki_release_name}-gateway.monitoring.svc.cluster.local/loki/api/v1/push"
 }
+}
+
+// Push to Central Loki
+loki.write "central_loki" {
+    endpoint {
+        url = "https://loki.int.ccdev.drpp-onprem.global/loki/api/v1/push"
+    }
 }
