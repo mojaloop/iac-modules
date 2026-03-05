@@ -72,3 +72,15 @@ helmCharts:
     repo: https://grafana.github.io/helm-charts
     valuesFile: values-alloy.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
+
+patches:
+  - target:
+      kind: StatefulSet
+      name: central-tempo-ingester
+    patch: |-
+      apiVersion: apps/v1
+      kind: StatefulSet
+      metadata:
+        name: central-tempo-ingester
+      spec:
+        serviceName: central-tempo-ingester-discovery
