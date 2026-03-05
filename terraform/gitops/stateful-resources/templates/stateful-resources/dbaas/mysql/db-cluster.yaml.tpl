@@ -57,6 +57,7 @@ spec:
       exposeReplicas:
         type: LoadBalancer
         onlyReaders: true
+        externalServiceName: ${replica_externalservice_name}
       resources:
         requests:
           memory: ${haproxy_requests_memory}
