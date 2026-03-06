@@ -135,3 +135,6 @@ spec:
 
         - name: "prometheus_rate_interval"
           value: "${ARGOCD_ENV_monitoring_monitoring_prometheus_rate_interval}"
+
+        - name: "pm_url"
+          value: "${ARGOCD_ENV_monitoring_monitoring_pm_url}"
