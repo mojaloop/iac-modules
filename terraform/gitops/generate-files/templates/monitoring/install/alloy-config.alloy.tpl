@@ -89,6 +89,6 @@ endpoint {
 // Push to Central Loki
 loki.write "central_loki" {
     endpoint {
-        url = "https://loki.int.ccdev.drpp-onprem.global/loki/api/v1/push"
+        url = "${loki_endpoint}/loki/api/v1/push"
     }
 }
