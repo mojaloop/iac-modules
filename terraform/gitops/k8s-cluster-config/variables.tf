@@ -223,7 +223,7 @@ variable "traces_endpoint" {
   description = "tracing server endpoint"
 }
 
-variable "loki_endpoint" {
+variable "central_loki_endpoint" {
   type        = string
   description = "central loki endpoint"
 }

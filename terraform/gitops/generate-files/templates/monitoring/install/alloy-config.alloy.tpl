@@ -89,6 +89,6 @@ endpoint {
 // Push to Central Loki
 loki.write "central_loki" {
     endpoint {
-        url = "${loki_endpoint}/loki/api/v1/push"
+        url = "${central_loki_endpoint}/loki/api/v1/push"
     }
 }
