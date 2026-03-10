@@ -89,6 +89,24 @@ spec:
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
 metadata:
+  name: prometheus-pm
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasource:
+    name: Prometheus-PM
+    type: prometheus
+    access: proxy
+    url: ${ARGOCD_ENV_pm_url}
+    isDefault: false
+    editable: true
+    jsonData:
+      timeInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
   name: loki
 spec:
   instanceSelector:
@@ -181,5 +199,5 @@ metadata:
 spec:
   instanceSelector:
     matchLabels:
-      dashboards: "grafana"      
+      dashboards: "grafana"
 ---
