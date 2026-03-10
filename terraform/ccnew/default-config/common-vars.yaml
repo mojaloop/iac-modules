@@ -290,7 +290,7 @@ loki_bucket_name: "control-center-loki-bucket"
 loki_bucket_max_objects: "'1000000'"
 loki_bucket_storage_size: "50Gi"
 
-loki_helm_version: "2.13.0"
+loki_helm_version: "6.45.2"
 loki_canary_helm_version: "0.14.0"
 loki_retention_period: "3d"
 loki_ingester_max_chunk_age: "2h"

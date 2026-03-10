@@ -1,399 +1,459 @@
+# values: https://github.com/grafana/loki/blob/helm-loki-6.45.2/production/helm/loki/values.yaml
+
+deploymentMode: Distributed
+
 loki:
-  image:
-    registry: docker.io
-    repository: grafana/loki
-    tag: 2.9.3
-    pullPolicy: IfNotPresent
-  overrideConfiguration:
-    # https://grafana.com/docs/loki/latest/operations/storage/retention/
-    compactor:
-      retention_enabled: true # enable deletion using compactor
-      shared_store: s3
-    limits_config:
-      volume_enabled: true
-      retention_period: ${loki_ingester_retention_period}
-      allow_structured_metadata: true
-    ingester:
-      max_chunk_age: ${loki_ingester_max_chunk_age}
-      lifecycler:
-        ring:
-          replication_factor: ${loki_ingester_replication_factor}
-    query_scheduler:
-      max_outstanding_requests_per_tenant: 2048
-    schema_config:
-      configs:
-      - from: 2020-10-24
-        store: boltdb-shipper
+  auth_enabled: false
+  extraArgs:
+    - -config.expand-env=true
+  # NEW SCHEMA - tsdb/v13 with different prefix from old boltdb-shipper
+  schemaConfig:
+    configs:
+      - from: "2024-11-04"
+        store: tsdb
         object_store: s3
-        schema: v11
+        schema: v13
         index:
-          prefix: index_
+          prefix: tsdb_index_  # Different from old 'index_'
           period: 24h
-    storage_config:
-      boltdb_shipper:
-        shared_store: s3
-      aws:
-        # s3 is alias for aws
-        s3forcepathstyle: ${object_storage_path_style}
-        endpoint: ${object_store_regional_endpoint}
-        region: ${object_store_region}
-        insecure: ${object_store_insecure_connection}
-        access_key_id: $${CEPH_LOKI_USERNAME}
-        secret_access_key: $${CEPH_LOKI_PASSWORD}
-        bucketnames: ${loki_bucket}
-        http_config:
-          insecure_skip_verify: ${object_store_insecure_skip_verify}
+
+  # SAME S3 BUCKET - but with proper path separation
+  storage:
+    type: s3
+    bucketNames:
+      chunks: ${loki_bucket}
+      ruler: ${loki_bucket}
+      admin: ${loki_bucket}
+    s3:
+      endpoint: ${object_store_regional_endpoint}
+      region: ${object_store_region}
+      accessKeyId: $${CEPH_LOKI_USERNAME}
+      secretAccessKey: $${CEPH_LOKI_PASSWORD}
+      s3ForcePathStyle: ${object_storage_path_style}
+      insecure: ${object_store_insecure_connection}
+      http_config:
+        insecure_skip_verify: ${object_store_insecure_skip_verify}
+
+  server:
+    grpc_server_max_recv_msg_size: 8388608  # 8MB
+
+  limits_config:
+    retention_period: ${loki_ingester_retention_period}
+    volume_enabled: true
+
+  compactor:
+    retention_enabled: true
+    working_directory: /var/loki/compactor
+    compaction_interval: 10m
+    retention_delete_delay: 2h
+    retention_delete_worker_count: 150
+    delete_request_store: s3
+
+
+  ingester:
+    max_chunk_age: ${loki_ingester_max_chunk_age}
+    chunk_encoding: snappy
+    lifecycler:
+      ring:
+        replication_factor: ${loki_ingester_replication_factor}
+
+  memberlistConfig:
+    join_members:
+      - "loki-memberlist:7946"
+
+
+  commonConfig:
+    replication_factor: ${loki_ingester_replication_factor}
+
+  # TSDB Shipper config - this separates from boltdb-shipper paths
+  storage_config:
+    tsdb_shipper:
+      active_index_directory: /var/loki/tsdb-index
+      cache_location: /var/loki/tsdb-cache
+    hedging:
+      at: "250ms"
+      max_per_second: 20
+      up_to: 3
+
+  rulerConfig:
+    enable_api: true
+    enable_alertmanager_v2: false  
+    wal:
+      dir: /var/loki/ruler-wal
+    storage:
+      type: local 
+      local:
+        directory: /etc/loki/rules
+    rule_path: /tmp/rules
+    ring:
+      kvstore:
+        store: memberlist 
+    # How often to evaluate rules
+    evaluation_interval: 5m
+    # How often to poll for rule changes from storage
+    poll_interval: 5m
+    remote_write:
+      enabled: true
+      clients:
+        prometheus:
+          url: http://prometheus-operated:9090/api/v1/write
+
+# Global extraEnvFrom for all components
+global:
+  dnsService: "external-dns" 
+  dnsNamespace: "external-dns"
+  extraEnvFrom:
+    - secretRef:
+        name: ${object_store_loki_credentials_secret_name}
+
+# Ingester configuration
+ingester:
+  replicas: ${loki_ingester_replica_count}
+  maxUnavailable: 1
+  resources:
+    requests:
+      cpu: ${loki_ingester_requests_cpu}
+      memory: ${loki_ingester_requests_memory}
+    limits:
+      cpu: ${loki_ingester_limits_cpu}
+      memory: ${loki_ingester_limits_memory}
+  extraEnvFrom:
+    - secretRef:
+        name: ${object_store_loki_credentials_secret_name}
+  persistence:
+    enabled: true
+    size: ${loki_ingester_pvc_size}
+  zoneAwareReplication:
+    enabled: false
+  extraArgs:
+    - -config.expand-env=true
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
 %{if length(tolerations) > 0 ~}
   tolerations:
 %{ for t in tolerations ~}
-    - effect: "${t.effect}"
-      key: "${t.key}"
-      operator: "${t.operator}"
-      value: "${t.value}"
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
 %{ endfor ~}
-%{endif ~}
+%{ endif ~}
 
-metrics:
+# Distributor configuration
+distributor:
+  replicas: ${loki_distributor_replica_count}
+  maxUnavailable: 1
+  resources:
+    requests:
+      cpu: ${loki_distributor_requests_cpu}
+      memory: ${loki_distributor_requests_memory}
+    limits:
+      cpu: ${loki_distributor_limits_cpu}
+      memory: ${loki_distributor_limits_memory}
+  extraEnvFrom:
+    - secretRef:
+        name: ${object_store_loki_credentials_secret_name}
+  extraArgs:
+    - -config.expand-env=true
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
+
+# Querier configuration
+querier:
+  replicas: ${loki_querier_replica_count}
+  maxUnavailable: 1
+  resources:
+    limits:
+      cpu: ${loki_querier_limits_cpu}
+      memory: ${loki_querier_limits_memory}
+  extraEnvFrom:
+    - secretRef:
+        name: ${object_store_loki_credentials_secret_name}
+  extraArgs:
+    - -config.expand-env=true
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
+
+# Query Frontend configuration
+queryFrontend:
+  replicas: 1
+  resources:
+    limits:
+      cpu: ${loki_query_frontend_limits_cpu}
+      memory: ${loki_query_frontend_limits_memory}
+  extraEnvFrom:
+    - secretRef:
+        name: ${object_store_loki_credentials_secret_name}
+  extraArgs:
+    - -config.expand-env=true
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
+
+# Query Scheduler configuration
+queryScheduler:
+  replicas: 1
+  resources:
+    limits:
+      cpu: ${loki_query_scheduler_limits_cpu}
+      memory: ${loki_query_scheduler_limits_memory}
+  extraEnvFrom:
+    - secretRef:
+        name: ${object_store_loki_credentials_secret_name}
+  extraArgs:
+    - -config.expand-env=true
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
+
+
+# Compactor configuration
+compactor:
+  replicas: 1
+  resources:
+    limits:
+      cpu: ${loki_compactor_limits_cpu}
+      memory: ${loki_compactor_limits_memory}
+  extraEnvFrom:
+    - secretRef:
+        name: ${object_store_loki_credentials_secret_name}
+  persistence:
+    enabled: true
+    size: 10Gi
+  extraArgs:
+    - -config.expand-env=true
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
+
+# Ruler configuration
+ruler:
   enabled: true
+  replicas: 1
+  extraEnvFrom:
+    - secretRef:
+        name: ${object_store_loki_credentials_secret_name}
+  extraArgs:
+    - -config.expand-env=true
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+  persistence:
+    enabled: true
+    size: 10Gi
+  extraVolumes:
+    - name: rules-tmp
+      emptyDir: {}
+    - name: ruler-rules
+      configMap:
+        name: loki-ruler-rules
+  extraVolumeMounts:
+    - name: rules-tmp
+      mountPath: /tmp/rules
+    - name: ruler-rules
+      mountPath: /etc/loki/rules/fake
+      readOnly: true
+  directories: {}
+
+# Gateway configuration
+gateway:
+  enabled: true
+  replicas: 1
+  verboseLogging: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+  service:
+    type: ClusterIP
+    port: 80
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
+
+# Index Gateway (required for TSDB)
+indexGateway:
+  enabled: true
+  replicas: 1
+  extraEnvFrom:
+    - secretRef:
+        name: ${object_store_loki_credentials_secret_name}
+  extraArgs:
+    - -config.expand-env=true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  persistence:
+    enabled: true
+    size: 10Gi
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
+
+# Chunks Cache (Memcached)
+chunksCache:
+  enabled: true
+  replicas: 1
+  allocatedMemory: 1400
+  maxItemMemory: 5
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 2Gi
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
+
+# Results Cache (Memcached)
+resultsCache:
+  enabled: true
+  replicas: 1
+  allocatedMemory: 1024
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 1Gi
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
+
+# Monitoring
+monitoring:
   serviceMonitor:
     enabled: true
+    interval: ${prometheus_scrape_interval}
+  rules:
+    enabled: false
+  dashboards:
+    enabled: false
 
-
-# NOTE: make sure all components which are running have node affinity enabled for monitoring nodes
-ingester:
-  replicaCount: ${loki_ingester_replica_count}
-  persistence:
-    size: ${loki_ingester_pvc_size}
-    storageClass: ${storage_class_name}
-  extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: ${object_store_loki_credentials_secret_name}
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
+#Loki Canary
+lokiCanary:
+  enabled: true
+  resources:
+    requests:
+      cpu: 25m
+      memory: 32Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
 %{if length(tolerations) > 0 ~}
   tolerations:
 %{ for t in tolerations ~}
-    - effect: "${t.effect}"
-      key: "${t.key}"
-      operator: "${t.operator}"
-      value: "${t.value}"
-%{ endfor ~}
-%{endif ~}
-compactor:
-  # https://grafana.com/docs/loki/latest/operations/storage/boltdb-shipper/#compactor
-  extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: ${object_store_loki_credentials_secret_name}
-  updateStrategy:
-    type: Recreate
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
-%{if length(tolerations) > 0 ~}
-  tolerations:
-%{ for t in tolerations ~}
-    - effect: "${t.effect}"
-      key: "${t.key}"
-      operator: "${t.operator}"
-      value: "${t.value}"
-%{ endfor ~}
-%{endif ~}
-distributor:
-  replicaCount: ${loki_distributor_replica_count}
-  extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: ${object_store_loki_credentials_secret_name}
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
-%{if length(tolerations) > 0 ~}
-  tolerations:
-%{ for t in tolerations ~}
-    - effect: "${t.effect}"
-      key: "${t.key}"
-      operator: "${t.operator}"
-      value: "${t.value}"
-%{ endfor ~}
-%{endif ~}
-gateway:
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
-%{if length(tolerations) > 0 ~}
-  tolerations:
-%{ for t in tolerations ~}
-    - effect: "${t.effect}"
-      key: "${t.key}"
-      operator: "${t.operator}"
-      value: "${t.value}"
-%{ endfor ~}
-%{endif ~}
-querier:
-  replicaCount: ${loki_querier_replica_count}
-  extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: ${object_store_loki_credentials_secret_name}
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
-%{if length(tolerations) > 0 ~}
-  tolerations:
-%{ for t in tolerations ~}
-    - effect: "${t.effect}"
-      key: "${t.key}"
-      operator: "${t.operator}"
-      value: "${t.value}"
-%{ endfor ~}
-%{endif ~}
-queryFrontend:
-  extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: ${object_store_loki_credentials_secret_name}
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
-%{if length(tolerations) > 0 ~}
-  tolerations:
-%{ for t in tolerations ~}
-    - effect: "${t.effect}"
-      key: "${t.key}"
-      operator: "${t.operator}"
-      value: "${t.value}"
-%{ endfor ~}
-%{ endif ~}
-queryScheduler:
-  enabled: ${loki_query_scheduler_enabled}
-  extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: ${object_store_loki_credentials_secret_name}
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
-%{if length(tolerations) > 0 ~}
-  tolerations:
-%{ for t in tolerations ~}
-    - effect: "${t.effect}"
-      key: "${t.key}"
-      operator: "${t.operator}"
-      value: "${t.value}"
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
 %{ endfor ~}
 %{ endif ~}
 
-memcachedchunks:
-  metrics:
-    enabled: true
-    serviceMonitor:
-      enabled: true
-  resourcesPreset: medium # https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl
-  command:
-    - "/opt/bitnami/scripts/memcached/entrypoint.sh"
-    - "/opt/bitnami/scripts/memcached/run.sh"
-  args:
-    # medium profile memory-limit: 1536Mi. Setting value slightly below that.
-    # See https://github.com/memcached/memcached/wiki/ConfiguringServer#commandline-arguments
-    # We only updated memory-limit and max-item-size
-    # We did not add extended params related to external store because as of now, we keep all our cache in memory.
-    # We did not change "aggressive" configs for memcache client in loki since memcache is completely RAM backed as of now.
-    - "--memory-limit=1400"   # max memory limit for all cached items in mega bytes
-    - "--max-item-size=2m"    # max memory limit for a single item
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
-%{if length(tolerations) > 0 ~}
-  tolerations:
-%{ for t in tolerations ~}
-    - effect: "${t.effect}"
-      key: "${t.key}"
-      operator: "${t.operator}"
-      value: "${t.value}"
-%{ endfor ~}
-%{ endif ~}
-memcachedfrontend:
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
-%{if length(tolerations) > 0 ~}
-  tolerations:
-%{ for t in tolerations ~}
-    - effect: "${t.effect}"
-      key: "${t.key}"
-      operator: "${t.operator}"
-      value: "${t.value}"
-%{ endfor ~}
-%{ endif ~}
-memcachedindexqueries:
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
-%{if length(tolerations) > 0 ~}
-  tolerations:
-%{ for t in tolerations ~}
-    - effect: "${t.effect}"
-      key: "${t.key}"
-      operator: "${t.operator}"
-      value: "${t.value}"
-%{ endfor ~}
-%{ endif ~}
-memcachedindexwrites:
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
-%{if length(tolerations) > 0 ~}
-  tolerations:
-%{ for t in tolerations ~}
-    - effect: "${t.effect}"
-      key: "${t.key}"
-      operator: "${t.operator}"
-      value: "${t.value}"
-%{ endfor ~}
-%{ endif ~}
-
-
-
-promtail:
-  image:
-    repository: grafana/promtail
-    tag: 2.9.3
-  # reference: https://github.com/bitnami/charts/blob/5f843aec99a13573f67e59b5e3193916ca01f308/bitnami/grafana-loki/values.yaml#L4440
-  # only multiline stage has been added in pipeline_stages
-  configuration: |
-    server:
-      log_level: {{ .Values.promtail.logLevel }}
-      http_listen_port: {{ .Values.promtail.containerPorts.http }}
-
-    clients:
-      - url: http://{{ include "grafana-loki.gateway.fullname" . }}:{{ .Values.gateway.service.ports.http }}/loki/api/v1/push
-        {{- if .Values.gateway.auth.enabled }}
-        basic_auth:
-          # The username to use for basic auth
-          username: {{ .Values.gateway.auth.username }}
-          password_file: /bitnami/promtail/conf/secrets/password
-        {{- end }}
-    positions:
-      filename: /run/promtail/positions.yaml
-
-    scrape_configs:
-      # See also https://github.com/grafana/loki/blob/master/production/ksonnet/promtail/scrape_config.libsonnet for reference
-      - job_name: kubernetes-pods
-        pipeline_stages:
-          - cri: {}
-          - multiline:
-              firstline: '^\d{4}-\d{2}-\d{2}T\d{1,2}:\d{2}:\d{2}\.\d{3}|^{'
-              max_wait_time: 3s
-              max_lines: 128
-          - match:
-              selector: '{instance="moja"}'
-              stages:
-                - decolorize:
-                - regex:
-                    expression: '^(?P<time>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z) - (?P<level>[^:]+): (?P<msg>.*) -\t(?P<json>.*)$'
-                - template:
-                    source: output
-                    template: '{{ "{{ .msg }} : {{ .json }}" }}'
-                - json:
-                    source: json
-                    expressions:
-                      context: context
-                      trace_id: trace_id
-                      span_id: span_id
-                      method: method
-                      type: type
-                      system: system
-                      actor: actor
-                      code: code
-                - output:
-                    source: output
-                - timestamp:
-                    source: time
-                    format: RFC3339
-                - labeldrop:
-                    - filename
-                    - job
-                    - stream
-                    - pod
-                    - node_name
-                - structured_metadata:
-                    pod:
-                    node_name:
-                    trace_id:
-                    span_id:
-                    method:
-                    type:
-                    system:
-                - labels:
-                    level:
-                    context:
-        kubernetes_sd_configs: ${jsonencode(promtail_kubernetes_sd_configs)}
-        relabel_configs:
-          - source_labels:
-              - __meta_kubernetes_pod_controller_name
-            regex: ([0-9a-z-.]+?)(-[0-9a-f]{8,10})?
-            action: replace
-            target_label: __tmp_controller_name
-          - source_labels:
-              - __meta_kubernetes_pod_label_app_kubernetes_io_name
-              - __meta_kubernetes_pod_label_app
-              - __tmp_controller_name
-              - __meta_kubernetes_pod_name
-            regex: ^;*([^;]+)(;.*)?$
-            action: replace
-            target_label: app
-          - source_labels:
-              - __meta_kubernetes_pod_label_app_kubernetes_io_component
-              - __meta_kubernetes_pod_label_component
-            regex: ^;*([^;]+)(;.*)?$
-            action: replace
-            target_label: component
-          - action: replace
-            source_labels:
-            - __meta_kubernetes_pod_node_name
-            target_label: node_name
-          - action: replace
-            source_labels:
-            - __meta_kubernetes_namespace
-            target_label: namespace
-          - action: replace
-            replacement: $1
-            separator: /
-            source_labels:
-            - namespace
-            - app
-            target_label: job
-          - action: replace
-            source_labels:
-            - __meta_kubernetes_pod_name
-            target_label: pod
-          - action: replace
-            source_labels:
-            - __meta_kubernetes_pod_container_name
-            target_label: container
-          - action: replace
-            replacement: /var/log/pods/*$1/*.log
-            separator: /
-            source_labels:
-            - __meta_kubernetes_pod_uid
-            - __meta_kubernetes_pod_container_name
-            target_label: __path__
-          - action: replace
-            regex: true/(.*)
-            replacement: /var/log/pods/*$1/*.log
-            separator: /
-            source_labels:
-            - __meta_kubernetes_pod_annotationpresent_kubernetes_io_config_hash
-            - __meta_kubernetes_pod_annotation_kubernetes_io_config_hash
-            - __meta_kubernetes_pod_container_name
-            target_label: __path__
-          - source_labels:
-              - __meta_kubernetes_pod_label_app_kubernetes_io_instance
-              - __meta_kubernetes_pod_label_instance
-            regex: ^;*([^;]+)(;.*)?$
-            action: replace
-            target_label: instance
-  tolerations:
-    - operator: "Exists"
+backend:
+  replicas: 0
+read:
+  replicas: 0
+write:
+  replicas: 0
