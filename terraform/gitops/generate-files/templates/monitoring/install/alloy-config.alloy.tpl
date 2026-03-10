@@ -75,8 +75,7 @@ stage.static_labels {
     cluster = "${cluster_label}",
     }
 }
-
-forward_to = [loki.write.local_loki.receiver, loki.write.central_loki.receiver]
+forward_to = [loki.write.local_loki.receiver%{if enable_central_loki_write ~}, loki.write.central_loki.receiver%{endif ~}]
 }
 
 // Push to Local Loki Gateway
@@ -85,10 +84,11 @@ endpoint {
     url = "http://${loki_release_name}-gateway.monitoring.svc.cluster.local/loki/api/v1/push"
 }
 }
-
+%{if enable_central_loki_write ~}
 // Push to Central Loki
 loki.write "central_loki" {
     endpoint {
         url = "${central_loki_endpoint}/loki/api/v1/push"
     }
 }
+%{endif ~}

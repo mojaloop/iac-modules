@@ -118,6 +118,7 @@ module "generate_monitoring_files" {
     enable_central_observability_read  = try(var.common_var_map.enable_central_observability_read, local.enable_central_observability_read)
     central_observability_endpoint     = var.central_observability_endpoint
     central_observability_tenant_id    = try(var.common_var_map.central_observability_tenant_id, local.central_observability_tenant_id)
+    enable_central_loki_write          = try(var.common_var_map.enable_central_loki_write, local.enable_central_loki_write)
     central_loki_endpoint              = var.central_loki_endpoint
     alertmanager_fqdn = local.alertmanager_fqdn
     tolerations       = var.common_var_map.monitoring_workload_tolerations
@@ -291,6 +292,7 @@ locals {
   enable_central_observability_write      = false
   enable_central_observability_read       = false
   central_observability_tenant_id         = "infitx"
+  enable_central_loki_write               = false
   loki_canary_chart_version               = "0.14.0"
   alloy_limits_memory                     = "1Gi"
   alloy_limits_cpu                        = "1000m"
