@@ -5,6 +5,9 @@ metadata:
   namespace: ${vault_namespace}
 spec:
   schedule: "${vault_backup_schedule}"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 6
+  startingDeadlineSeconds: 600
   jobTemplate:
     spec:
       template:
@@ -23,7 +26,19 @@ spec:
             - |
               export VAULT_SKIP_VERIFY=true
               export VAULT_TOKEN=$(vault write auth/approle/login role_id=$VAULT_SNAPSHOT_ROLE_ID secret_id=$VAULT_SNAPSHOT_SECRET_ID -format=json | jq -r .auth.client_token);
-              vault operator raft snapshot save /share/vault-raft.snap;
+              if vault operator raft snapshot save /share/vault-raft.snap; then
+                echo "Snapshot created successfully"
+              else
+                echo "Snapshot creation failed"
+                exit 1
+              fi
+              if vault operator raft snapshot inspect /share/vault-raft.snap; then
+                echo "Snapshot inspection passed"
+                touch /share/backup_complete
+              else
+                echo "Snapshot inspection failed, snapshot may be corrupted"
+                exit 1
+              fi
             envFrom:
             - secretRef:
                 name: ${vault_snapshot_cred}
@@ -41,8 +56,25 @@ spec:
             args:
             - -ec
             - |
-              until [ -f /share/vault-raft.snap ]; do sleep 5; done;
-              aws s3 cp /share/vault-raft.snap s3://${vault_backup_bucket}/vault_raft_$(date +"%Y%m%d_%H%M%S").snap --endpoint-url $AWS_ENDPOINT_URL --no-verify-ssl;
+              TIMEOUT=600
+              ELAPSED=0
+              until [ -f /share/backup_complete ]; do
+                if [ $ELAPSED -ge $TIMEOUT ]; then
+                  echo "Timed out waiting for snapshot to complete"
+                  exit 1
+                fi
+                sleep 5
+                ELAPSED=$((ELAPSED + 5))
+              done
+              SNAP_NAME=vault_raft_$(date +"%Y%m%d_%H%M%S").snap
+              S3_PATH=s3://${vault_backup_bucket}/$SNAP_NAME
+              aws s3 cp /share/vault-raft.snap $S3_PATH --endpoint-url $AWS_ENDPOINT_URL --no-verify-ssl
+              if aws s3 ls $S3_PATH --endpoint-url $AWS_ENDPOINT_URL --no-verify-ssl > /dev/null 2>&1; then
+                echo "Upload verified successfully: $SNAP_NAME"
+              else
+                echo "Upload verification failed for: $SNAP_NAME"
+                exit 1
+              fi
             envFrom:
             - secretRef:
                 name: ${object_store_vb_credentials_secret_name}
