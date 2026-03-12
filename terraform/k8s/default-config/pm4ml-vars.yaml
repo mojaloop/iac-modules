@@ -25,3 +25,4 @@ ui_custom_config:
   TITLE: Payment Manager
 additional_ml_connector_config:
   TRACE_FLAGS: "01"
+pm4ml_redis_max_memory: "2048mb"
