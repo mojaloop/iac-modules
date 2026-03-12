@@ -1,6 +1,6 @@
 tf_version: ">= 1.2"
 microk8s_version: 1.31/stable
-
+microk8s_allow_patch_updates: false
 # Backup region override (empty = use cloud_region from cluster-config)
 # Individual *_perc_backup_region can override this per-component
 backup_region: ""
