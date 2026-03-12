@@ -71,6 +71,7 @@ prometheus_requests_memory: "1Gi"
 tempo_retention_period: 72h
 istio_egress_gateway_max_replicas: 5
 microk8s_version: 1.31/stable
+microk8s_allow_patch_updates: false
 alertmanager_enabled: true
 alertmanager_limits_cpu: "200m"
 alertmanager_limits_memory: "512Mi"
