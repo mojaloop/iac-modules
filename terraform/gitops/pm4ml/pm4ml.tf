@@ -45,6 +45,7 @@ module "generate_pm4ml_files" {
     redis_port                                      = "6379"
     redis_host                                      = "redis-master"
     redis_replica_count                             = "1"
+    redis_max_memory                                = try(each.value.pm4ml_redis_max_memory, "2048mb")
     nat_ip_list                                     = local.nat_cidr_list
     pm4ml_oidc_client_id                            = "${var.pm4ml_oidc_client_id_prefix}-${each.key}"
     pm4ml_oidc_client_secret_secret_name            = join("$", ["", "{${replace("${var.pm4ml_oidc_client_secret_secret_prefix}-${each.key}", "-", "_")}}"])
