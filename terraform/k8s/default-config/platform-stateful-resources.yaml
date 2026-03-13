@@ -6,7 +6,7 @@ thirdparty-auth-svc-redis:
   logical_service_config:
     logical_service_port: 6379
     logical_service_name: thirdparty-auth-redis
-    logical_replica_service_name: thirdparty-auth-redis-replica
+    logical_replica_service_name: place-holder
     db_username: mojaloop
     user_password_secret: mongodb-reporting-events-secret
     user_password_secret_key: mongodb-passwords
@@ -165,7 +165,7 @@ bulk-mongodb:
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: bulk-mongodb-svc
-    logical_replica_service_name: bulk-mongodb-svc-replica
+    logical_replica_service_name: place-holder
     db_username: mojaloop
     additional_privileges: []
     user_password_secret: mongodb-bulk-secret
@@ -193,7 +193,7 @@ cep-mongodb:
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: mongodb-cep-mongodb
-    logical_replica_service_name: mongodb-cep-mongodb-replica
+    logical_replica_service_name: place-holder
     db_username: mojaloop
     additional_privileges: []
     user_password_secret: mongodb-cep-secret
