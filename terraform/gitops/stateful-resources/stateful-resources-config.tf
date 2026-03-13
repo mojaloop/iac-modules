@@ -195,7 +195,10 @@ resource "local_file" "dbaas-crs-mysql" {
         dbdeploy_name_prefix         = each.value.external_resource_config.dbdeploy_name_prefix
         namespace                    = each.value.resource_namespace
         appNamespace                 = each.value.resource_namespace
-        consumer_app_externalname_services = jsonencode(local.consumer_app_externalname_services[each.key])
+
+        consumer_app_externalname_services         = jsonencode(local.consumer_app_externalname_services[each.key])
+        consumer_app_replica_externalname_services = jsonencode(local.consumer_app_replica_externalname_services[each.key])
+
         consumer_app_secret          = local.ca_bundle_secrets_by_monolith[each.key]
         cr_version                   = each.value.dbaas_resource_config.cr_version
         db_username                  = each.value.external_resource_config.username
@@ -203,6 +206,7 @@ resource "local_file" "dbaas-crs-mysql" {
         db_source_secret             = each.value.external_resource_config.db_source_secret
         db_secret_key                = each.value.external_resource_config.master_user_password_secret_key
         externalservice_name         = each.value.externalservice_name
+        replica_externalservice_name = each.value.dbaas_resource_config.replica_external_service_name
         db_name                      = each.value.external_resource_config.db_name
         mysql_storage_size           = each.value.dbaas_resource_config.mysql_storage_size
         pxc_image                    = each.value.dbaas_resource_config.pxc_image
@@ -449,6 +453,18 @@ locals {
     db_server => [
       for _, resource in local.managed_stateful_resources :
       resource.logical_service_config.logical_service_name
+      if resource.monolith_db_server == db_server && resource.enabled
+    ]
+  }
+
+  consumer_app_replica_externalname_services = {
+    for db_server in distinct([
+      for _, resource in local.managed_stateful_resources :
+      resource.monolith_db_server if resource.enabled
+    ]) :
+    db_server => [
+      for _, resource in local.managed_stateful_resources :
+      resource.logical_service_config.logical_replica_service_name
       if resource.monolith_db_server == db_server && resource.enabled
     ]
   }

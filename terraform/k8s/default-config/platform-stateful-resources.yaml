@@ -6,6 +6,7 @@ thirdparty-auth-svc-redis:
   logical_service_config:
     logical_service_port: 6379
     logical_service_name: thirdparty-auth-redis
+    logical_replica_service_name: place-holder
     db_username: mojaloop
     user_password_secret: mongodb-reporting-events-secret
     user_password_secret_key: mongodb-passwords
@@ -30,6 +31,7 @@ thirdparty-auth-svc-db:
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: thirdparty-auth-db
+    logical_replica_service_name: thirdparty-auth-db-replica
     db_username: account_lookup
     user_password_secret: mysql-auth-svc-secret
     user_password_secret_key: mysql-password
@@ -54,6 +56,7 @@ mysql-consent-oracle-db:
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: mysql-consent-oracle
+    logical_replica_service_name: mysql-consent-oracle-replica
     db_username: consent-oracle
     user_password_secret: mysql-consent-oracle-secret
     user_password_secret_key: mysql-password
@@ -87,6 +90,7 @@ mcm-db:
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: mcm-db-svc
+    logical_replica_service_name: mcm-db-svc-replica
     db_username: devdat1asql1
     user_password_secret: mcm-db-secret
     user_password_secret_key: mysql-password
@@ -111,6 +115,7 @@ account-lookup-db:
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: account-lookup-db-svc
+    logical_replica_service_name: account-lookup-db-svc-replica
     db_username: account_lookup
     user_password_secret: account-lookup-db-secret
     user_password_secret_key: mysql-password
@@ -135,6 +140,7 @@ central-ledger-db:
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: central-ledger-db-svc
+    logical_replica_service_name: central-ledger-db-svc-replica
     db_username: central_ledger
     user_password_secret: central-ledger-db-secret
     user_password_secret_key: mysql-password
@@ -159,6 +165,7 @@ bulk-mongodb:
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: bulk-mongodb-svc
+    logical_replica_service_name: place-holder
     db_username: mojaloop
     additional_privileges: []
     user_password_secret: mongodb-bulk-secret
@@ -186,6 +193,7 @@ cep-mongodb:
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: mongodb-cep-mongodb
+    logical_replica_service_name: place-holder
     db_username: mojaloop
     additional_privileges: []
     user_password_secret: mongodb-cep-secret
@@ -213,6 +221,7 @@ reporting-events-mongodb:
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: mongodb-reporting-events-mongodb
+    logical_replica_service_name: place-holder
     db_username: reporting
     additional_privileges:
       - collection: reporting
@@ -242,6 +251,7 @@ mojaloop-kafka:
   logical_service_config:
     logical_service_port: 9092
     logical_service_name: mojaloop-kafka-svc
+    logical_replica_service_name: place-holder
     db_username: mojaloop
     user_password_secret: mongodb-reporting-events-secret
     user_password_secret_key: mongodb-passwords
@@ -294,6 +304,7 @@ mojaloop-redis:
       - mojaloop
     logical_service_port: 6379
     logical_service_name: mojaloop-redis-svc
+    logical_replica_service_name: place-holder
 ttk-mongodb:
   enabled: true
   app_owner: "mojaloop"
@@ -302,6 +313,7 @@ ttk-mongodb:
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: ttk-mongodb-svc
+    logical_replica_service_name: place-holder
     db_username: ttk
     additional_privileges:
       - collection: reporting
@@ -331,6 +343,7 @@ ttk-redis:
   logical_service_config:
     logical_service_port: 6379
     logical_service_name: ttk-redis
+    logical_replica_service_name: place-holder
     db_username: mojaloop
     user_password_secret: mongodb-reporting-events-secret
     user_password_secret_key: mongodb-passwords
@@ -345,6 +358,7 @@ keycloak-db:
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: keycloak-db
+    logical_replica_service_name: keycloak-db-replica
     db_username: keycloak
     user_password_secret: keycloak-db-secret
     user_password_secret_key: mysql-password
@@ -369,6 +383,7 @@ keto-db:
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: keto-db
+    logical_replica_service_name: keto-db-replica
     db_username: keto
     user_password_secret: keto-db-secret
     user_password_secret_key: password
@@ -393,6 +408,7 @@ kratos-db:
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: kratos-db
+    logical_replica_service_name: kratos-db-replica
     db_username: kratos
     user_password_secret: kratos-db-secret
     user_password_secret_key: password
