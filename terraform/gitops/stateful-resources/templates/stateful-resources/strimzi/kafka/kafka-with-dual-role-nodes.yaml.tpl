@@ -100,6 +100,74 @@ spec:
       transaction.state.log.min.isr: 2
       default.replication.factor: 3
       min.insync.replicas: 2
+
+      # RISK: MEDIUM - Increases parallel replica fetching from 1 to 4 threads per broker
+      # Impact: 4x faster replica synchronization during recovery
+      # Default: 1 | Suggestion: 4
+      # Note: Monitor CPU usage during replica catch-up; adjust based on broker CPU cores
+      num.replica.fetchers: 4
+
+      # RISK: MEDIUM - Increases replica fetch batch size from 1MB to 10MB
+      # Impact: Reduces network round trips by 10x during catch-up
+      # Default: 1048576 (1MB) | Suggestion: 10485760 (10MB)
+      # Note: Can cause memory spikes if many replicas lag; ensure adequate heap
+      replica.fetch.max.bytes: 10485760
+
+      # RISK: MEDIUM - Increases total fetch response size from 10MB to 50MB
+      # Impact: Allows fetching multiple partitions in one request
+      # Default: 10485760 (10MB) | Suggestion: 52428800 (50MB)
+      # Note: May trigger GC pauses under sustained load; monitor heap usage
+      replica.fetch.response.max.bytes: 52428800
+
+      # RISK: HIGH - Reduces fetch wait time from 500ms to 100ms
+      # Impact: Faster iteration during replica catch-up
+      # Default: 500 | Suggestion: 100
+      # Note: May cause excessive CPU/network load; can trigger false timeouts if brokers stall
+      # replica.fetch.wait.max.ms: 100
+
+      # RISK: LOW - Sets socket receive buffer to 1MB for network efficiency
+      # Impact: Better network throughput during recovery
+      # Default: 102400 (100KB) | Suggestion: 1048576 (1MB)
+      replica.socket.receive.buffer.bytes: 1048576
+
+      # RISK: HIGH - Increases network threads from 3 to 8 for better request handling
+      # Impact: Higher parallelism for recovery operations
+      # Default: 3 | Suggestion: 8
+      # Note: Ensure CPU cores >= 8; excess threads cause context switching overhead
+      # num.network.threads: 8
+
+      # RISK: HIGH - Increases IO threads from 8 to 16 for disk operations
+      # Impact: Faster log loading and segment operations
+      # Default: 8 | Suggestion: 16
+      # Note: High I/O contention risk during recovery; adjust to (CPU_cores * 1.5)
+      # num.io.threads: 16
+
+      # RISK: MEDIUM - Increases background threads for log compaction and cleanup
+      # Impact: Background tasks don't slow down recovery
+      # Default: 1 | Suggestion: 10
+      # Note: May compete with foreground I/O; monitor disk utilization
+      background.threads: 10
+
+      # RISK: HIGH - Increases recovery threads from 1 to 4 per data directory
+      # Impact: Parallel partition recovery instead of sequential
+      # Default: 1 | Suggestion: 4
+      # Note: Causes I/O spikes during broker startup; can destabilize cluster during rolling restarts
+      # num.recovery.threads.per.data.dir: 4
+
+      # RISK: LOW - Automatically rebalances partition leaders after recovery
+      # Impact: Better load distribution post-recovery
+      # Default: true | Suggestion: true
+      auto.leader.rebalance.enable: true
+
+      # RISK: LOW - Check for leader imbalance every 30 seconds
+      # Impact: Quick detection and correction of imbalances
+      # Default: 300 | Suggestion: 30
+      leader.imbalance.check.interval.seconds: 30
+
+      # RISK: LOW - Trigger rebalance if imbalance exceeds 5%
+      # Impact: Maintains optimal leader distribution
+      # Default: 10 | Suggestion: 5
+      leader.imbalance.per.broker.percentage: 5
     metricsConfig:
       type: jmxPrometheusExporter
       valueFrom:
