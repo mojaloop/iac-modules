@@ -1,6 +1,6 @@
 tf_version: ">= 1.2"
 microk8s_version: 1.31/stable
-
+microk8s_allow_patch_updates: false
 # Backup region override (empty = use cloud_region from cluster-config)
 # Individual *_perc_backup_region can override this per-component
 backup_region: ""
@@ -98,7 +98,7 @@ cert_manager_helm_version: "1.17.1"
 external_dns_helm_version: "1.19.0"
 vault_helm_version: "0.28.1"
 vault_config_operator_helm_version: "0.8.28"
-istio_helm_version: "1.26.1"
+istio_helm_version: "1.26.4"
 external_secrets_helm_version: "0.15.1"
 crossplane_providers_vault_version: "2.1.1"
 crossplane_providers_gitlab_version: "0.10.3"
@@ -125,9 +125,9 @@ crossplane_functions_auto_ready_version: "0.4.2"
 crossplane_functions_extra_resources_version: "0.0.3"
 crossplane_packages_objectstores_version: "v0.5.0"
 crossplane_packages_utils_version: "v0.8.0"
-crossplane_packages_gitlab_version: "v0.6.0"
+crossplane_packages_gitlab_version: "v0.7.1"
 crossplane_packages_grafana_config_version: "v0.1.0"
-crossplane_packages_vault_config_version: "v0.4.0"
+crossplane_packages_vault_config_version: "v0.5.1"
 crossplane_packages_sc_postgres_version: "v0.5.0"
 crossplane_packages_sc_mysql_version: "v0.7.0-pr106-17447293964"
 crossplane_packages_sc_mongodb_version: "v0.5.0-pr106-17447293964"
@@ -138,7 +138,7 @@ crossplane_packages_k8s_config_version: "v0.1.0"
 crossplane_packages_aws_documentdb_version: "v0.5.0"
 crossplane_packages_aws_rds_version: "v0.3.0"
 crossplane_packages_argocd_config_version: "v0.1.0"
-crossplane_packages_zitadel_config_version: "v0.1.0"
+crossplane_packages_zitadel_config_version: "v0.3.0"
 velero_helm_version: "11.1.1"
 velero_plugin_version: "v1.12.1"
 velero_external_snapshotter_version: "v8.3.0"
@@ -290,7 +290,7 @@ loki_bucket_name: "control-center-loki-bucket"
 loki_bucket_max_objects: "'1000000'"
 loki_bucket_storage_size: "50Gi"
 
-loki_helm_version: "2.13.0"
+loki_helm_version: "6.45.2"
 loki_canary_helm_version: "0.14.0"
 loki_retention_period: "3d"
 loki_ingester_max_chunk_age: "2h"
@@ -529,6 +529,13 @@ zitadel_perc_pgbouncer_memory_limit: "128Mi"
 zitadel_perc_pgbouncer_cpu_request: "100m"
 zitadel_perc_pgbouncer_memory_request: "64Mi"
 # end of zitadel db settins
+
+
+# zitadel post config crossplane management policies
+zitadel_post_config_init_xplane_management_policies: "'''*'''"
+zitadel_post_config_init_is_existing_user: "'false'"
+
+
 # rook ceph
 rook_ceph_helm_version: "1.17.1"
 rook_ceph_image_version: "v19.2.2"
@@ -624,3 +631,8 @@ env_loki_bucket_storage_size: "30Gi"
 
 # env vault backup
 vault_backup_bucket_storage_size: "10Gi"
+
+
+env_onboard_iac_terraform_modules_tag: ""
+# env configurations
+env_config_xplane_management_policies:  "'''*'''"

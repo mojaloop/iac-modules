@@ -142,3 +142,60 @@ spec:
     id: 7645
     revision: 255
 ---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: ml-operation-stats
+  namespace: istio-ingress-ext
+  labels:
+    app.kubernetes.io/component: istio-ingress-ext
+    app.kubernetes.io/managed-by: manual
+spec:
+  workloadSelector:
+    labels:
+      istio: istio-external-ingress-gw
+  priority: 10
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: GATEWAY
+      listener:
+        portNumber: 443
+        filterChain:
+          sni: "extapi.${public_subdomain}"
+          filter:
+            name: "envoy.filters.network.http_connection_manager"
+            subFilter:
+              name: "istio.stats"
+    patch:
+      operation: MERGE
+      value:
+        name: istio.stats
+        typed_config:
+          "@type": "type.googleapis.com/stats.PluginConfig"
+          metrics:
+            - dimensions:
+                ml_operation: >-
+                  has(request.url_path) && has(request.method) ?
+                    request.method + '_' +
+                      (request.url_path.startsWith('/parties')     ? 'parties'     :
+                       request.url_path.startsWith('/quotes')      ? 'quotes'      :
+                       request.url_path.startsWith('/transfers')   ? 'transfers'   :
+                       request.url_path.startsWith('/fxTransfers') ? 'fxTransfers' :
+                       request.url_path.startsWith('/fxQuotes')    ? 'fxQuotes'    :
+                       request.url_path.startsWith('/participants')  ? 'participants'    :
+                       'other')
+                  : 'other'
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: istio-ml-requests-monitor
+spec:
+  folder: istio
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/${grafana_dashboard_tag_iac_modules}/assets/grafana-dashboards/istio-ml-requests-monitor.json"
+---

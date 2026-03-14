@@ -406,6 +406,9 @@ spec:
   podMetricsEndpoints:
   - path: /metrics
     port: tcp-prometheus
+# %{ if scrape_interval != null }
+    interval: ${scrape_interval}
+# %{ endif }
     relabelings:
     - separator: ;
       regex: __meta_kubernetes_pod_label_(strimzi_io_.+)

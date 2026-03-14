@@ -80,6 +80,7 @@ inputs = {
   (local.K8S_CLUSTER_TYPE == "microk8s") ? {
     microk8s_dns_resolvers = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "")
     microk8s_version       = try(local.common_vars.microk8s_version, "1.31/stable")
+    microk8s_allow_patch_updates       = try(local.common_vars.microk8s_allow_patch_updates, "1.31/stable")
     microk8s_dev_skip      = try(local.env_vars.microk8s_dev_skip, false)
     kubernetes_oidc_enabled = try(local.env_vars.kubernetes_oidc_enabled, false)
     enable_rook_disk_reset = true
@@ -117,6 +118,7 @@ inputs = {
     rook_csi_kubelet_dir_path         = local.K8S_CLUSTER_TYPE == "microk8s" ?  "/var/snap/microk8s/common/var/lib/kubelet" : "/var/lib/kubelet"
     eks_name                          = local.eks_name
     cluster_domain                    = local.cluster_domain
+    pm_url                            = local.pm_url
     capi_cluster_proxmox_host_sshkey  = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.ssh_public_key, "")
     cloud_platform                    = get_env("cloud_platform")
     object_storage_provider           = get_env("object_storage_provider")
@@ -147,6 +149,7 @@ locals {
   total_master_count               = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
   eks_name                         = substr("${replace(get_env("cluster_name"), "-", "")}-${replace(get_env("domain"), ".", "-")}", 0, 16)
   cluster_domain                   = "${get_env("cluster_name")}.${get_env("domain")}"
+  pm_url                          = "${try(get_env("pm_url"),"https://prometheus.int.pm-dev.${get_env("domain")}")}"
   bastion_hosts_var_maps = {
     cluster_domain                = "${get_env("cluster_name")}.${get_env("domain")}"
     eks_aws_secret_access_key     = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_SECRET_ACCESS_KEY") : ""

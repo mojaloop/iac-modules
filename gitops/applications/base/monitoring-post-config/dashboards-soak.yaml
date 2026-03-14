@@ -1,0 +1,25 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaFolder
+metadata:
+  name: soak
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: multi-cluster-monitoring
+spec:
+  folder: soak
+  datasources:
+    - inputName: "DS_PROMETHEUS-PM"
+      datasourceName: "Prometheus-PM"
+    - inputName: "DS_MIMIR"
+      datasourceName: "Mimir"
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/${ARGOCD_ENV_monitoring_application_gitrepo_tag}/assets/grafana-dashboards/soak/multi-cluster.json"
+---
