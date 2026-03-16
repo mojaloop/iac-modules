@@ -75,7 +75,7 @@ stage.static_labels {
     cluster = "${cluster_label}",
     }
 }
-forward_to = [loki.write.local_loki.receiver%{if enable_central_loki_write ~}, loki.write.central_loki.receiver%{endif ~}]
+forward_to = [loki.write.local_loki.receiver%{if enable_central_loki_write ~}, loki.process.central_loki_filter.receiver%{endif ~}]
 }
 
 // Push to Local Loki Gateway
@@ -85,6 +85,17 @@ endpoint {
 }
 }
 %{if enable_central_loki_write ~}
+
+loki.process "central_loki_filter" {
+
+  stage.drop {
+    expression   = "(?i)(^|\\s|\")(level[=:\"]+\\s*\"?debug\"?|\\[debug\\])"
+    drop_counter_reason = "debug_log_filtered_central"
+  }
+
+  forward_to = [loki.write.central_loki.receiver]
+}
+
 // Push to Central Loki
 loki.write "central_loki" {
     endpoint {
