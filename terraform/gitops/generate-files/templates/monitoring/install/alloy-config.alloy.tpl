@@ -75,7 +75,7 @@ stage.static_labels {
     cluster = "${cluster_label}",
     }
 }
-forward_to = [loki.write.local_loki.receiver%{if enable_central_loki_write ~}, loki.process.central_loki_filter.receiver%{endif ~}]
+forward_to = [loki.write.local_loki.receiver, loki.process.central_loki_filter.receiver]
 }
 
 // Push to Local Loki Gateway
@@ -84,22 +84,52 @@ endpoint {
     url = "http://${loki_release_name}-gateway.monitoring.svc.cluster.local/loki/api/v1/push"
 }
 }
-%{if enable_central_loki_write ~}
 
 loki.process "central_loki_filter" {
+%{if enable_central_loki_write ~}
+
+  stage.match {
+    selector            = '{namespace!="mojaloop"}'
+    action              = "drop"
+    drop_counter_reason = "non_mojaloop_namespace"
+  }
 
   stage.drop {
-    expression   = "(?i)(^|\\s|\")(level[=:\"]+\\s*\"?debug\"?|\\[debug\\])"
+    expression          = "(?i)level=debug"
+    drop_counter_reason = "debug_log_filtered_central"
+  }
+
+  stage.drop {
+    expression          = "(?i)level=\"debug\""
+    drop_counter_reason = "debug_log_filtered_central"
+  }
+
+  stage.drop {
+    expression          = "(?i)\"level\":\"debug\""
+    drop_counter_reason = "debug_log_filtered_central"
+  }
+
+  stage.drop {
+    expression          = "(?i)\\[debug\\]"
     drop_counter_reason = "debug_log_filtered_central"
   }
 
   forward_to = [loki.write.central_loki.receiver]
+%{else ~}
+  stage.drop {
+    expression          = ".*"
+    drop_counter_reason = "central_loki_disabled"
+  }
+
+  forward_to = []
+%{endif ~}
 }
 
+%{if enable_central_loki_write ~}
 // Push to Central Loki
 loki.write "central_loki" {
-    endpoint {
-        url = "${central_loki_endpoint}/loki/api/v1/push"
-    }
+  endpoint {
+    url = "${central_loki_endpoint}/loki/api/v1/push"
+  }
 }
 %{endif ~}
