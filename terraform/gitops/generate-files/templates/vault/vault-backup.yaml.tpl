@@ -107,15 +107,15 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: ${object_store_vb_credentials_secret_name}
-                  key: username
+                  key: AWS_ACCESS_KEY_ID
             - name: AWS_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   name: ${object_store_vb_credentials_secret_name}
-                  key: password
+                  key: AWS_SECRET_ACCESS_KEY
             - name: AWS_ENDPOINT_URL
               valueFrom:
                 secretKeyRef:
                   name: ${object_store_vb_credentials_secret_name}
-                  key: endpoint
+                  key: AWS_ENDPOINT_URL
           restartPolicy: OnFailure
