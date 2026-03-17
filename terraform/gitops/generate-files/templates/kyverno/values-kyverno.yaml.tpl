@@ -34,6 +34,7 @@ backgroundController:
             - "apps"
           resources:
             - "deployments"
+            - "statefulsets"
           verbs:
             - get
             - list
