@@ -1,7 +1,7 @@
 vault:
   server:
     enabled: true
-    updateStrategy: RollingUpdate
+    updateStrategyType: RollingUpdate
     readinessProbe:
       timeoutSeconds: ${vault_readiness_timeout_seconds}
     dev:
