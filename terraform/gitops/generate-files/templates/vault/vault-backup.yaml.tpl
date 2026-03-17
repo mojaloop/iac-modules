@@ -12,11 +12,8 @@ spec:
     spec:
       template:
         spec:
-          volumes:
-          - name: share
-            emptyDir: {}
           containers:
-          - name: snapshot
+          - name: snapshot-and-upload
             image: ${vault_backupjob_image}
             imagePullPolicy: IfNotPresent
             command:
@@ -24,61 +21,101 @@ spec:
             args:
             - -ec
             - |
+              echo "[$(date)] INFO: Starting Vault Snapshot process..."
               export VAULT_SKIP_VERIFY=true
-              export VAULT_TOKEN=$(vault write auth/approle/login role_id=$VAULT_SNAPSHOT_ROLE_ID secret_id=$VAULT_SNAPSHOT_SECRET_ID -format=json | jq -r .auth.client_token);
-              if vault operator raft snapshot save /share/vault-raft.snap; then
-                echo "Snapshot created successfully"
-              else
-                echo "Snapshot creation failed"
+
+              # Validate credentials
+              if [ -z "$VAULT_SNAPSHOT_ROLE_ID" ] || [ -z "$VAULT_SNAPSHOT_SECRET_ID" ]; then
+                echo "[$(date)] ERROR: VAULT_SNAPSHOT_ROLE_ID or VAULT_SNAPSHOT_SECRET_ID is empty. Credentials secret may not be populated yet."
                 exit 1
               fi
-              if vault operator raft snapshot inspect /share/vault-raft.snap; then
-                echo "Snapshot inspection passed"
-                touch /share/backup_complete
-              else
-                echo "Snapshot inspection failed, snapshot may be corrupted"
+
+              # Authenticate with AppRole
+              echo "[$(date)] INFO: Authenticating with AppRole..."
+              export VAULT_TOKEN=$(vault write auth/approle/login role_id=$VAULT_SNAPSHOT_ROLE_ID secret_id=$VAULT_SNAPSHOT_SECRET_ID -format=json | jq -r .auth.client_token)
+              if [ -z "$VAULT_TOKEN" ] || [ "$VAULT_TOKEN" = "null" ]; then
+                echo "[$(date)] ERROR: Authentication failed, VAULT_TOKEN is empty"
                 exit 1
               fi
-            envFrom:
-            - secretRef:
-                name: ${vault_snapshot_cred}
+
+              # Take Raft snapshot
+              SNAP_FILE=/tmp/vault-raft.snap
+              echo "[$(date)] INFO: Generating Raft snapshot..."
+              if vault operator raft snapshot save $SNAP_FILE; then
+                echo "[$(date)] SUCCESS: Snapshot saved to $SNAP_FILE"
+              else
+                echo "[$(date)] ERROR: Vault snapshot command failed"
+                exit 1
+              fi
+
+              # Validate snapshot file exists and is non-empty
+              if [ ! -s $SNAP_FILE ]; then
+                echo "[$(date)] ERROR: Snapshot file is empty or missing"
+                exit 1
+              fi
+
+              # Inspect snapshot integrity
+              echo "[$(date)] INFO: Inspecting snapshot..."
+              if vault operator raft snapshot inspect $SNAP_FILE; then
+                echo "[$(date)] SUCCESS: Snapshot inspection passed"
+              else
+                echo "[$(date)] WARN: Snapshot inspection failed"
+                exit 1
+              fi
+
+              LOCAL_SIZE=$(wc -c < $SNAP_FILE | tr -d ' ')
+              echo "[$(date)] INFO: Local snapshot size: $LOCAL_SIZE bytes"
+
+              # Upload to S3
+              SNAP_NAME=vault_raft_$(date +"%Y%m%d_%H%M%S").snap
+              S3_PATH=s3://${vault_backup_bucket}/$SNAP_NAME
+              echo "[$(date)] INFO: Uploading snapshot to $S3_PATH..."
+              if aws s3 cp $SNAP_FILE $S3_PATH --endpoint-url $AWS_ENDPOINT_URL --no-verify-ssl; then
+                echo "[$(date)] SUCCESS: Upload completed successfully"
+              else
+                echo "[$(date)] ERROR: AWS S3 upload failed"
+                exit 1
+              fi
+
+              # Verify uploaded file size matches local
+              S3_SIZE=$(aws s3 ls $S3_PATH --endpoint-url $AWS_ENDPOINT_URL --no-verify-ssl | awk '{print $3}')
+              if [ -z "$S3_SIZE" ]; then
+                echo "[$(date)] ERROR: Could not retrieve S3 object size for $SNAP_NAME"
+                exit 1
+              fi
+              echo "[$(date)] INFO: S3 object size: $S3_SIZE bytes"
+              if [ "$LOCAL_SIZE" != "$S3_SIZE" ]; then
+                echo "[$(date)] ERROR: Size mismatch! Local=$LOCAL_SIZE S3=$S3_SIZE"
+                exit 1
+              fi
+              echo "[$(date)] SUCCESS: Size verification passed (Local=$LOCAL_SIZE, S3=$S3_SIZE)"
+              echo "[$(date)] INFO: Vault snapshot backup completed successfully"
             env:
             - name: VAULT_ADDR
               value: http://vault-active.vault.svc.cluster.local:8200
-            volumeMounts:
-            - mountPath: /share
-              name: share
-          - name: upload
-            image: amazon/aws-cli:2.2.14
-            imagePullPolicy: IfNotPresent
-            command:
-            - /bin/sh
-            args:
-            - -ec
-            - |
-              TIMEOUT=600
-              ELAPSED=0
-              until [ -f /share/backup_complete ]; do
-                if [ $ELAPSED -ge $TIMEOUT ]; then
-                  echo "Timed out waiting for snapshot to complete"
-                  exit 1
-                fi
-                sleep 5
-                ELAPSED=$((ELAPSED + 5))
-              done
-              SNAP_NAME=vault_raft_$(date +"%Y%m%d_%H%M%S").snap
-              S3_PATH=s3://${vault_backup_bucket}/$SNAP_NAME
-              aws s3 cp /share/vault-raft.snap $S3_PATH --endpoint-url $AWS_ENDPOINT_URL --no-verify-ssl
-              if aws s3 ls $S3_PATH --endpoint-url $AWS_ENDPOINT_URL --no-verify-ssl > /dev/null 2>&1; then
-                echo "Upload verified successfully: $SNAP_NAME"
-              else
-                echo "Upload verification failed for: $SNAP_NAME"
-                exit 1
-              fi
-            envFrom:
-            - secretRef:
-                name: ${object_store_vb_credentials_secret_name}
-            volumeMounts:
-            - mountPath: /share
-              name: share
+            - name: VAULT_SNAPSHOT_ROLE_ID
+              valueFrom:
+                secretKeyRef:
+                  name: ${vault_snapshot_cred}
+                  key: VAULT_SNAPSHOT_ROLE_ID
+            - name: VAULT_SNAPSHOT_SECRET_ID
+              valueFrom:
+                secretKeyRef:
+                  name: ${vault_snapshot_cred}
+                  key: VAULT_SNAPSHOT_SECRET_ID
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: ${object_store_vb_credentials_secret_name}
+                  key: username
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ${object_store_vb_credentials_secret_name}
+                  key: password
+            - name: AWS_ENDPOINT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ${object_store_vb_credentials_secret_name}
+                  key: endpoint
           restartPolicy: OnFailure
