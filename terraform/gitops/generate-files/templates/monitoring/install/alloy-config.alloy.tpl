@@ -89,9 +89,9 @@ loki.process "central_loki_filter" {
 %{if enable_central_loki_write ~}
 
   stage.match {
-    selector            = "{namespace!=\"mojaloop\"}"
+    selector            = "{namespace!~\"${namespaces_to_central_loki}\"}"
     action              = "drop"
-    drop_counter_reason = "non_mojaloop_namespace"
+    drop_counter_reason = "non_allowed_namespace"
   }
 
   stage.drop {
