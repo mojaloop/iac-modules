@@ -223,4 +223,4 @@ dashboard:
 
 metrics:
   serviceMonitor:
-    enabled: false
+    enabled: true
