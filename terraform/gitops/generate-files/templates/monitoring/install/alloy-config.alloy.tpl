@@ -114,6 +114,11 @@ loki.process "central_loki_filter" {
     drop_counter_reason = "debug_log_filtered_central"
   }
 
+  stage.drop {
+    expression          = "(?i) - debug:"
+    drop_counter_reason = "debug_log_filtered_central"
+  }
+  
   forward_to = [loki.write.central_loki.receiver]
 %{else ~}
   stage.drop {
