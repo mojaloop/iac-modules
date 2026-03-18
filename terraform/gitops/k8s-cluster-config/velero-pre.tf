@@ -8,7 +8,7 @@ module "generate_velero_pre_files" {
     object_store_region            = var.object_store_region
     object_store_velero_secret_key = "cloud"
     object_store_velero_user_key = "${var.cluster_name}/velero_bucket_access_key_id"
-    object_store_velero_password_key = "${var.cluster_name}/velero_bucket_secret_key_id"
+    object_store_velero_password_key = "${var.cluster_name}/velero_bucket_access_key_id"
   }
   file_list       = [for f in fileset(local.velero_pre_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.velero_pre_app_file, f))]
   template_path   = local.velero_pre_template_path

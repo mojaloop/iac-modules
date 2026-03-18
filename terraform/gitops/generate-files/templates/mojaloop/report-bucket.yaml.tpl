@@ -19,13 +19,13 @@ spec:
         conversionStrategy: Default
         decodingStrategy: None
         key: "${cluster.env}/report_bucket_access_key_id"
-        property: value
+        property: username
     - secretKey: AWS_SECRET_ACCESS_KEY
       remoteRef:
         conversionStrategy: Default
         decodingStrategy: None
-        key: "${cluster.env}/report_bucket_secret_key_id"
-        property: value
+        key: "${cluster.env}/report_bucket_access_key_id"
+        property: password
 ---
 # %{ if cloud_platform == "private-cloud" }
 apiVersion: utils.mojaloop.io/v1alpha1

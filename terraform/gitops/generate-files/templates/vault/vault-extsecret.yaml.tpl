@@ -106,11 +106,11 @@ spec:
     - secretKey: username
       remoteRef:
         key: ${object_store_vb_user_key}
-        property: value
+        property: username
     - secretKey: password
       remoteRef:
         key: ${object_store_vb_password_key}
-        property: value
+        property: password
 
   target:
     name:  ${object_store_vb_credentials_secret_name}

@@ -20,14 +20,14 @@ spec:
       remoteRef:
         conversionStrategy: Default
         decodingStrategy: None
-        key: ${object_store_loki_user_key}
-        property: value
+        key: ${object_store_loki_access_key}
+        property: username
     - secretKey: CEPH_LOKI_PASSWORD
       remoteRef:
         conversionStrategy: Default
         decodingStrategy: None
-        key: ${object_store_loki_password_key}
-        property: value
+        key: ${object_store_loki_access_key}
+        property: password
 
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -53,11 +53,11 @@ spec:
       remoteRef:
         conversionStrategy: Default
         decodingStrategy: None
-        key: ${object_store_tempo_user_key}
-        property: value
+        key: ${object_store_tempo_access_key}
+        property: username
     - secretKey: AWS_SECRET_ACCESS_KEY
       remoteRef:
         conversionStrategy: Default
         decodingStrategy: None
-        key: ${object_store_tempo_password_key}
-        property: value
+        key: ${object_store_tempo_access_key}
+        property: password

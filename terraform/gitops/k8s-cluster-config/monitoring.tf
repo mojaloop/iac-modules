@@ -91,11 +91,9 @@ module "generate_monitoring_files" {
     object_store_insecure_connection           = var.object_store_insecure_connection
     object_store_insecure_skip_verify          = var.object_store_insecure_skip_verify
     loki_bucket                                = local.loki_bucket
-    object_store_loki_user_key                 = "${var.cluster_name}/loki_bucket_access_key_id"
-    object_store_loki_password_key             = "${var.cluster_name}/loki_bucket_secret_key_id"
+    object_store_loki_access_key               = "${var.cluster_name}/loki_bucket_access_key_id"
     object_store_tempo_credentials_secret_name = "ceph-tempo-credentials-secret"
-    object_store_tempo_user_key                = "${var.cluster_name}/tempo_bucket_access_key_id"
-    object_store_tempo_password_key            = "${var.cluster_name}/tempo_bucket_secret_key_id"
+    object_store_tempo_access_key              = "${var.cluster_name}/tempo_bucket_access_key_id"
     tempo_bucket                               = local.tempo_bucket
     tempo_retention_period                     = try(var.common_var_map.tempo_retention_period, local.tempo_retention_period)
     external_secret_sync_wave                  = var.external_secret_sync_wave
