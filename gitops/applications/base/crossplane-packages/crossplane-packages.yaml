@@ -132,5 +132,4 @@ kind: Configuration
 metadata:
   name: env-onboard-config
 spec:
-  package: ghcr.io/mojaloop/iac-crossplane-packages/env-onboard-config:v0.1.0-pr126-23303453941
-  skipDependencyResolution: true
+  package: ghcr.io/mojaloop/iac-crossplane-packages/env-onboard-config:v0.1.0-pr126-23304256857
