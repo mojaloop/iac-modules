@@ -94,40 +94,14 @@ loki.process "central_loki_filter" {
     drop_counter_reason = "non_allowed_namespace"
   }
 
-  stage.drop {
-    expression          = "(?i)level=debug"
-    drop_counter_reason = "debug_log_filtered_central"
-  }
-
-  stage.drop {
-    expression          = "(?i)level=\"debug\""
-    drop_counter_reason = "debug_log_filtered_central"
-  }
-
-  stage.drop {
-    expression          = "(?i)\"level\":\"debug\""
-    drop_counter_reason = "debug_log_filtered_central"
-  }
-
-  stage.drop {
-    expression          = "(?i)\\[debug\\]"
-    drop_counter_reason = "debug_log_filtered_central"
-  }
-
-  stage.drop {
-    expression          = "(?i)debug:"
-    drop_counter_reason = "debug_log_filtered_central"
-  }
-
-  forward_to = [loki.write.central_loki.receiver]
 %{else ~}
   stage.drop {
     expression          = ".*"
     drop_counter_reason = "central_loki_disabled"
   }
 
-  forward_to = []
 %{endif ~}
+  forward_to = [loki.write.central_loki.receiver]
 }
 
 %{if enable_central_loki_write ~}
