@@ -16,11 +16,10 @@ spec:
       key: zitadel_admin_human_user_id
 
     # App Configurations
-    grafanaFqdn: ${ARGOCD_ENV_grafana_fqdn}
-    vaultFqdn: ${ARGOCD_ENV_vault_fqdn}
-    argocdFqdn: ${ARGOCD_ENV_argocd_fqdn}
-    addonsDomain: ${ARGOCD_ENV_addons_domain}
-
+    grafanaFqdn: "grafana.${ARGOCD_ENV_grafana_domain}.${ARGOCD_ENV_domain}"
+    vaultFqdn: "vault.${ARGOCD_ENV_vault_domain}.${ARGOCD_ENV_domain}"
+    argocdFqdn: "argocd.${ARGOCD_ENV_argocd_domain}.${ARGOCD_ENV_domain}"
+    addonsDomain: "${ARGOCD_ENV_domain}"
     # Vault Config
     vaultKvPath: "${ARGOCD_ENV_vault_kv_secret}"
 
