@@ -1,0 +1,48 @@
+apiVersion: env.mojaloop.io/v1alpha1
+kind: EnvOidcConfig
+metadata:
+  name: "${ARGOCD_ENV_env_name}-config"
+  namespace: ${ARGOCD_ENV_env_name}
+spec:
+  parameters:
+    envName: "${ARGOCD_ENV_env_name}"
+    organizationIdSecretRef:
+      key: zitadel_org_id
+      name: ${ARGOCD_ENV_zitadel_post_config_init_output_secret}
+      namespace: ${ARGOCD_ENV_zitadel_namespace}
+    zitadelAdminHumanUserIdRef:
+      namespace: ${ARGOCD_ENV_zitadel_namespace}
+      name: ${ARGOCD_ENV_zitadel_post_config_output_secret}
+      key: zitadel_admin_human_user_id
+
+    # App Configurations
+    grafanaFqdn: ${ARGOCD_ENV_grafana_fqdn}
+    vaultFqdn: ${ARGOCD_ENV_vault_fqdn}
+    argocdFqdn: ${ARGOCD_ENV_argocd_fqdn}
+    addonsDomain: ${ARGOCD_ENV_addons_domain}
+
+    # Vault Config
+    vaultKvPath: "${ARGOCD_ENV_vault_kv_secret}"
+
+    # RBAC Groups
+    grafanaAdminRbacGroup: "${ARGOCD_ENV_grafana_admin_rbac_group}"
+    grafanaUserRbacGroup: "${ARGOCD_ENV_grafana_user_rbac_group}"
+    vaultAdminRbacGroup: "${ARGOCD_ENV_vault_admin_rbac_group}"
+    vaultUserRbacGroup: "${ARGOCD_ENV_vault_user_rbac_group}"
+    argocdAdminRbacGroup: "${ARGOCD_ENV_argocd_admin_rbac_group}"
+    argocdUserRbacGroup: "${ARGOCD_ENV_argocd_user_rbac_group}"
+    k8sAdminRbacGroup: "${ARGOCD_ENV_k8s_admin_rbac_group}"
+    k8sUserRbacGroup: "${ARGOCD_ENV_k8s_user_rbac_group}"
+
+    # Netbird Config
+    netbirdOperatorManagementUrl: "https://${ARGOCD_ENV_netbird_fqdn}:443"
+    netbirdOperatorApiKeyVaultPath: "${ARGOCD_ENV_env_name}/netbird_op_access_token"
+    netbirdSetupKeyVaultPath: "${ARGOCD_ENV_env_name}/netbird_k8s_setup_key"
+  managementPolicies:
+    - ${ARGOCD_ENV_env_onboard_config_xplane_management_policies}
+
+  providerConfigsRef:
+    zitadelProviderName: zitadel-provider
+    kubernetesProviderName: kubernetes-provider
+    vaultProviderName: vault-provider
+    gitlabProviderName: gitlab-provider

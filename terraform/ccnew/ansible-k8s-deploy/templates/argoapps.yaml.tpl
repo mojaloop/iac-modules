@@ -595,6 +595,8 @@ argocd_override:
           report_bucket_storage_size: "${report_bucket_storage_size}"
           tempo_bucket_storage_size: "${env_tempo_bucket_storage_size}"
           loki_bucket_storage_size: "${env_loki_bucket_storage_size}"
+          xplane_management_policies: "${env_onboard_config_xplane_management_policies}"
+          tf_workspace_management_policies: "${env_onboard_config_tf_workspace_management_policies}"
         onboard_common_platform_db_rds_provider:
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           rdbms_azs: "${join(",", rdbms_azs)}"
