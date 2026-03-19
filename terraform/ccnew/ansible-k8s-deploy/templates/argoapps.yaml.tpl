@@ -433,7 +433,6 @@ argocd_override:
           gitlab_artifacts_storage_size: "${gitlab_artifacts_storage_size}"
           git_lfs_max_objects: "${git_lfs_max_objects}"
           git_lfs_storage_size: "${git_lfs_storage_size}"
-          gitlab_artifacts_storage_size: "${gitlab_artifacts_storage_size}"
           gitlab_uploads_max_objects: "${gitlab_uploads_max_objects}"
           gitlab_uploads_storage_size: "${gitlab_uploads_storage_size}"
           gitlab_packages_max_objects: "${gitlab_packages_max_objects}"
