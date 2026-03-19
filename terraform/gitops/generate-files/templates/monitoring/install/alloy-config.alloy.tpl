@@ -104,11 +104,9 @@ loki.process "central_loki_filter" {
   forward_to = [loki.write.central_loki.receiver]
 }
 
-%{if enable_central_loki_write ~}
 // Push to Central Loki
 loki.write "central_loki" {
   endpoint {
     url = "${central_loki_endpoint}/loki/api/v1/push"
   }
 }
-%{endif ~}
