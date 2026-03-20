@@ -637,5 +637,5 @@ env_onboard_iac_terraform_modules_tag: ""
 # env configurations
 env_config_xplane_management_policies:  "'''*'''"
 
-env_onboard_config_xplane_management_policies: "Observe"
+env_onboard_config_xplane_management_policies: "'*'"
 env_onboard_config_tf_workspace_management_policies: "Observe"
