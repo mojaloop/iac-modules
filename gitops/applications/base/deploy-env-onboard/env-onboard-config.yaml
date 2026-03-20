@@ -6,6 +6,7 @@ metadata:
 spec:
   parameters:
     envName: "${ARGOCD_ENV_env_name}"
+    hyphenatedDomain: "${ARGOCD_ENV_hyphenated_domain}"
     organizationIdSecretRef:
       key: zitadel_org_id
       name: ${ARGOCD_ENV_zitadel_post_config_init_output_secret}
