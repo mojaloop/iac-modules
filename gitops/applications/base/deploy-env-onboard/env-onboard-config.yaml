@@ -14,6 +14,9 @@ spec:
       namespace: ${ARGOCD_ENV_zitadel_namespace}
       name: ${ARGOCD_ENV_zitadel_post_config_output_secret}
       key: zitadel_admin_human_user_id
+    netbirdPreConfigOutputSecret:
+      name: "netbird-management"
+      namespace: netbird
 
     # App Configurations
     grafanaFqdn: "grafana.${ARGOCD_ENV_grafana_domain}.${ARGOCD_ENV_domain}"
