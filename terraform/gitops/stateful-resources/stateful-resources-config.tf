@@ -109,12 +109,31 @@ resource "local_file" "strimzi-crs" {
       node_pool_affinity           = each.value.local_operator_config.kafka_data.affinity_definition
       tolerations                  = each.value.local_operator_config.kafka_data.tolerations
       namespace                    = each.value.local_operator_config.resource_namespace
-      kafka_topics                 = each.value.logical_service_config.post_install_schema_config.kafka_provisioning.enabled ? each.value.logical_service_config.post_install_schema_config.kafka_provisioning.topics : {}
+
+      kafka_version          = try(each.value.local_operator_config.kafka_data.kafka_version, "3.7.0")
+      kafka_metadata_version = try(each.value.local_operator_config.kafka_data.kafka_metadata_version, "3.7-IV4")
+      # Kafka broker config defaults. Override/extend via custom-config:
+      #   mojaloop-kafka.local_operator_config.kafka_data.broker_config:
+      #     <key>: <value>
+      kafka_broker_config = merge(
+        {
+          "offsets.topic.replication.factor"         = 3
+          "transaction.state.log.replication.factor" = 3
+          "transaction.state.log.min.isr"            = 2
+          "default.replication.factor"               = 3
+          "min.insync.replicas"                      = 2
+          "log.message.timestamp.type"               = "LogAppendTime"
+        },
+        try(each.value.local_operator_config.kafka_data.broker_config, {})
+      )
+      kafka_topics = each.value.logical_service_config.post_install_schema_config.kafka_provisioning.enabled ? each.value.logical_service_config.post_install_schema_config.kafka_provisioning.topics : {}
 
       strimzi_kafka_grafana_dashboards_version = local.strimzi_kafka_grafana_dashboards_version
-      strimzi_kafka_grafana_dashboards_list = ["strimzi-cruise-control", "strimzi-kafka-bridge", "strimzi-kafka-connect",
+      strimzi_kafka_grafana_dashboards_list = [
+        "strimzi-cruise-control", "strimzi-kafka-bridge", "strimzi-kafka-connect",
         "strimzi-kafka-exporter", "strimzi-kafka-mirror-maker-2", "strimzi-kafka-oauth",
-      "strimzi-kafka", "strimzi-kraft", "strimzi-operators", "strimzi-zookeeper"]
+        "strimzi-kafka", "strimzi-kraft", "strimzi-operators"
+      ]
   })
   filename = "${local.stateful_resources_output_path}/kafka-with-dual-role-nodes-${each.key}.yaml"
 }
