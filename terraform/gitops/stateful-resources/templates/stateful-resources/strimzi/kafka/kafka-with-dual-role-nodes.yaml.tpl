@@ -95,9 +95,9 @@ spec:
         type: internal
         tls: true
     config:
-# %{ for key, value in kafka_broker_config ~}
+%{ for key, value in kafka_broker_config ~}
       ${key}: ${value}
-# %{ endfor ~}
+%{ endfor ~}
     metricsConfig:
       type: jmxPrometheusExporter
       valueFrom:
