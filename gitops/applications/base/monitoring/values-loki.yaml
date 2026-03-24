@@ -2,6 +2,9 @@
 
 deploymentMode: Distributed
 
+rbac:
+  pspEnabled: false
+
 loki:
   auth_enabled: false
   extraArgs:
