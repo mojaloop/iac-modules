@@ -71,4 +71,6 @@ spec:
           value: "200"
         - name: "alloy_log_burst_rate_limit_per_pod"
           value: "500"
+        - name: "capi_cluster_name"
+          value: "${ARGOCD_ENV_capi_cluster_name}"
 
