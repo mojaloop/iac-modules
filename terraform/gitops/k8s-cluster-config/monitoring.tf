@@ -114,6 +114,9 @@ module "generate_monitoring_files" {
     enable_central_observability_read  = try(var.common_var_map.enable_central_observability_read, local.enable_central_observability_read)
     central_observability_endpoint     = var.central_observability_endpoint
     central_observability_tenant_id    = try(var.common_var_map.central_observability_tenant_id, local.central_observability_tenant_id)
+    enable_central_loki_write          = try(var.common_var_map.enable_central_loki_write, local.enable_central_loki_write)
+    central_loki_endpoint              = var.central_loki_endpoint
+    namespaces_to_central_loki         = try(var.common_var_map.namespaces_to_central_loki, local.namespaces_to_central_loki)
     alertmanager_fqdn = local.alertmanager_fqdn
     tolerations       = var.common_var_map.monitoring_workload_tolerations
     prometheus_crd_repo = local.prometheus_crd_repo
@@ -233,6 +236,7 @@ locals {
   opentelemetry_chart_version         = "0.93.1"
   grafana_wildcard_gateway            = var.grafana_ingress_internal_lb ? "internal" : "external"
   loki_release_name                   = "loki"
+  namespaces_to_central_loki          = "mojaloop"
   prometheus_operator_release_name    = "prom"
   loki_chart_version                  = "6.45.2"
   prometheus_operator_version         = "8.22.8"
@@ -284,6 +288,7 @@ locals {
   enable_central_observability_write      = false
   enable_central_observability_read       = false
   central_observability_tenant_id         = "infitx"
+  enable_central_loki_write               = false
   loki_canary_chart_version               = "0.14.0"
   alloy_limits_memory                     = "1Gi"
   alloy_limits_cpu                        = "1000m"
