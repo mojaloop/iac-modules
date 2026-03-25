@@ -83,9 +83,9 @@ alertmanager_slack_integration_enabled: false
 alertmanager_jira_integration_enabled: false
 istio_proxy_log_level: warn
 longhorn_backup_job_enabled: false
-enable_central_observability_write: false
+enable_central_observability_write: false # enables only metrics to be sent to mimir
 enable_central_observability_read: false
-enable_central_loki_write: true
+enable_central_loki_write: true # enables only metrics to be sent to central loki
 coredns_localcache_version: '1.12.1'
 aws_ebs_csi_driver_helm_version: '2.39.0'
 aws_ebs_csi_driver_replicas: 2
