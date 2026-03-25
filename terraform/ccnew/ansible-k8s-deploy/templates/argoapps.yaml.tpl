@@ -80,6 +80,7 @@ argocd_override:
           zitadel_config_version: "${crossplane_packages_zitadel_config_version}"
           grafana_config_version: "${crossplane_packages_grafana_config_version}"
           k8s_config_version: "${crossplane_packages_k8s_config_version}"
+          env_onboard_config_version: "${crossplane_packages_env_onboard_config_version}"
         external_secrets:
           helm_version: "${external_secrets_helm_version}"
         istio:
@@ -433,7 +434,6 @@ argocd_override:
           gitlab_artifacts_storage_size: "${gitlab_artifacts_storage_size}"
           git_lfs_max_objects: "${git_lfs_max_objects}"
           git_lfs_storage_size: "${git_lfs_storage_size}"
-          gitlab_artifacts_storage_size: "${gitlab_artifacts_storage_size}"
           gitlab_uploads_max_objects: "${gitlab_uploads_max_objects}"
           gitlab_uploads_storage_size: "${gitlab_uploads_storage_size}"
           gitlab_packages_max_objects: "${gitlab_packages_max_objects}"
@@ -595,6 +595,8 @@ argocd_override:
           report_bucket_storage_size: "${report_bucket_storage_size}"
           tempo_bucket_storage_size: "${env_tempo_bucket_storage_size}"
           loki_bucket_storage_size: "${env_loki_bucket_storage_size}"
+          xplane_management_policies: "${env_onboard_config_xplane_management_policies}"
+          tf_workspace_management_policies: "${env_onboard_config_tf_workspace_management_policies}"
         onboard_common_platform_db_rds_provider:
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           rdbms_azs: "${join(",", rdbms_azs)}"

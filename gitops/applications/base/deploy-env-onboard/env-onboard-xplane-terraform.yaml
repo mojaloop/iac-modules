@@ -91,6 +91,8 @@ spec:
   writeConnectionSecretToRef:
     namespace: ${ARGOCD_ENV_gitlab_namespace}
     name: ${ARGOCD_ENV_deploy_env_onboard_app_name}-secret
+  managementPolicies:
+    - ${ARGOCD_ENV_env_onboard_config_tf_workspace_management_policies}
 ---
 apiVersion: tf.upbound.io/v1beta1
 kind: ProviderConfig
