@@ -37,7 +37,7 @@ prometheus:
     retention: ${ARGOCD_ENV_prometheus_retention_period}
     
     externalLabels:
-      cluster: ${ARGOCD_ENV_cluster_label_value}
+      cluster: ${ARGOCD_ENV_capi_cluster_name}
     
     disableCompaction: false
     additionalArgs:

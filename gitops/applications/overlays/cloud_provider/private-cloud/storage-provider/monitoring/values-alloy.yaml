@@ -8,6 +8,8 @@ alloy:
       value: "${ARGOCD_ENV_alloy_log_burst_rate_limit_per_pod}"
     - name: LOKI_ENDPOINT
       value: "${ARGOCD_ENV_alloy_target_loki_endpoint}"
+    - name: ALLOY_CLUSTER_NAME
+      value: "${ARGOCD_ENV_capi_cluster_name}"
   resources:
     requests:
       cpu: 100m
