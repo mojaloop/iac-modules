@@ -4,12 +4,12 @@ groups:
     rules:
       - record: loki_log_lines_rate
         expr: |
-          sum by (namespace, app, pod, container) (
+          sum by (cluster, namespace, app, pod, container) (
             rate({pod=~".+"} [5m])
           )
       - record: loki_log_bytes_rate
         expr: |
-          sum by (namespace, app, pod, container) (
+          sum by (cluster, namespace, app, pod, container) (
             bytes_rate({pod=~".+"} [5m])
           )
   
@@ -18,6 +18,6 @@ groups:
     rules:
       - record: loki_log_error_lines_rate
         expr: |
-          sum by (namespace, app, pod, container) (
+          sum by (cluster, namespace, app, pod, container) (
             rate({pod=~".+"} |~ "(?i)level.*(error|err)" [5m])
           )
