@@ -72,3 +72,4 @@ data:
               matchLabels:
                 gateway.networking.k8s.io/gateway-name: nb-egress-waypoint
 # %{ endif }
+
