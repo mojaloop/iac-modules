@@ -314,6 +314,7 @@ argocd_override:
           client_version: "${netbird_client_version}"
           dashboard_image_version: "${netbird_dashboard_image_version}"
           stunner_gateway_operator_helm_version: "${stunner_gateway_operator_helm_version}"
+          stunner_kube_rbac_proxy_image: "${stunner_kube_rbac_proxy_image}"
           log_level: "${netbird_log_level}"
           cc_vpc_cidr: "${vpc_cidr}"
           ansible_collection_tag: ${netbird_ansible_collection_tag}
