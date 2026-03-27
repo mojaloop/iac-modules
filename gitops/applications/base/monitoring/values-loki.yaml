@@ -237,7 +237,7 @@ ruler:
     - name: rules-tmp
       mountPath: /tmp/rules
     - name: ruler-rules
-      mountPath: /etc/loki/rules/fake
+      mountPath: "/etc/loki/rules/${ARGOCD_ENV_remote_write_tenant_id}"
       readOnly: true
   directories: {}
              
