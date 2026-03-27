@@ -1,0 +1,6 @@
+stunnerGatewayOperator:
+  deployment:
+    container:
+      kubeRbacProxy:
+        image:
+          name: quay.io/brancz/kube-rbac-proxy:v0.18.0
