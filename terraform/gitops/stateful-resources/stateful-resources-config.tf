@@ -298,6 +298,8 @@ resource "local_file" "dbaas-crs-mongodb" {
         replset_requests_memory      = each.value.dbaas_resource_config.replset_requests_memory
         configsvr_expose_enabled     = each.value.dbaas_resource_config.configsvr_expose_enabled
         configsvr_expose_type        = each.value.dbaas_resource_config.configsvr_expose_type
+        replsets_expose_enabled      = each.value.dbaas_resource_config.replsets_expose_enabled
+        replsets_expose_type         = each.value.dbaas_resource_config.replsets_expose_type
         replset_storage              = each.value.dbaas_resource_config.replset_storage
         sharding_enabled             = each.value.dbaas_resource_config.sharding_enabled
         configsvr_size               = each.value.dbaas_resource_config.configsvr_size

@@ -315,6 +315,8 @@ common_mongodb:
     replset_requests_cpu: "50m"
     replset_requests_memory: "0.5G"
     replset_storage: 30Gi
+    replsets_expose_enabled: true
+    replsets_expose_type: "LoadBalancer"
 
     # Sharding inputs
     sharding_enabled: true
