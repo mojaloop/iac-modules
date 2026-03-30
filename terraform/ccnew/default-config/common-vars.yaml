@@ -93,7 +93,7 @@ pxc_operator_helm_version: "1.18.0"
 psmdb_operator_helm_version: "1.19.1"
 
 stunner_gateway_operator_helm_version: "0.19.0"
-stunner_kube_rbac_proxy_image: "quay.io/brancz/kube-rbac-proxy:v0.18.0"
+stunner_kube_rbac_proxy_image_version: "v0.18.0"
 nexus_helm_version: "4.44.0"
 cert_manager_helm_version: "1.17.1"
 external_dns_helm_version: "1.19.0"
