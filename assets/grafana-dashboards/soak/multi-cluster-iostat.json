@@ -1654,7 +1654,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Multi-Cluster iostat",
+  "title": "Multi-cluster iostat",
   "uid": "multi-cluster-iostat",
   "version": 2,
   "weekStart": ""

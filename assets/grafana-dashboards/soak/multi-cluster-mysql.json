@@ -67,7 +67,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Disk I/O per second",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -153,6 +153,10 @@
       "pluginVersion": "12.1.0",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
+          },
           "disableTextWrap": false,
           "editorMode": "code",
           "expr": "sum by(device, nodename) (rate(node_disk_read_bytes_total{cluster=\"storage\", job=\"node-exporter\", device=~\"vd.|sd.|nvme.\"}[$__rate_interval])) > 1024 * 1024",
@@ -161,11 +165,7 @@
           "legendFormat": "__auto",
           "range": true,
           "refId": "A",
-          "useBackend": false,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_MIMIR}"
-          }
+          "useBackend": false
         },
         {
           "datasource": {
@@ -173,7 +173,7 @@
             "uid": "${DS_MIMIR}"
           },
           "editorMode": "code",
-          "expr": "sum by(device, nodename) (-rate(node_disk_write_bytes_total{cluster=\"storage\", job=\"node-exporter\", device=~\"vd.|sd.|nvme.\"}[$__rate_interval])) > 1024 * 1024",
+          "expr": "-sum by(device, nodename) (rate(node_disk_written_bytes_total{cluster=\"storage\", job=\"node-exporter\", device=~\"vd.|sd.|nvme.\"}[10m])) < -1024*1024",
           "hide": false,
           "instant": false,
           "legendFormat": "__auto",
@@ -181,7 +181,6 @@
           "refId": "B"
         }
       ],
-      "title": "New panel",
       "type": "timeseries"
     },
     {
@@ -971,6 +970,6 @@
   "timezone": "",
   "title": "Multi-cluster MySQL load",
   "uid": "multi-cluster-mysql",
-  "version": 5,
+  "version": 2,
   "weekStart": ""
 }
