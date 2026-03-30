@@ -81,7 +81,7 @@ spec:
           - name: "stunner_gateway_operator_helm_version"
             value: "${ARGOCD_ENV_security_netbird_stunner_gateway_operator_helm_version}"
 
-          - name: "stunner_kube_rbac_proxy_image"
+          - name: "stunner_kube_rbac_proxy_image_version"
             value: "${ARGOCD_ENV_security_netbird_stunner_kube_rbac_proxy_image_version}"
 
           - name: "stunner_auth_secret"

@@ -3,4 +3,4 @@ stunnerGatewayOperator:
     container:
       kubeRbacProxy:
         image:
-          name: quay.io/brancz/kube-rbac-proxy:${ARGOCD_ENV_stunner_kube_rbac_proxy_image_version}
+          name: "quay.io/brancz/kube-rbac-proxy:${ARGOCD_ENV_stunner_kube_rbac_proxy_image_version}"
