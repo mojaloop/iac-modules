@@ -713,13 +713,12 @@ spec:
     template:
       data:
         connection: |
-          [default]
           access_key = {{.username}}
           secret_key = {{.password}}
           bucket_location = ${ARGOCD_ENV_cloud_region}
-          host_base = s3.amazonaws.com
-          host_bucket = %(bucket)s.s3.amazonaws.com
-          use_https = True
+          host_base = ${ARGOCD_ENV_object_storage_host}
+          host_bucket = ${ARGOCD_ENV_object_storage_host}/%(bucket)s
+          use_https = False
           signature_v2 = False
 ---
 apiVersion: external-secrets.io/v1beta1
