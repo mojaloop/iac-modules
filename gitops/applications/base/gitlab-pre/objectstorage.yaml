@@ -227,7 +227,7 @@ metadata:
 spec:
   parameters:
     clusterName: ${ARGOCD_ENV_cluster_name}
-    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
+    objectStoreProvider: "s3"
     bucketName: "gitlab-backups-${ARGOCD_ENV_dns_hyphenated_subdomain}"
     ccK8sProviderName: "kubernetes-provider"
     namespace: ${ARGOCD_ENV_gitlab_namespace}
@@ -249,7 +249,7 @@ metadata:
 spec:
   parameters:
     clusterName: ${ARGOCD_ENV_cluster_name}
-    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
+    objectStoreProvider: "s3"
     bucketName: "gitlab-backups-tmp-${ARGOCD_ENV_dns_hyphenated_subdomain}"
     ccK8sProviderName: "kubernetes-provider"
     namespace: ${ARGOCD_ENV_gitlab_namespace}
@@ -713,18 +713,14 @@ spec:
     template:
       data:
         connection: |
-          provider: AWS
-          # Specify the region
-          region: ${ARGOCD_ENV_cloud_region}
-          # Specify access/secret keys
-          aws_access_key_id: {{.username}}
-          aws_secret_access_key: {{.password}}
-          # The below settings are for S3 compatible endpoints
-          #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
-          aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_host}
-          endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
-          path_style: ${ARGOCD_ENV_object_storage_path_style}
+          [default]
+          access_key = {{.username}}
+          secret_key = {{.password}}
+          bucket_location = ${ARGOCD_ENV_cloud_region}
+          host_base = s3.amazonaws.com
+          host_bucket = %(bucket)s.s3.amazonaws.com
+          use_https = True
+          signature_v2 = False
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret

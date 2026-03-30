@@ -1362,6 +1362,10 @@ gitlab:
       matchLabels:
         app: gitaly
     backups:
+      cron:
+        enabled: true
+        schedule: "0 0 * * *"
+        extraArgs: ""
       objectStorage:
         config:
           secret: gitlab-rails-secret-backups
