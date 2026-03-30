@@ -16,3 +16,4 @@ helmCharts:
     repo: https://l7mp.io/stunner
     namespace: ${ARGOCD_ENV_stunner_system_namespace}
     includeCRDs: true
+    valuesFile: stunner-gateway-operator-values.yaml
