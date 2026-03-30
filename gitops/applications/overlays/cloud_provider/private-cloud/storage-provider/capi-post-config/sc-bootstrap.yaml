@@ -320,6 +320,9 @@ spec:
             - name: "monitoring_alloy_limits_cpu"
               value: "${ARGOCD_ENV_monitoring_alloy_limits_cpu}"
 
+            - name: "capi_cluster_name"
+              value: "${ARGOCD_ENV_capi_cluster_name}"
+
   providerConfigsRef:
     scK8sProviderName: sc-kubernetes-provider
     scHelmProviderName: sc-helm-provider
