@@ -18,8 +18,9 @@ spec:
         image: percona/mongodb_exporter:0.48
         args:
         # - --mongodb.uri=mongodb://$(MONGODB_USERNAME):$(MONGODB_PASSWORD)@${externalservice_name}.${namespace}:${port}/admin?replicaSet=rs0&tlsInsecure=true&ssl=true
-        - --mongodb.uri=mongodb://$(MONGODB_USERNAME):$(MONGODB_PASSWORD)@rs0.eg-dev-common-mongodb-external.storage.eg-dev.drpp-onprem.global:${port}/admin?replicaSet=rs0&tlsInsecure=true&ssl=true&tlsCAFile=/etc/mongodb-certs/${ca_bundle_secret_key}&tlsCertificateKeyFile=/etc/mongodb-certs/${ca_bundle_secret_key}&tlsAllowInvalidHostnames=true
-        - --mongodb.direct-connect=true
+        # - --mongodb.uri=mongodb://$(MONGODB_USERNAME):$(MONGODB_PASSWORD)@rs0-common-mongodb.stateful-resources.svc.cluster.local:${port}/admin?replicaSet=rs0&tlsInsecure=true&ssl=true&tlsCAFile=/etc/mongodb-certs/${ca_bundle_secret_key}&tlsCertificateKeyFile=/etc/mongodb-certs/${ca_bundle_secret_key}&tlsAllowInvalidHostnames=true
+        - --mongodb.uri=mongodb://$(MONGODB_USERNAME):$(MONGODB_PASSWORD)@rs0-common-mongodb.stateful-resources.svc.cluster.local:${port}/admin?replicaSet=rs0&tlsInsecure=true&ssl=true&directConnection=true
+        # - --mongodb.direct-connect=true
         - --compatible-mode
         - --collect-all
         - --log.level=info
