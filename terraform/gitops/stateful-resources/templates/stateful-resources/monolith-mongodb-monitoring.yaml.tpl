@@ -93,7 +93,5 @@ spec:
     # to maintain accurate and timely dashboard metrics.
     interval: 1m 
     metricRelabelings:
-    - targetLabel: instance
-      sourceLabels: [job]
     - targetLabel: env
       replacement: ${cluster_name}
