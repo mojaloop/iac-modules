@@ -98,7 +98,7 @@ loki:
         mimir:
           url: ${ARGOCD_ENV_prometheus_remote_write_endpoint}/api/v1/push
           headers:
-            X-Scope-OrgID: ${ARGOCD_ENV_remote_write_tenant_id}
+            X-Scope-OrgID: fake
 # Global extraEnvFrom for all components
 global:
   dnsService: "external-dns" 
