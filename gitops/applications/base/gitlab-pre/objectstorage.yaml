@@ -27,7 +27,7 @@ spec:
             {
               "Effect": "Allow",
               "Principal": {
-                    "AWS": "arn:aws:iam:::user/"gitlab-backups-${ARGOCD_ENV_cluster_name}""
+                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
                   },
               "Action": [
                     "s3:GetObject",
@@ -67,7 +67,7 @@ spec:
             {
               "Effect": "Allow",
               "Principal": {
-                    "AWS": "arn:aws:iam:::user/"gitlab-backups-${ARGOCD_ENV_cluster_name}""
+                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
                   },
               "Action": [
                     "s3:GetObject",
@@ -107,7 +107,7 @@ spec:
             {
               "Effect": "Allow",
               "Principal": {
-                    "AWS": "arn:aws:iam:::user/"gitlab-backups-${ARGOCD_ENV_cluster_name}""
+                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
                   },
               "Action": [
                     "s3:GetObject",
@@ -147,7 +147,7 @@ spec:
             {
               "Effect": "Allow",
               "Principal": {
-                    "AWS": "arn:aws:iam:::user/"gitlab-backups-${ARGOCD_ENV_cluster_name}""
+                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
                   },
               "Action": [
                     "s3:GetObject",
@@ -187,7 +187,7 @@ spec:
             {
               "Effect": "Allow",
               "Principal": {
-                    "AWS": "arn:aws:iam:::user/"gitlab-backups-${ARGOCD_ENV_cluster_name}""
+                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
                   },
               "Action": [
                     "s3:GetObject",
@@ -227,7 +227,7 @@ spec:
             {
               "Effect": "Allow",
               "Principal": {
-                    "AWS": "arn:aws:iam:::user/"gitlab-backups-${ARGOCD_ENV_cluster_name}""
+                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
                   },
               "Action": [
                     "s3:GetObject",
@@ -267,7 +267,7 @@ spec:
             {
               "Effect": "Allow",
               "Principal": {
-                    "AWS": "arn:aws:iam:::user/"gitlab-backups-${ARGOCD_ENV_cluster_name}""
+                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
                   },
               "Action": [
                     "s3:GetObject",
@@ -307,7 +307,7 @@ spec:
             {
               "Effect": "Allow",
               "Principal": {
-                    "AWS": "arn:aws:iam:::user/"gitlab-backups-${ARGOCD_ENV_cluster_name}""
+                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
                   },
               "Action": [
                     "s3:GetObject",
@@ -347,7 +347,7 @@ spec:
             {
               "Effect": "Allow",
               "Principal": {
-                    "AWS": "arn:aws:iam:::user/"gitlab-backups-${ARGOCD_ENV_cluster_name}""
+                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
                   },
               "Action": [
                     "s3:GetObject",
@@ -387,7 +387,7 @@ spec:
             {
               "Effect": "Allow",
               "Principal": {
-                    "AWS": "arn:aws:iam:::user/"gitlab-backups-${ARGOCD_ENV_cluster_name}""
+                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
                   },
               "Action": [
                     "s3:GetObject",
@@ -450,7 +450,7 @@ spec:
             {
               "Effect": "Allow",
               "Principal": {
-                    "AWS": "arn:aws:iam:::user/"gitlab-backups-${ARGOCD_ENV_cluster_name}""
+                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
                   },
               "Action": [
                     "s3:GetObject",
