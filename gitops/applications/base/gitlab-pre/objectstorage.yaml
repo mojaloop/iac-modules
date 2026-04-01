@@ -20,24 +20,17 @@ spec:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_git_lfs_storage_size}"
-      bucketPolicy: |
-        {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
-                  },
-              "Action": [
-                    "s3:GetObject",
-                    "s3:ListBucket",
-                    "s3:GetBucketLocation"
-              ],
-              "Resource": "arn:aws:s3:::git-lfs-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
-            }
-          ]
-        }
+      bucketPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: "arn:aws:iam:::user/gitlab-backup-user"
+            Action:
+              - "s3:GetObject"
+              - "s3:ListBucket"
+              - "s3:GetBucketLocation"
+            Resource: "arn:aws:s3:::git-lfs-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
 ---
 apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
@@ -60,24 +53,17 @@ spec:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_artifacts_storage_size}"
-      bucketPolicy: |
-        {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
-                  },
-              "Action": [
-                    "s3:GetObject",
-                    "s3:ListBucket",
-                    "s3:GetBucketLocation"
-              ],
-              "Resource": "arn:aws:s3:::gitlab-artifacts-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
-            }
-          ]
-        }
+      bucketPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: "arn:aws:iam:::user/gitlab-backup-user"
+            Action:
+              - "s3:GetObject"
+              - "s3:ListBucket"
+              - "s3:GetBucketLocation"
+            Resource: "arn:aws:s3:::gitlab-artifacts-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
 ---
 apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
@@ -100,24 +86,17 @@ spec:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_uploads_storage_size}"
-      bucketPolicy: |
-        {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
-                  },
-              "Action": [
-                    "s3:GetObject",
-                    "s3:ListBucket",
-                    "s3:GetBucketLocation"
-              ],
-              "Resource": "arn:aws:s3:::gitlab-uploads-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
-            }
-          ]
-        }
+      bucketPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: "arn:aws:iam:::user/gitlab-backup-user"
+            Action:
+              - "s3:GetObject"
+              - "s3:ListBucket"
+              - "s3:GetBucketLocation"
+            Resource: "arn:aws:s3:::gitlab-uploads-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
 ---
 apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
@@ -140,24 +119,17 @@ spec:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_packages_storage_size}"
-      bucketPolicy: |
-        {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
-                  },
-              "Action": [
-                    "s3:GetObject",
-                    "s3:ListBucket",
-                    "s3:GetBucketLocation"
-              ],
-              "Resource": "arn:aws:s3:::gitlab-packages-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
-            }
-          ]
-        }
+      bucketPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: "arn:aws:iam:::user/gitlab-backup-user"
+            Action:
+              - "s3:GetObject"
+              - "s3:ListBucket"
+              - "s3:GetBucketLocation"
+            Resource: "arn:aws:s3:::gitlab-packages-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
 ---
 apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
@@ -180,24 +152,17 @@ spec:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_registry_storage_size}"
-      bucketPolicy: |
-        {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
-                  },
-              "Action": [
-                    "s3:GetObject",
-                    "s3:ListBucket",
-                    "s3:GetBucketLocation"
-              ],
-              "Resource": "arn:aws:s3:::registry-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
-            }
-          ]
-        }
+      bucketPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: "arn:aws:iam:::user/gitlab-backup-user"
+            Action:
+              - "s3:GetObject"
+              - "s3:ListBucket"
+              - "s3:GetBucketLocation"
+            Resource: "arn:aws:s3:::registry-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
 ---
 apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
@@ -220,24 +185,17 @@ spec:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_mrdiffs_storage_size}"
-      bucketPolicy: |
-        {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
-                  },
-              "Action": [
-                    "s3:GetObject",
-                    "s3:ListBucket",
-                    "s3:GetBucketLocation"
-              ],
-              "Resource": "arn:aws:s3:::gitlab-mr-diffs-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
-            }
-          ]
-        }
+      bucketPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: "arn:aws:iam:::user/gitlab-backup-user"
+            Action:
+              - "s3:GetObject"
+              - "s3:ListBucket"
+              - "s3:GetBucketLocation"
+            Resource: "arn:aws:s3:::gitlab-mr-diffs-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
 ---
 apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
@@ -260,24 +218,17 @@ spec:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_cisecurefiles_storage_size}"
-      bucketPolicy: |
-        {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
-                  },
-              "Action": [
-                    "s3:GetObject",
-                    "s3:ListBucket",
-                    "s3:GetBucketLocation"
-              ],
-              "Resource": "arn:aws:s3:::gitlab-ci-secure-files-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
-            }
-          ]
-        }
+      bucketPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: "arn:aws:iam:::user/gitlab-backup-user"
+            Action:
+              - "s3:GetObject"
+              - "s3:ListBucket"
+              - "s3:GetBucketLocation"
+            Resource: "arn:aws:s3:::gitlab-ci-secure-files-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
 ---
 apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
@@ -300,24 +251,17 @@ spec:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_tfstate_storage_size}"
-      bucketPolicy: |
-        {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
-                  },
-              "Action": [
-                    "s3:GetObject",
-                    "s3:ListBucket",
-                    "s3:GetBucketLocation"
-              ],
-              "Resource": "arn:aws:s3:::gitlab-terraform-state-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
-            }
-          ]
-        }
+      bucketPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: "arn:aws:iam:::user/gitlab-backup-user"
+            Action:
+              - "s3:GetObject"
+              - "s3:ListBucket"
+              - "s3:GetBucketLocation"
+            Resource: "arn:aws:s3:::gitlab-terraform-state-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
 ---
 apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
@@ -340,24 +284,17 @@ spec:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_dep_proxy_storage_size}"
-      bucketPolicy: |
-        {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
-                  },
-              "Action": [
-                    "s3:GetObject",
-                    "s3:ListBucket",
-                    "s3:GetBucketLocation"
-              ],
-              "Resource": "arn:aws:s3:::gitlab-dependency-proxy-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
-            }
-          ]
-        }
+      bucketPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: "arn:aws:iam:::user/gitlab-backup-user"
+            Action:
+              - "s3:GetObject"
+              - "s3:ListBucket"
+              - "s3:GetBucketLocation"
+            Resource: "arn:aws:s3:::gitlab-dependency-proxy-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
 ---
 apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
@@ -380,25 +317,17 @@ spec:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
-      bucketPolicy: |
-        {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
-                  },
-              "Action": [
-                    "s3:GetObject",
-                    "s3:ListBucket",
-                    "s3:GetBucketLocation"
-              ],
-              "Resource": "arn:aws:s3:::gitlab-runner-cache-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
-            }
-          ]
-        }
-
+      bucketPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: "arn:aws:iam:::user/gitlab-backup-user"
+            Action:
+              - "s3:GetObject"
+              - "s3:ListBucket"
+              - "s3:GetBucketLocation"
+            Resource: "arn:aws:s3:::gitlab-runner-cache-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
 ---
 apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
@@ -421,6 +350,18 @@ spec:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
+      bucketPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: "arn:aws:iam:::user/gitlab-backup-user"
+            Action:
+              - "s3:GetObject"
+              - "s3:ListBucket"
+              - "s3:GetBucketLocation"
+              - "s3:PutObject"
+            Resource: "arn:aws:s3:::gitlab-runner-cache-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
 ---
 apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
@@ -443,24 +384,17 @@ spec:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
-      bucketPolicy: |
-        {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                    "AWS": "arn:aws:iam:::user/gitlab-backup-user"
-                  },
-              "Action": [
-                    "s3:GetObject",
-                    "s3:ListBucket",
-                    "s3:GetBucketLocation"
-              ],
-              "Resource": "arn:aws:s3:::gitlab-backups-tmp-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
-            }
-          ]
-        }
+      bucketPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: "arn:aws:iam:::user/gitlab-backup-user"
+            Action:
+              - "s3:GetObject"
+              - "s3:ListBucket"
+              - "s3:GetBucketLocation"
+            Resource: "arn:aws:s3:::gitlab-backups-tmp-${ARGOCD_ENV_dns_hyphenated_subdomain}/*"
 ---
 apiVersion: v1
 kind: ServiceAccount
