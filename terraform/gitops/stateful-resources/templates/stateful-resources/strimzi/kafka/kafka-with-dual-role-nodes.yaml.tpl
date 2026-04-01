@@ -63,6 +63,7 @@ metadata:
     strimzi.io/kraft: enabled
 spec:
   kafka:
+    resources: ${jsonencode(resources)}
     template:
       pod:
         tolerations:

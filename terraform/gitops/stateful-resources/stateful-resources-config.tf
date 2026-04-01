@@ -109,6 +109,7 @@ resource "local_file" "strimzi-crs" {
       node_pool_affinity           = each.value.local_operator_config.kafka_data.affinity_definition
       tolerations                  = each.value.local_operator_config.kafka_data.tolerations
       namespace                    = each.value.local_operator_config.resource_namespace
+      resources                    = try(each.value.local_operator_config.kafka_data.resources, {requests = {cpu = "1"}, limits = {cpu = "4"}})
 
       kafka_version          = try(each.value.local_operator_config.kafka_data.kafka_version, "3.7.0")
       kafka_metadata_version = try(each.value.local_operator_config.kafka_data.kafka_metadata_version, "3.7-IV4")
@@ -384,6 +385,7 @@ resource "local_file" "monolith-db-monitoring" {
         db_username                  = each.value.external_resource_config.username
         ca_bundle_secret_key         = each.value.ca_bundle_secret.key
         ca_bundle_secret_name        = each.value.ca_bundle_secret.name
+        mysql_exporter_args          = try(each.value.mysql_exporter_args, [])
   })
   filename = "${local.stateful_resources_output_path}/monolith-db-monitoring-${each.key}.yaml"
 }
