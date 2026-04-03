@@ -72,7 +72,7 @@ stage.limit {
 
 stage.static_labels {
     values = {
-    cluster = "storage",
+    cluster = env("ALLOY_CLUSTER_NAME"),
     }
 }
 

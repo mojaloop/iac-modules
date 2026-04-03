@@ -7,6 +7,8 @@ module "generate_kyverno_files" {
     kyverno_chart_version  = var.kyverno_chart_version
     opt_out_namespace_list = var.opt_out_namespace_list != "" ? split(",", trimspace(var.opt_out_namespace_list)) : []
     kyverno_chart_repo     = local.kyverno_chart_repo
+    vault_seal_token_secret = "vault-seal-token-secret"
+    vault_namespace         = var.vault_namespace
   }
   file_list       = [for f in fileset(local.kyverno_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.kyverno_app_file, f))]
   template_path   = local.kyverno_template_path

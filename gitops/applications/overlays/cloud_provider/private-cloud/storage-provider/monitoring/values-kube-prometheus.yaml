@@ -1,6 +1,5 @@
 #values: https://github.com/prometheus-community/helm-charts/blob/kube-prometheus-stack-80.0.0/charts/kube-prometheus-stack/values.yaml
 
-
 prometheusOperator:
   enabled: true
   
@@ -38,7 +37,7 @@ prometheus:
     retention: ${ARGOCD_ENV_prometheus_retention_period}
     
     externalLabels:
-      cluster: ${ARGOCD_ENV_cluster_label_value}
+      cluster: ${ARGOCD_ENV_capi_cluster_name}
     
     disableCompaction: false
     additionalArgs:
@@ -46,7 +45,7 @@ prometheus:
         value: ${ARGOCD_ENV_tsdb_min_block_duration}
       - name: storage.tsdb.max-block-duration
         value: ${ARGOCD_ENV_tsdb_max_block_duration}
-    
+
     storageSpec:
       volumeClaimTemplate:
         spec:
@@ -120,7 +119,7 @@ kube-state-metrics:
   
   networkPolicy:
     enabled: false
-  
+
   prometheus:
     monitor:
       enabled: true
@@ -140,6 +139,27 @@ kube-state-metrics:
           targetLabel: service
           replacement: ''
           action: replace
+
+  extraArgs:
+    - --custom-resource-state-config-file=/etc/ksm-crd/ksm-crd-config.yaml
+  volumes:
+    - name: ksm-crd-config
+      configMap:
+        name: ksm-crd-config
+  volumeMounts:
+    - name: ksm-crd-config
+      mountPath: /etc/ksm-crd
+      readOnly: true
+  rbac:
+    create: true
+    useClusterRole: true
+    extraRules:
+      - apiGroups: ["apiextensions.k8s.io"]
+        resources: ["customresourcedefinitions"]
+        verbs: ["list", "watch"]
+      - apiGroups: ["psmdb.percona.com"]
+        resources: ["perconaservermongodbbackups"]
+        verbs: ["list", "watch"]
 
 prometheus-node-exporter:
   enabled: true

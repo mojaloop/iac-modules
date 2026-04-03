@@ -75,13 +75,38 @@ stage.static_labels {
     cluster = "${cluster_label}",
     }
 }
-
-forward_to = [loki.write.local_loki.receiver]
+forward_to = [loki.write.local_loki.receiver, loki.process.central_loki_filter.receiver]
 }
 
-// Push to Loki Gateway
+// Push to Local Loki Gateway
 loki.write "local_loki" {
 endpoint {
     url = "http://${loki_release_name}-gateway.monitoring.svc.cluster.local/loki/api/v1/push"
 }
+}
+
+loki.process "central_loki_filter" {
+%{if enable_central_loki_write ~}
+
+  stage.match {
+    selector            = "{namespace!~\"${namespaces_to_central_loki}\"}"
+    action              = "drop"
+    drop_counter_reason = "non_allowed_namespace"
+  }
+
+%{else ~}
+  stage.drop {
+    expression          = ".*"
+    drop_counter_reason = "central_loki_disabled"
+  }
+
+%{endif ~}
+  forward_to = [loki.write.central_loki.receiver]
+}
+
+// Push to Central Loki
+loki.write "central_loki" {
+  endpoint {
+    url = "${central_loki_endpoint}/loki/api/v1/push"
+  }
 }

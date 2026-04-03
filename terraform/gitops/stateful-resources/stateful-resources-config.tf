@@ -110,12 +110,31 @@ resource "local_file" "strimzi-crs" {
       node_pool_affinity           = each.value.local_operator_config.kafka_data.affinity_definition
       tolerations                  = each.value.local_operator_config.kafka_data.tolerations
       namespace                    = each.value.local_operator_config.resource_namespace
-      kafka_topics                 = each.value.logical_service_config.post_install_schema_config.kafka_provisioning.enabled ? each.value.logical_service_config.post_install_schema_config.kafka_provisioning.topics : {}
+
+      kafka_version          = try(each.value.local_operator_config.kafka_data.kafka_version, "3.7.0")
+      kafka_metadata_version = try(each.value.local_operator_config.kafka_data.kafka_metadata_version, "3.7-IV4")
+      # Kafka broker config defaults. Override/extend via custom-config:
+      #   mojaloop-kafka.local_operator_config.kafka_data.broker_config:
+      #     <key>: <value>
+      kafka_broker_config = merge(
+        {
+          "offsets.topic.replication.factor"         = 3
+          "transaction.state.log.replication.factor" = 3
+          "transaction.state.log.min.isr"            = 2
+          "default.replication.factor"               = 3
+          "min.insync.replicas"                      = 2
+          "log.message.timestamp.type"               = "LogAppendTime"
+        },
+        try(each.value.local_operator_config.kafka_data.broker_config, {})
+      )
+      kafka_topics = each.value.logical_service_config.post_install_schema_config.kafka_provisioning.enabled ? each.value.logical_service_config.post_install_schema_config.kafka_provisioning.topics : {}
 
       strimzi_kafka_grafana_dashboards_version = local.strimzi_kafka_grafana_dashboards_version
-      strimzi_kafka_grafana_dashboards_list = ["strimzi-cruise-control", "strimzi-kafka-bridge", "strimzi-kafka-connect",
+      strimzi_kafka_grafana_dashboards_list = [
+        "strimzi-cruise-control", "strimzi-kafka-bridge", "strimzi-kafka-connect",
         "strimzi-kafka-exporter", "strimzi-kafka-mirror-maker-2", "strimzi-kafka-oauth",
-      "strimzi-kafka", "strimzi-kraft", "strimzi-operators", "strimzi-zookeeper"]
+        "strimzi-kafka", "strimzi-kraft", "strimzi-operators"
+      ]
   })
   filename = "${local.stateful_resources_output_path}/kafka-with-dual-role-nodes-${each.key}.yaml"
 }
@@ -196,7 +215,10 @@ resource "local_file" "dbaas-crs-mysql" {
         dbdeploy_name_prefix         = each.value.external_resource_config.dbdeploy_name_prefix
         namespace                    = each.value.resource_namespace
         appNamespace                 = each.value.resource_namespace
-        consumer_app_externalname_services = jsonencode(local.consumer_app_externalname_services[each.key])
+
+        consumer_app_externalname_services         = jsonencode(local.consumer_app_externalname_services[each.key])
+        consumer_app_replica_externalname_services = jsonencode(local.consumer_app_replica_externalname_services[each.key])
+
         consumer_app_secret          = local.ca_bundle_secrets_by_monolith[each.key]
         cr_version                   = each.value.dbaas_resource_config.cr_version
         db_username                  = each.value.external_resource_config.username
@@ -204,6 +226,7 @@ resource "local_file" "dbaas-crs-mysql" {
         db_source_secret             = each.value.external_resource_config.db_source_secret
         db_secret_key                = each.value.external_resource_config.master_user_password_secret_key
         externalservice_name         = each.value.externalservice_name
+        replica_externalservice_name = each.value.dbaas_resource_config.replica_external_service_name
         db_name                      = each.value.external_resource_config.db_name
         mysql_storage_size           = each.value.dbaas_resource_config.mysql_storage_size
         pxc_image                    = each.value.dbaas_resource_config.pxc_image
@@ -276,6 +299,8 @@ resource "local_file" "dbaas-crs-mongodb" {
         replset_requests_memory      = each.value.dbaas_resource_config.replset_requests_memory
         configsvr_expose_enabled     = each.value.dbaas_resource_config.configsvr_expose_enabled
         configsvr_expose_type        = each.value.dbaas_resource_config.configsvr_expose_type
+        replsets_expose_enabled      = each.value.dbaas_resource_config.replsets_expose_enabled
+        replsets_expose_type         = each.value.dbaas_resource_config.replsets_expose_type
         replset_storage              = each.value.dbaas_resource_config.replset_storage
         sharding_enabled             = each.value.dbaas_resource_config.sharding_enabled
         configsvr_size               = each.value.dbaas_resource_config.configsvr_size
@@ -475,6 +500,18 @@ locals {
     ]
   }
 
+  consumer_app_replica_externalname_services = {
+    for db_server in distinct([
+      for _, resource in local.managed_stateful_resources :
+      resource.monolith_db_server if resource.enabled
+    ]) :
+    db_server => [
+      for _, resource in local.managed_stateful_resources :
+      resource.logical_service_config.logical_replica_service_name
+      if resource.monolith_db_server == db_server && resource.enabled
+    ]
+  }
+
   ca_bundle_secrets_by_monolith = {
     for monolith_key, monolith in var.monolith_stateful_resources : monolith_key => {
       ca_bundle_secret = monolith.ca_bundle_secret.name
@@ -507,7 +544,7 @@ locals {
   all_local_helm_namespaces = distinct([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.resource_namespace, "")])
   all_local_op_namespaces   = distinct([for stateful_resource in local.operator_stateful_resources : try(stateful_resource.local_operator_config.resource_namespace, "")])
 
-  percona_credentials_secret_provider_key = "percona_bucket_secret_key_id"
+  percona_credentials_secret_provider_key = "percona_bucket_access_key_id"
   percona_credentials_id_provider_key     = "percona_bucket_access_key_id"
 
   strimzi_kafka_grafana_dashboards_version = "0.41.0"

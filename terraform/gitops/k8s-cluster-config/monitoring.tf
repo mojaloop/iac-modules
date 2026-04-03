@@ -44,11 +44,9 @@ module "generate_monitoring_files" {
     istio_create_ingress_gateways              = var.istio_create_ingress_gateways
     loki_ingester_pvc_size                     = try(var.common_var_map.loki_ingester_pvc_size, local.loki_ingester_pvc_size)
     prometheus_pvc_size                        = try(var.common_var_map.prometheus_pvc_size, local.prometheus_pvc_size)
-    loki_retention_enabled                     = try(var.common_var_map.loki_retention_enabled, local.loki_retention_enabled)
     loki_ingester_retention_period             = try(var.common_var_map.loki_ingester_retention_period, local.loki_ingester_retention_period)
     loki_ingester_max_chunk_age                = try(var.common_var_map.loki_ingester_max_chunk_age, local.loki_ingester_max_chunk_age)
     loki_ingester_replication_factor           = try(var.common_var_map.loki_ingester_replication_factor, local.loki_ingester_replication_factor)
-    loki_query_scheduler_enabled               = try(var.common_var_map.loki_query_scheduler_enabled, local.loki_query_scheduler_enabled)
     loki_distributor_replica_count             = try(var.common_var_map.loki_distributor_replica_count, local.loki_distributor_replica_count)
     loki_ingester_replica_count                = try(var.common_var_map.loki_ingester_replica_count, local.loki_ingester_replica_count)
     loki_querier_replica_count                 = try(var.common_var_map.loki_querier_replica_count, local.loki_querier_replica_count)
@@ -93,11 +91,9 @@ module "generate_monitoring_files" {
     object_store_insecure_connection           = var.object_store_insecure_connection
     object_store_insecure_skip_verify          = var.object_store_insecure_skip_verify
     loki_bucket                                = local.loki_bucket
-    object_store_loki_user_key                 = "${var.cluster_name}/loki_bucket_access_key_id"
-    object_store_loki_password_key             = "${var.cluster_name}/loki_bucket_secret_key_id"
+    object_store_loki_access_key               = "${var.cluster_name}/loki_bucket_access_key_id"
     object_store_tempo_credentials_secret_name = "ceph-tempo-credentials-secret"
-    object_store_tempo_user_key                = "${var.cluster_name}/tempo_bucket_access_key_id"
-    object_store_tempo_password_key            = "${var.cluster_name}/tempo_bucket_secret_key_id"
+    object_store_tempo_access_key              = "${var.cluster_name}/tempo_bucket_access_key_id"
     tempo_bucket                               = local.tempo_bucket
     tempo_retention_period                     = try(var.common_var_map.tempo_retention_period, local.tempo_retention_period)
     external_secret_sync_wave                  = var.external_secret_sync_wave
@@ -118,6 +114,9 @@ module "generate_monitoring_files" {
     enable_central_observability_read  = try(var.common_var_map.enable_central_observability_read, local.enable_central_observability_read)
     central_observability_endpoint     = var.central_observability_endpoint
     central_observability_tenant_id    = try(var.common_var_map.central_observability_tenant_id, local.central_observability_tenant_id)
+    enable_central_loki_write          = try(var.common_var_map.enable_central_loki_write, local.enable_central_loki_write)
+    central_loki_endpoint              = var.central_loki_endpoint
+    namespaces_to_central_loki         = try(var.common_var_map.namespaces_to_central_loki, local.namespaces_to_central_loki)
     alertmanager_fqdn = local.alertmanager_fqdn
     tolerations       = var.common_var_map.monitoring_workload_tolerations
     prometheus_crd_repo = local.prometheus_crd_repo
@@ -237,6 +236,7 @@ locals {
   opentelemetry_chart_version         = "0.93.1"
   grafana_wildcard_gateway            = var.grafana_ingress_internal_lb ? "internal" : "external"
   loki_release_name                   = "loki"
+  namespaces_to_central_loki          = "mojaloop"
   prometheus_operator_release_name    = "prom"
   loki_chart_version                  = "6.45.2"
   prometheus_operator_version         = "8.22.8"
@@ -251,11 +251,9 @@ locals {
   monitoring_app_file                 = "monitoring-app.yaml"
   loki_ingester_pvc_size              = "10Gi"
   prometheus_pvc_size                 = "50Gi"
-  loki_retention_enabled              = true
   loki_ingester_retention_period      = "72h"
   loki_ingester_max_chunk_age         = "2h"
   loki_ingester_replication_factor    = "3"
-  loki_query_scheduler_enabled        = false
   loki_distributor_replica_count      = "2"
   loki_ingester_replica_count         = "3"
   loki_querier_replica_count          = "1"
@@ -290,6 +288,7 @@ locals {
   enable_central_observability_write      = false
   enable_central_observability_read       = false
   central_observability_tenant_id         = "infitx"
+  enable_central_loki_write               = false
   loki_canary_chart_version               = "0.14.0"
   alloy_limits_memory                     = "1Gi"
   alloy_limits_cpu                        = "1000m"

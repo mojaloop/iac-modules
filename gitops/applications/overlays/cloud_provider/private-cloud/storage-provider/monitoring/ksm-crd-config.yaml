@@ -1,0 +1,49 @@
+kind: CustomResourceStateMetrics
+spec:
+  resources:
+    - groupVersionKind:
+        group: psmdb.percona.com
+        version: "v1"
+        kind: PerconaServerMongoDBBackup
+      metricNamePrefix: psmdb_backup
+      labelsFromPath:
+        backup_name: [metadata, name]
+        namespace:   [metadata, namespace]
+        cluster:     [spec, clusterName]
+        storage:     [spec, storageName]
+        type:        [spec, type]
+      metrics:
+        - name: "status"
+          help: "MongoDB backup status"
+          each:
+            type: StateSet
+            stateSet:
+              labelName: status
+              path: [status, state]
+              list: [waiting, requested, running, error, ready]
+
+        - name: "completed_timestamp"
+          help: "Unix timestamp when MongoDB backup completed"
+          each:
+            type: Gauge
+            gauge:
+              path: [status, completed]
+              valueType: timestamp
+              nilIsZero: true
+
+        - name: "start_timestamp"
+          help: "Unix timestamp when MongoDB backup started"
+          each:
+            type: Gauge
+            gauge:
+              path: [status, start]
+              valueType: timestamp
+              nilIsZero: true
+
+        - name: "info"
+          help: "MongoDB backup destination info"
+          each:
+            type: Info
+            info:
+              labelsFromPath:
+                destination: [status, destination]

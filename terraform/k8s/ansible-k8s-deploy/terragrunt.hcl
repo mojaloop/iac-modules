@@ -58,6 +58,7 @@ inputs = {
       }, (local.K8S_CLUSTER_TYPE == "microk8s") ? {
       microk8s_dns_resolvers            = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "")
       microk8s_version                  = try(local.common_vars.microk8s_version, "1.31/stable")
+      microk8s_allow_patch_updates      = try(local.common_vars.microk8s_allow_patch_updates, false)
   } : {})
   bastion_hosts_yaml_maps                 = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps, local.bastion_hosts_yaml_maps)
   master_hosts_yaml_maps                  = dependency.k8s_deploy.outputs.master_hosts_yaml_maps

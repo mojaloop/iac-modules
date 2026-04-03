@@ -45,7 +45,7 @@ module "generate_vault_files" {
     object_store_vb_credentials_secret_name  = "vault-backup-objectstore-secret"
     object_store_region                      = var.object_store_region
     object_store_vb_user_key                 = "${var.cluster_name}/vault_backup_bucket_access_key_id"
-    object_store_vb_password_key             = "${var.cluster_name}/vault_backup_bucket_secret_key_id"
+    object_store_vb_password_key             = "${var.cluster_name}/vault_backup_bucket_access_key_id"
     vault_backup_schedule                    = var.vault_backup_schedule
     vault_backupjob_image                    = var.vault_backupjob_image
     vault_snapshot_cred                      = "vault-snapshot-agent-token"

@@ -223,6 +223,11 @@ variable "traces_endpoint" {
   description = "tracing server endpoint"
 }
 
+variable "central_loki_endpoint" {
+  type        = string
+  description = "central loki endpoint"
+}
+
 variable "namespace_meta_config_file" {
   type        = string
   description = "Config file with namespace metadata"

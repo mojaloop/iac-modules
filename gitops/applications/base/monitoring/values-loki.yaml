@@ -1,82 +1,115 @@
+# values: https://github.com/grafana/loki/blob/helm-loki-6.45.2/production/helm/loki/values.yaml
+
+deploymentMode: Distributed
+
 loki:
-  image:
-    registry: docker.io
-    repository: grafana/loki
-    tag: 2.9.3
-    pullPolicy: IfNotPresent
-  overrideConfiguration:
-    # https://grafana.com/docs/loki/latest/operations/storage/retention/
-    server:
-      grpc_server_max_recv_msg_size: 8388608 # 8MB
-    compactor:
-      retention_enabled: true # enable deletion using compactor
-      shared_store: s3
-    limits_config:
-      volume_enabled: true
-      retention_period: ${ARGOCD_ENV_loki_retention_period}
-    ingester:
-      max_chunk_age: ${ARGOCD_ENV_loki_ingester_max_chunk_age}
-      lifecycler:
-        ring:
-          replication_factor: ${ARGOCD_ENV_loki_ingester_replication_factor}
-    schema_config:
-      configs:
-      - from: 2020-10-24
-        store: boltdb-shipper
+  auth_enabled: false
+  extraArgs:
+    - -config.expand-env=true
+  # NEW SCHEMA - tsdb/v13 with different prefix from old boltdb-shipper
+  schemaConfig:
+    configs:
+      - from: "2024-11-04"  # Use today's date for new schema start
+        store: tsdb
         object_store: s3
-        schema: v11
+        schema: v13
         index:
-          prefix: index_
+          prefix: tsdb_index_  # Different from old 'index_'
           period: 24h
-    storage_config:
-      boltdb_shipper:
-        shared_store: s3
-      aws:
-        # s3 is alias for aws
-        s3forcepathstyle: ${ARGOCD_ENV_object_storage_path_style}
-        endpoint: ${ARGOCD_ENV_object_storage_regional_host}
-        insecure: ${ARGOCD_ENV_object_store_insecure_connection}
-        access_key_id: $${username}
-        secret_access_key: $${password}
-        bucketnames: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
-        region: ${ARGOCD_ENV_cloud_region}
-        http_config:
-          insecure_skip_verify: ${ARGOCD_ENV_object_store_insecure_skip_verify}
-    memberlist:
-      advertise_port: ${ARGOCD_ENV_loki_gossip_ring_port}
-      bind_port: ${ARGOCD_ENV_loki_gossip_ring_port} # use custom memberlist.bind_port to keep loki and mimir rings separate
-      join_members:
-      - "${ARGOCD_ENV_loki_release_name}-grafana-loki-gossip-ring:${ARGOCD_ENV_loki_gossip_ring_port}"
-  gossipRing:
-    service:
-      ports:
-        http: ${ARGOCD_ENV_loki_gossip_ring_port}
-  containerPorts:
-    gossipRing: ${ARGOCD_ENV_loki_gossip_ring_port}
+  
+  # SAME S3 BUCKET - but with proper path separation
+  storage:
+    type: s3
+    bucketNames:
+      chunks: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"  
+      ruler: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+      admin: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+    s3:
+      endpoint: ${ARGOCD_ENV_object_storage_regional_host}
+      region: ${ARGOCD_ENV_cloud_region}
+      accessKeyId: $${username}
+      secretAccessKey: $${password}
+      s3ForcePathStyle: ${ARGOCD_ENV_object_storage_path_style}
+      insecure: ${ARGOCD_ENV_object_store_insecure_connection}
+      http_config:
+        insecure_skip_verify: ${ARGOCD_ENV_object_store_insecure_skip_verify}
 
-metrics:
-  enabled: true
-  serviceMonitor:
-    enabled: true
-    jobLabel: 'app.kubernetes.io/component'
-    relabelings:
-    - sourceLabels: [namespace,job]
-      separator: /
-      regex: (.*)
-      targetLabel: job
-      replacement: $${1}
-      action: replace
-    - sourceLabels: [job,__meta_kubernetes_endpoints_label_app_kubernetes_io_instance]
-      separator: '-'
-      regex: (.*)
-      targetLabel: job
-      replacement: $${1}
-      action: replace
+  server:
+    grpc_server_max_recv_msg_size: 8388608  # 8MB
+
+  limits_config:
+    retention_period: ${ARGOCD_ENV_loki_retention_period}
+    volume_enabled: true
+
+  compactor:
+    retention_enabled: true
+    working_directory: /var/loki/compactor
+    compaction_interval: 10m
+    retention_delete_delay: 2h
+    retention_delete_worker_count: 150
+    delete_request_store: s3
 
 
-# NOTE: make sure all components which are running have node affinity enabled for monitoring nodes
+  ingester:
+    max_chunk_age: ${ARGOCD_ENV_loki_ingester_max_chunk_age}
+    chunk_encoding: snappy
+    lifecycler:
+      ring:
+        replication_factor: ${ARGOCD_ENV_loki_ingester_replication_factor}
+
+  memberlistConfig:
+    join_members:
+      - "loki-memberlist:7946"
+
+
+  commonConfig:
+    replication_factor: ${ARGOCD_ENV_loki_ingester_replication_factor}
+
+  # TSDB Shipper config - this separates from boltdb-shipper paths
+  storage_config:
+    tsdb_shipper:
+      active_index_directory: /var/loki/tsdb-index
+      cache_location: /var/loki/tsdb-cache
+    hedging:
+      at: "250ms"
+      max_per_second: 20
+      up_to: 3
+
+  rulerConfig:
+    enable_api: true
+    enable_alertmanager_v2: false  
+    wal:
+      dir: /var/loki/ruler-wal
+    storage:
+      type: local 
+      local:
+        directory: /etc/loki/rules
+    rule_path: /tmp/rules
+    ring:
+      kvstore:
+        store: memberlist 
+    # How often to evaluate rules
+    evaluation_interval: 5m
+    # How often to poll for rule changes from storage
+    poll_interval: 5m
+    remote_write:
+      enabled: true
+      clients:
+        prometheus:
+          url: http://prometheus-operated:9090/api/v1/write
+
+# Global extraEnvFrom for all components
+global:
+  dnsService: "external-dns" 
+  dnsNamespace: "ext-dns"
+  extraEnvFrom:
+    - secretRef:
+        name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+
+# Ingester configuration
 ingester:
-  replicaCount: ${ARGOCD_ENV_loki_ingester_replica_count}
+  replicas: ${ARGOCD_ENV_loki_ingester_replica_count}
+  maxUnavailable: 1
   resources:
     requests:
       cpu: ${ARGOCD_ENV_loki_ingester_requests_cpu}
@@ -84,20 +117,21 @@ ingester:
     limits:
       cpu: ${ARGOCD_ENV_loki_ingester_limits_cpu}
       memory: ${ARGOCD_ENV_loki_ingester_limits_memory}
-  extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
-compactor:
-  replicaCount: ${ARGOCD_ENV_loki_compactor_replica_count}
-  resources:
-    limits:
-      cpu: ${ARGOCD_ENV_loki_compactor_limits_cpu}
-      memory: ${ARGOCD_ENV_loki_compactor_limits_memory}
-  extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
-  updateStrategy:
-    type: Recreate
+  extraEnvFrom:
+    - secretRef:
+        name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  persistence:
+    enabled: true
+    size: 10Gi
+  zoneAwareReplication:
+    enabled: false
+  extraArgs:
+    - -config.expand-env=true
+
+# Distributor configuration
 distributor:
-  replicaCount: ${ARGOCD_ENV_loki_distributor_replica_count}
+  replicas: ${ARGOCD_ENV_loki_distributor_replica_count}
+  maxUnavailable: 1
   resources:
     requests:
       cpu: ${ARGOCD_ENV_loki_distributor_requests_cpu}
@@ -105,143 +139,163 @@ distributor:
     limits:
       cpu: ${ARGOCD_ENV_loki_distributor_limits_cpu}
       memory: ${ARGOCD_ENV_loki_distributor_limits_memory}
-  extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  extraEnvFrom:
+    - secretRef:
+        name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  extraArgs:
+    - -config.expand-env=true
+
+# Querier configuration
 querier:
-  replicaCount: ${ARGOCD_ENV_loki_querier_replica_count}
+  replicas: ${ARGOCD_ENV_loki_querier_replica_count}
+  maxUnavailable: 1
   resources:
     limits:
       cpu: ${ARGOCD_ENV_loki_querier_limits_cpu}
       memory: ${ARGOCD_ENV_loki_querier_limits_memory}
-  extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  extraEnvFrom:
+    - secretRef:
+        name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  extraArgs:
+    - -config.expand-env=true
+
+
+
+
+# Query Frontend configuration
 queryFrontend:
-  replicaCount: ${ARGOCD_ENV_loki_query_frontend_replica_count}
+  replicas: ${ARGOCD_ENV_loki_query_frontend_replica_count}
+  maxUnavailable: 1
   resources:
     limits:
       cpu: ${ARGOCD_ENV_loki_query_frontend_limits_cpu}
       memory: ${ARGOCD_ENV_loki_query_frontend_limits_memory}
-  extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  extraEnvFrom:
+    - secretRef:
+        name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  extraArgs:
+    - -config.expand-env=true
+
+# Query Scheduler configuration
 queryScheduler:
-  replicaCount: ${ARGOCD_ENV_loki_query_scheduler_replica_count}
+  replicas: ${ARGOCD_ENV_loki_query_scheduler_replica_count}
   resources:
     limits:
       cpu: ${ARGOCD_ENV_loki_query_scheduler_limits_cpu}
       memory: ${ARGOCD_ENV_loki_query_scheduler_limits_memory}
-  enabled: false
-  extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  extraEnvFrom:
+    - secretRef:
+        name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  extraArgs:
+    - -config.expand-env=true
 
-
-memcachedchunks:
-  metrics:
+# Compactor configuration
+compactor:
+  replicas: ${ARGOCD_ENV_loki_compactor_replica_count}
+  resources:
+    limits:
+      cpu: ${ARGOCD_ENV_loki_compactor_limits_cpu}
+      memory: ${ARGOCD_ENV_loki_compactor_limits_memory}
+  extraEnvFrom:
+    - secretRef:
+        name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  persistence:
     enabled: true
-    serviceMonitor:
-      enabled: true
-  resourcesPreset: medium # https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl
-  command:
-    - "/opt/bitnami/scripts/memcached/entrypoint.sh"
-    - "/opt/bitnami/scripts/memcached/run.sh"
-  args:
-    # medium profile memory-limit: 1536Mi. Setting value slightly below that.
-    # See https://github.com/memcached/memcached/wiki/ConfiguringServer#commandline-arguments
-    # We only updated memory-limit and max-item-size
-    # We did not add extended params related to external store because as of now, we keep all our cache in memory.
-    # We did not change "aggressive" configs for memcache client in loki since memcache is completely RAM backed as of now.
-    - "--memory-limit=1400"   # max memory limit for all cached items in mega bytes
-    - "--max-item-size=2m"    # max memory limit for a single item
+    size: 10Gi
+  extraArgs:
+    - -config.expand-env=true
+
+  
+
+# Ruler configuration
+ruler:
+  enabled: true
+  replicas: 1
+  extraEnvFrom:
+    - secretRef:
+        name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  extraArgs:
+    - -config.expand-env=true
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+  persistence:
+    enabled: true
+    size: 10Gi
+  extraVolumes:
+    - name: rules-tmp
+      emptyDir: {}
+    - name: ruler-rules
+      configMap:
+        name: loki-ruler-rules
+  extraVolumeMounts:
+    - name: rules-tmp
+      mountPath: /tmp/rules
+    - name: ruler-rules
+      mountPath: /etc/loki/rules/fake
+      readOnly: true
+  directories: {}
+             
+# Gateway configuration
+gateway:
+  enabled: true
+  replicas: 1
+  verboseLogging: true
+  service:
+    type: ClusterIP
+    port: 80
+
+# Index Gateway (required for TSDB)
+indexGateway:
+  enabled: true
+  replicas: 1
+  extraEnvFrom:
+    - secretRef:
+        name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  persistence:
+    enabled: true
+    size: 10Gi
+  extraArgs:
+    - -config.expand-env=true
 
 
-promtail:
-  image:
-    repository: grafana/promtail
-    tag: 2.9.3
-  # reference: https://github.com/bitnami/charts/blob/5f843aec99a13573f67e59b5e3193916ca01f308/bitnami/grafana-loki/values.yaml#L4440
-  # only multiline stage has been added in pipeline_stages
-  configuration: |
-    server:
-      log_level: {{ .Values.promtail.logLevel }}
-      http_listen_port: {{ .Values.promtail.containerPorts.http }}
+# Chunks Cache (Memcached)
+chunksCache:
+  enabled: true
+  replicas: 1
+  allocatedMemory: 1400
+  maxItemMemory: 5
 
-    clients:
-      - url: http://{{ include "grafana-loki.gateway.fullname" . }}:{{ .Values.gateway.service.ports.http }}/loki/api/v1/push
-        {{- if .Values.gateway.auth.enabled }}
-        basic_auth:
-          # The username to use for basic auth
-          username: {{ .Values.gateway.auth.username }}
-          password_file: /bitnami/promtail/conf/secrets/password
-        {{- end }}
-    positions:
-      filename: /run/promtail/positions.yaml
+# Results Cache (Memcached)
+resultsCache:
+  enabled: true
+  replicas: 1
+  allocatedMemory: 1024
 
-    scrape_configs:
-      # See also https://github.com/grafana/loki/blob/master/production/ksonnet/promtail/scrape_config.libsonnet for reference
-      - job_name: kubernetes-pods
-        pipeline_stages:
-          - cri: {}
-          - multiline:
-              firstline: '^\d{4}-\d{2}-\d{2}T\d{1,2}:\d{2}:\d{2}\.\d{3}'
-              max_wait_time: 3s
-              max_lines: 128
-        kubernetes_sd_configs:
-          - role: pod
-        relabel_configs:
-          - source_labels:
-              - __meta_kubernetes_pod_controller_name
-            regex: ([0-9a-z-.]+?)(-[0-9a-f]{8,10})?
-            action: replace
-            target_label: __tmp_controller_name
-          - source_labels:
-              - __meta_kubernetes_pod_label_app_kubernetes_io_name
-              - __meta_kubernetes_pod_label_app
-              - __tmp_controller_name
-              - __meta_kubernetes_pod_name
-            regex: ^;*([^;]+)(;.*)?$
-            action: replace
-            target_label: app
-          - source_labels:
-              - __meta_kubernetes_pod_label_app_kubernetes_io_component
-              - __meta_kubernetes_pod_label_component
-            regex: ^;*([^;]+)(;.*)?$
-            action: replace
-            target_label: component
-          - action: replace
-            source_labels:
-            - __meta_kubernetes_pod_node_name
-            target_label: node_name
-          - action: replace
-            source_labels:
-            - __meta_kubernetes_namespace
-            target_label: namespace
-          - action: replace
-            replacement: $1
-            separator: /
-            source_labels:
-            - namespace
-            - app
-            target_label: job
-          - action: replace
-            source_labels:
-            - __meta_kubernetes_pod_name
-            target_label: pod
-          - action: replace
-            source_labels:
-            - __meta_kubernetes_pod_container_name
-            target_label: container
-          - action: replace
-            replacement: /var/log/pods/*$1/*.log
-            separator: /
-            source_labels:
-            - __meta_kubernetes_pod_uid
-            - __meta_kubernetes_pod_container_name
-            target_label: __path__
-          - action: replace
-            regex: true/(.*)
-            replacement: /var/log/pods/*$1/*.log
-            separator: /
-            source_labels:
-            - __meta_kubernetes_pod_annotationpresent_kubernetes_io_config_hash
-            - __meta_kubernetes_pod_annotation_kubernetes_io_config_hash
-            - __meta_kubernetes_pod_container_name
-            target_label: __path__
+
+
+
+# Monitoring
+monitoring:
+  serviceMonitor:
+    enabled: true
+    interval: ${ARGOCD_ENV_prometheus_scrape_interval}
+  rules:
+    enabled: false
+  dashboards:
+    enabled: false
+
+# Loki Canary
+lokiCanary:
+  enabled: true
+
+backend:
+  replicas: 0
+read:
+  replicas: 0
+write:
+  replicas: 0

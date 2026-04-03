@@ -83,8 +83,8 @@ spec:
             labelSelector:
               matchLabels:
                 strimzi.io/name: ${kafka_cluster_name}-kafka
-    version: 3.7.0
-    metadataVersion: 3.7-IV4
+    version: ${kafka_version}
+    metadataVersion: ${kafka_metadata_version}
     listeners:
       - name: plain
         port: 9092
@@ -95,11 +95,9 @@ spec:
         type: internal
         tls: true
     config:
-      offsets.topic.replication.factor: 3
-      transaction.state.log.replication.factor: 3
-      transaction.state.log.min.isr: 2
-      default.replication.factor: 3
-      min.insync.replicas: 2
+%{ for key, value in kafka_broker_config ~}
+      ${key}: ${value}
+%{ endfor ~}
     metricsConfig:
       type: jmxPrometheusExporter
       valueFrom:

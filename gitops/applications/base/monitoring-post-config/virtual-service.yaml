@@ -55,7 +55,7 @@ spec:
             prefix: /
       route:
         - destination:
-            host: loki-official-helm-gateway
+            host: loki-gateway
             port:
               number: 80
 ---

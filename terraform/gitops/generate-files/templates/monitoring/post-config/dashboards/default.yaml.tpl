@@ -46,7 +46,7 @@ metadata:
 spec:
   folder: default
   datasources:
-    - inputName: "DS_PROMETHEUS.INTERNAL-ODMONT.COM"
+    - inputName: "DS_PROMETHEUS.INTERNAL-ODMONT.COM" # dashboard requires this specific datasource variable
       datasourceName: "Prometheus" 
   instanceSelector:
     matchLabels:

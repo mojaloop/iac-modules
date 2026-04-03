@@ -9,7 +9,7 @@ engines:
     mayastor:
       enabled: false
 alloy:
-  enabled: true
+  enabled: false
   affinity:
     podAntiAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
@@ -23,6 +23,7 @@ alloy:
     tolerations:
       - operator: "Exists"
 loki:
+  enabled: false
   singleBinary:
     podAntiAffinity: soft
     podAntiAffinityTopologyKey: kubernetes.io/hostname

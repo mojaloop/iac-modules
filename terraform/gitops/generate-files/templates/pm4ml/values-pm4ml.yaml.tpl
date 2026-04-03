@@ -194,8 +194,12 @@ scheme-adapter:
       simName: *dfspId
 #%{ endif}
 redis:
+  architecture: standalone
   replica:
     replicaCount: ${redis_replica_count}
+    persistence:
+      enabled: false
+      size: 1Gi
   auth:
     enabled: false
     sentinel: false
@@ -205,8 +209,15 @@ redis:
     enabled: false
   master:
     persistence:
-      enabled: true
+      enabled: false
+      size: 1Gi
     storageClass: ${storage_class_name}
+    extraFlags:
+    - "--maxmemory-policy allkeys-lru"
+    - "--maxmemory ${redis_max_memory}"
+  commonConfiguration: |-
+    appendonly no
+    save ""
 
 ttk:
 #%{ if ttk_enabled}

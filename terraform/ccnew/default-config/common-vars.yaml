@@ -1,6 +1,6 @@
 tf_version: ">= 1.2"
 microk8s_version: 1.31/stable
-
+microk8s_allow_patch_updates: false
 # Backup region override (empty = use cloud_region from cluster-config)
 # Individual *_perc_backup_region can override this per-component
 backup_region: ""
@@ -93,6 +93,7 @@ pxc_operator_helm_version: "1.18.0"
 psmdb_operator_helm_version: "1.19.1"
 
 stunner_gateway_operator_helm_version: "0.19.0"
+stunner_kube_rbac_proxy_image_version: "v0.18.0"
 nexus_helm_version: "4.44.0"
 cert_manager_helm_version: "1.17.1"
 external_dns_helm_version: "1.19.0"
@@ -127,7 +128,7 @@ crossplane_packages_objectstores_version: "v0.5.0"
 crossplane_packages_utils_version: "v0.8.0"
 crossplane_packages_gitlab_version: "v0.7.1"
 crossplane_packages_grafana_config_version: "v0.1.0"
-crossplane_packages_vault_config_version: "v0.5.1"
+crossplane_packages_vault_config_version: "v0.6.0"
 crossplane_packages_sc_postgres_version: "v0.5.0"
 crossplane_packages_sc_mysql_version: "v0.7.0-pr106-17447293964"
 crossplane_packages_sc_mongodb_version: "v0.5.0-pr106-17447293964"
@@ -139,6 +140,8 @@ crossplane_packages_aws_documentdb_version: "v0.5.0"
 crossplane_packages_aws_rds_version: "v0.3.0"
 crossplane_packages_argocd_config_version: "v0.1.0"
 crossplane_packages_zitadel_config_version: "v0.3.0"
+crossplane_packages_env_onboard_config_version: "v0.1.0"
+
 velero_helm_version: "11.1.1"
 velero_plugin_version: "v1.12.1"
 velero_external_snapshotter_version: "v8.3.0"
@@ -290,7 +293,7 @@ loki_bucket_name: "control-center-loki-bucket"
 loki_bucket_max_objects: "'1000000'"
 loki_bucket_storage_size: "50Gi"
 
-loki_helm_version: "2.13.0"
+loki_helm_version: "6.45.2"
 loki_canary_helm_version: "0.14.0"
 loki_retention_period: "3d"
 loki_ingester_max_chunk_age: "2h"
@@ -613,7 +616,7 @@ vault_backup_bucket_region: ""
 vault_backup_retention_days: "'7'"
 vault_snapshot_token_ttl: "'3600'"
 vault_snapshot_secret_id_ttl: "'7200'"
-vault_backup_utility_image:  "ghcr.io/mojaloop/vault-utils:0.0.4"
+vault_backup_utility_image:  "ghcr.io/mojaloop/vault-utils:0.0.8"
 
 # audit
 audit_bucket_name: "control-center-audit-bucket"
@@ -635,5 +638,6 @@ vault_backup_bucket_storage_size: "10Gi"
 
 env_onboard_iac_terraform_modules_tag: ""
 # env configurations
-env_config_tf_management_policies:  "Observe"
 env_config_xplane_management_policies:  "'''*'''"
+
+env_onboard_config_xplane_management_policies: "'*'"

@@ -642,11 +642,11 @@ spec:
     - secretKey: AWS_SECRET_ACCESS_KEY # TODO: max provider agnostic
       remoteRef:
         key: ${percona_credentials_secret_provider_key}
-        property: value
+        property: password
     - secretKey: AWS_ACCESS_KEY_ID # Key given to the secret to be created on the cluster
       remoteRef:
         key: ${percona_credentials_id_provider_key}
-        property: value
+        property: username
 ---
 apiVersion: batch/v1
 kind: Job

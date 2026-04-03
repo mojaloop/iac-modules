@@ -103,6 +103,7 @@ inputs = {
   object_store_insecure_connection         = local.object_store_insecure_connection
   object_store_insecure_skip_verify        = local.object_store_insecure_skip_verify
   central_observability_endpoint           = local.central_observability_endpoint
+  central_loki_endpoint                    = "https://loki.${local.internal_cc_subdomain}"
   private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
   dns_provider                             = dependency.k8s_deploy.outputs.dns_provider
   rbac_api_resources_file                  = (local.common_vars.mojaloop_enabled || local.common_vars.vnext_enabled) ? find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-rbac-api-resources.yaml") : ""

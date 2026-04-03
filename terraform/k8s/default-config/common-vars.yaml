@@ -37,10 +37,8 @@ grafana_dashboard_tag: v16.3.0-snapshot.24 # TODO: update once v16.1.x is publis
 loki_chart_version: 6.45.2
 loki_ingester_pvc_size: 10Gi
 prometheus_pvc_size: 50Gi
-loki_retention_enabled: true  # TODO: this config param is not being used. Remove after bitnami loki is removed.
 loki_ingester_retention_period: 72h
 loki_ingester_max_chunk_age: 2h
-loki_query_scheduler_enabled: false # TODO: remove when bitnami loki is removed.
 loki_ingester_replication_factor: '1'
 loki_distributor_replica_count: '2'
 loki_ingester_replica_count: '3' # loki_ingester_replica_count should be >= loki_ingester_replication_factor
@@ -73,6 +71,7 @@ prometheus_requests_memory: "1Gi"
 tempo_retention_period: 72h
 istio_egress_gateway_max_replicas: 5
 microk8s_version: 1.31/stable
+microk8s_allow_patch_updates: false
 alertmanager_enabled: true
 alertmanager_limits_cpu: "200m"
 alertmanager_limits_memory: "512Mi"
@@ -83,8 +82,9 @@ alertmanager_slack_integration_enabled: false
 alertmanager_jira_integration_enabled: false
 istio_proxy_log_level: warn
 longhorn_backup_job_enabled: false
-enable_central_observability_write: false
+enable_central_observability_write: false # enables only metrics to be sent to mimir
 enable_central_observability_read: false
+enable_central_loki_write: true # enables only metrics to be sent to central loki
 coredns_localcache_version: '1.12.1'
 aws_ebs_csi_driver_helm_version: '2.39.0'
 aws_ebs_csi_driver_replicas: 2
@@ -108,8 +108,8 @@ crossplane_packages_utils_version: "v0.8.0"
 crossplane_packages_objectstores_version: "v0.2.0"
 crossplane_packages_aws_documentdb_version: "v0.6.0"
 crossplane_packages_aws_rds_version: "v0.4.0"
-crossplane_packages_sc_mysql_version: "v0.8.0"
-crossplane_packages_sc_mongodb_version: "v0.5.1" # TODO: update when PR released https://github.com/mojaloop/iac-crossplane-packages/pull/121/changes
+crossplane_packages_sc_mysql_version: "v0.10.0"
+crossplane_packages_sc_mongodb_version: "v0.6.0"
 max_pods_per_node: 110
 velero_plugin_version: 'v1.12.1'
 velero_helm_version: '10.0.1'
@@ -128,7 +128,7 @@ netbird_image_version: '0.60.3'
 netbird_operator_helm_version: '0.1.15'
 kyverno_chart_version: '3.5.2'
 vault_backup_schedule: "0 */12 * * *" # Every 12 hours
-vault_backupjob_image: "ghcr.io/mojaloop/vault-utils:0.0.4"
+vault_backupjob_image: "ghcr.io/mojaloop/vault-utils:0.0.8"
 grafana_dashboard_tag_iac_modules: "feature/storage-cluster"
 monitoring_workload_tolerations: []
 #  - key: "workload-class.mojaloop.io/MONITORING"
@@ -138,10 +138,10 @@ monitoring_workload_tolerations: []
 netbird_taint_remover_enabled: true
 vault_readiness_timeout_seconds: 15
 openebs_helm_version: '4.4.0'
-
+namespaces_to_central_loki: "mojaloop|moja-kafka"
 log_alert_patterns:
   connection-refused:
     regex: "(?i)connection refused|ECONNREFUSED"
     description: "Connection refused error detected"
     threshold: 1
-    severity: "warning"    
+    severity: "warning"

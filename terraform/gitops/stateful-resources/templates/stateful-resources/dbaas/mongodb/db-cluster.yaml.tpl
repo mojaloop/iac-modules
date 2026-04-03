@@ -40,8 +40,8 @@ spec:
       name: ${replset_name}
       size: ${replset_size}
       expose:
-        enabled: true
-        type: LoadBalancer
+        enabled: ${replsets_expose_enabled}
+        type: ${replsets_expose_type}
       resources:
         limits:
           cpu: ${replset_limits_cpu}

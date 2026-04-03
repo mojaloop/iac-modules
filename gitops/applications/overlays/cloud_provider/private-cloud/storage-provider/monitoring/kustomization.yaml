@@ -7,7 +7,12 @@ configMapGenerator:
   - ./alloy-config.alloy
   options:
     disableNameSuffixHash: true
-
+- name: ksm-crd-config
+  files:
+    - ./ksm-crd-config.yaml
+  options:
+    disableNameSuffixHash: true
+    
 helmCharts:
   - name: kube-prometheus-stack
     releaseName: prom

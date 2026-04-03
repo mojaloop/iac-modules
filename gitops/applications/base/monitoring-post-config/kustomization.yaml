@@ -23,6 +23,7 @@ resources:
   - mimir-alertmanager.yaml
   - mimirtool-cronjob.yaml
   - dashboards-loki-recording-rules.yaml
+  - dashboards-soak.yaml
 
 configMapGenerator:
   - name: mimir-ruler-data

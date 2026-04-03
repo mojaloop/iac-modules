@@ -38,17 +38,11 @@ helmCharts:
   repo: ${grafana_operator_repo}
   valuesFile: values-grafana-operator.yaml
   namespace: ${monitoring_namespace}
-#- name: grafana-loki
-#  releaseName: ${loki_release_name}
-#  version: ${loki_chart_version}
-#  repo: ${loki_repo}
-#  valuesFile: values-loki.yaml
-#  namespace: ${monitoring_namespace}
 - name: loki
   releaseName: ${loki_release_name}
   version: ${loki_chart_version}
   repo: ${loki_repo}
-  valuesFile: values-loki-official-helm.yaml
+  valuesFile: values-loki.yaml
   namespace: ${monitoring_namespace}
 - name: opentelemetry-operator
   releaseName: opentelemetry-operator
@@ -56,12 +50,6 @@ helmCharts:
   repo: ${opentelemetry_repo}
   valuesFile: values-opentelemetry-operator.yaml
   namespace: ${monitoring_namespace}
-#- name: loki-canary
-#  releaseName: loki-canary-ext-helm
-#  version: ${loki_canary_chart_version}
-#  repo: ${loki_canary_repo}
-#  valuesFile: values-loki-canary.yaml
-#  namespace: ${monitoring_namespace}
 - name: alloy
   releaseName: alloy
   version: 1.4.0

@@ -82,3 +82,6 @@ spec:
 
         - name: "crossplane_packages_k8s_config_version"
           value: "${ARGOCD_ENV_utils_crossplane_packages_k8s_config_version}"
+
+        - name: "crossplane_packages_env_onboard_config_version"
+          value: "${ARGOCD_ENV_utils_crossplane_packages_env_onboard_config_version}"
