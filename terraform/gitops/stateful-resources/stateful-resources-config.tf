@@ -395,7 +395,7 @@ resource "local_file" "monolith-mongodb-monitoring" {
     {
         cluster_name                 = "${var.cc_name}-${var.cluster_name}-${each.value.external_resource_config.dbdeploy_name_prefix}"
         namespace                    = each.value.resource_namespace
-        externalservice_name         = each.value.externalservice_name
+        externalservice_name         = "rs0-common-mongodb.stateful-resources.svc.cluster.local"
         db_secret                    = each.value.external_resource_config.master_user_password_secret
         db_secret_key                = "MONGODB_CLUSTER_MONITOR_PASSWORD" 
         db_username_key              = "MONGODB_CLUSTER_MONITOR_USER"
