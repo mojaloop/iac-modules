@@ -17,7 +17,7 @@ spec:
       - name: mongodb-exporter
         image: percona/mongodb_exporter:0.40
         args:
-        - --mongodb.uri=mongodb://$(MONGODB_USERNAME):$(MONGODB_PASSWORD)@${externalservice_name}:${port}/admin?replicaSet=rs0&tlsInsecure=true&ssl=true&directConnection=true
+        - --mongodb.uri=mongodb://$(MONGODB_USERNAME):$(MONGODB_PASSWORD)@rs0-${externalservice_name}.${namespace}:${port}/admin?replicaSet=rs0&tlsInsecure=true&ssl=true&directConnection=true
         - --compatible-mode
         - --collect-all
         - --log.level=info
