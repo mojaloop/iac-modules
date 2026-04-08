@@ -3,7 +3,11 @@ cluster:
 ingress:
   enabled: true
   router:
-    enabled: false
+    enabled: true
+    tolerations:
+      - key: "netbird/ready"
+        operator: "Exists"
+        effect: "NoExecute"
   kubernetesAPI:
     enabled: false
 netbirdAPI:
