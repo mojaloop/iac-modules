@@ -24,6 +24,9 @@ nodes:
     instance_type: "m5.2xlarge"
     node_count: 4
     storage_gbs: 100
+    # Keep the existing pool on the current EKS optimized AL2 x86_64 AMI so no in-place node replacement happens.
+    node_os: "al2"
+    create_access_entry: false
     node_taints: []
     node_labels:
       workload-class.mojaloop.io/CENTRAL-LEDGER-SVC: "enabled"
@@ -38,6 +41,27 @@ nodes:
       workload-class.mojaloop.io/RDBMS-CENTRAL-LEDGER-LIVE: "enabled"
       workload-class.mojaloop.io/RDBMS-ALS-LIVE: "enabled"
       workload-class.mojaloop.io/MONITORING: "enabled"
+  # master-generic-al2023:
+  #   master: true
+  #   instance_type: "m5.2xlarge"
+  #   node_count: 1
+  #   storage_gbs: 100
+  #   node_os: "al2023"
+  #   create_access_entry: true
+  #   node_taints: []
+  #   node_labels:
+  #     workload-class.mojaloop.io/CENTRAL-LEDGER-SVC: "enabled"
+  #     workload-class.mojaloop.io/CORE-API-ADAPTERS: "enabled"
+  #     workload-class.mojaloop.io/CENTRAL-SETTLEMENT: "enabled"
+  #     workload-class.mojaloop.io/QUOTING-SERVICE: "enabled"
+  #     workload-class.mojaloop.io/ACCOUNT-LOOKUP-SERVICE: "enabled"
+  #     workload-class.mojaloop.io/ALS-ORACLES: "enabled"
+  #     workload-class.mojaloop.io/CORE-HANDLERS: "enabled"
+  #     workload-class.mojaloop.io/KAFKA-CONTROL-PLANE: "enabled"
+  #     workload-class.mojaloop.io/KAFKA-DATA-PLANE: "enabled"
+  #     workload-class.mojaloop.io/RDBMS-CENTRAL-LEDGER-LIVE: "enabled"
+  #     workload-class.mojaloop.io/RDBMS-ALS-LIVE: "enabled"
+  #     workload-class.mojaloop.io/MONITORING: "enabled"
 vpc_cidr: "10.106.0.0/23"
 enable_k6s_test_harness: false
 k6s_docker_server_instance_type: "m5.large"
