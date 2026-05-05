@@ -69,7 +69,7 @@ module "k6s_test_harness" {
 
 module "eks" {
   source      = "terraform-aws-modules/eks/aws"
-  version     = "~> 19.21"
+  version     = "~>20.37.2"
   enable_irsa = true
 
   cluster_name                    = local.eks_name
@@ -212,6 +212,7 @@ locals {
     node_pool_key => {
       name                            = "${local.eks_name}-${node_pool_key}"
       ami_id                          = data.aws_ami.eks_default.id
+      ami_type                        = "AL2023_x86_64_STANDARD"
       instance_type                   = node_pool.instance_type
       public_ip                       = false
       max_size                        = node_pool.node_count
@@ -226,8 +227,30 @@ locals {
       vpc_security_group_ids = [
         module.eks.cluster_primary_security_group_id
       ]
-      bootstrap_extra_args     = "--use-max-pods false --kubelet-extra-args '--cluster-dns=${var.coredns_bind_address} --allowed-unsafe-sysctls=net.ipv4.ip_forward --max-pods=122 --node-labels=${join(",", local.node_labels[node_pool_key].extra_args)} --register-with-taints=${join(",", local.node_taints[node_pool_key].extra_args)}'"
-      post_bootstrap_user_data = "${data.template_file.post_bootstrap_user_data.rendered}"
+      cloudinit_pre_nodeadm = [
+        {
+          content_type = "application/node.eks.aws"
+          content = templatefile("${path.module}/templates/nodeadm-config.yaml.tpl", {
+            cluster_name         = local.eks_name
+            coredns_bind_address = var.coredns_bind_address
+            max_pods             = 122
+            node_labels          = join(",", local.node_labels[node_pool_key].extra_args)
+            node_taints          = join(",", local.node_taints[node_pool_key].extra_args)
+          })
+        }
+      ]
+      cloudinit_post_nodeadm = [
+        {
+          content_type = "text/x-shellscript"
+          content = templatefile("${path.module}/templates/post-bootstrap-user-data.sh.tpl", {
+            container_registry_mirrors = join(" ", var.container_registry_mirrors)
+            enable_registry_mirror     = var.enable_registry_mirror
+            registry_mirror_fqdn       = var.registry_mirror_fqdn
+            docker_registry_username   = var.docker_registry_username
+            docker_registry_password   = var.docker_registry_password
+          })
+        }
+      ]
       ebs_optimized            = true
 
       block_device_mappings = merge(
@@ -279,21 +302,7 @@ locals {
 
 data "aws_caller_identity" "current_user" {}
 
-data "template_file" "post_bootstrap_user_data" {
-  template = file("${path.module}/templates/post-bootstrap-user-data.sh.tpl")
 
-  vars = {
-    netbird_version            = var.netbird_version
-    netbird_api_host           = var.netbird_api_host
-    netbird_setup_key          = var.netbird_setup_key
-    pod_network_cidr           = var.vpc_cidr
-    container_registry_mirrors = join(" ", var.container_registry_mirrors)
-    enable_registry_mirror     = var.enable_registry_mirror
-    registry_mirror_fqdn       = var.registry_mirror_fqdn
-    docker_registry_username   = var.docker_registry_username
-    docker_registry_password   = var.docker_registry_password
-  }
-}
 
 data "aws_ami" "eks_default" {
   most_recent = true
@@ -301,7 +310,7 @@ data "aws_ami" "eks_default" {
 
   filter {
     name   = "name"
-    values = ["amazon-eks-node-${var.kubernetes_version}-${var.eks_node_ami_version}"]
+    values = ["amazon-eks-node-al2023-x86_64-standard-${var.kubernetes_version}-${var.eks_node_ami_version}"]
   }
 }
 
@@ -315,4 +324,3 @@ data "aws_ami" "eks_ubuntu" {
   }
 
 }
-#-register-with-taints=spotInstance=true:PreferNoSchedule add for taints in bootstrap_extra_args
