@@ -454,6 +454,7 @@ argocd_override:
           # redis
           redis_cluster_size: "${gitlab_redis_cluster_size}"
           redis_storage_size: "${gitlab_redis_storage_size}"
+          redis_helm_version: "${redis_helm_version}"
           redis_cpu_limit: "${gitlab_redis_cpu_limit}"
           redis_cpu_request: "${gitlab_redis_cpu_request}"
           redis_memory_limit: "${gitlab_redis_memory_limit}"
