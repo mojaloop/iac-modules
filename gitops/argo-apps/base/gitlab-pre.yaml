@@ -48,6 +48,9 @@ spec:
           - name: "redis_storage_size"
             value: "${ARGOCD_ENV_gitlab_pre_redis_storage_size}"
 
+          - name: "redis_helm_version"
+            value: "${ARGOCD_ENV_gitlab_pre_redis_helm_version}"
+
           - name: "gitlab_app_name"
             value: "${ARGOCD_ENV_gitlab_gitlab_app_name}"
 
