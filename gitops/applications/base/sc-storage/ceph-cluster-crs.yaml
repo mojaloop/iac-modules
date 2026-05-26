@@ -11,17 +11,17 @@ spec:
   resources:
     osd:
       limits:
-        memory: "18Gi"
+        memory: "${ARGOCD_ENV_rook_ceph_osd_memory_limit}"
       requests:
-        cpu: "1500m"
-        memory: "12Gi"
+        cpu: "${ARGOCD_ENV_rook_ceph_osd_cpu_request}"
+        memory: "${ARGOCD_ENV_rook_ceph_osd_memory_request}"
   cephConfig:
     osd:
-      osd_memory_target: "12884901888"
-      osd_memory_target_autotune: "false"
-      osd_mclock_override_recovery_settings: "true"
-      osd_recovery_max_active_hdd: "2"
-      osd_recovery_max_active_ssd: "8"
+      osd_memory_target: "${ARGOCD_ENV_rook_ceph_osd_memory_target}"
+      osd_memory_target_autotune: "${ARGOCD_ENV_rook_ceph_osd_memory_target_autotune}"
+      osd_mclock_override_recovery_settings: "${ARGOCD_ENV_rook_ceph_osd_mclock_override_recovery_settings}"
+      osd_recovery_max_active_hdd: "${ARGOCD_ENV_rook_ceph_osd_recovery_max_active_hdd}"
+      osd_recovery_max_active_ssd: "${ARGOCD_ENV_rook_ceph_osd_recovery_max_active_ssd}"
   network:
     provider: host
     connections:
