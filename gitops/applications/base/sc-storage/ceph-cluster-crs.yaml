@@ -8,6 +8,20 @@ spec:
     image: quay.io/ceph/ceph:${ARGOCD_ENV_rook_ceph_image_version}
     allowUnsupported: false
   dataDirHostPath: /var/lib/rook
+  resources:
+    osd:
+      limits:
+        memory: "${ARGOCD_ENV_rook_ceph_osd_memory_limit}"
+      requests:
+        cpu: "${ARGOCD_ENV_rook_ceph_osd_cpu_request}"
+        memory: "${ARGOCD_ENV_rook_ceph_osd_memory_request}"
+  cephConfig:
+    osd:
+      osd_memory_target: "${ARGOCD_ENV_rook_ceph_osd_memory_target}"
+      osd_memory_target_autotune: "${ARGOCD_ENV_rook_ceph_osd_memory_target_autotune}"
+      osd_mclock_override_recovery_settings: "${ARGOCD_ENV_rook_ceph_osd_mclock_override_recovery_settings}"
+      osd_recovery_max_active_hdd: "${ARGOCD_ENV_rook_ceph_osd_recovery_max_active_hdd}"
+      osd_recovery_max_active_ssd: "${ARGOCD_ENV_rook_ceph_osd_recovery_max_active_ssd}"
   network:
     provider: host
     connections:

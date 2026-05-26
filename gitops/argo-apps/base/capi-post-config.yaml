@@ -90,6 +90,30 @@ spec:
         - name: "utils_capi_capi_rook_ceph_image_version"
           value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_image_version}"
 
+        - name: "utils_capi_capi_rook_ceph_osd_memory_limit"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_osd_memory_limit}"
+
+        - name: "utils_capi_capi_rook_ceph_osd_cpu_request"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_osd_cpu_request}"
+
+        - name: "utils_capi_capi_rook_ceph_osd_memory_request"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_osd_memory_request}"
+
+        - name: "utils_capi_capi_rook_ceph_osd_memory_target"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_osd_memory_target}"
+
+        - name: "utils_capi_capi_rook_ceph_osd_memory_target_autotune"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_osd_memory_target_autotune}"
+
+        - name: "utils_capi_capi_rook_ceph_osd_mclock_override_recovery_settings"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_osd_mclock_override_recovery_settings}"
+
+        - name: "utils_capi_capi_rook_ceph_osd_recovery_max_active_hdd"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_osd_recovery_max_active_hdd}"
+
+        - name: "utils_capi_capi_rook_ceph_osd_recovery_max_active_ssd"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_osd_recovery_max_active_ssd}"
+
         - name: "cluster_name"
           value: "${ARGOCD_ENV_cluster_name}"
 
