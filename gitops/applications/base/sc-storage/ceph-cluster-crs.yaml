@@ -14,10 +14,14 @@ spec:
         memory: "18Gi"
       requests:
         cpu: "1500m"
-        memory: "14Gi"
+        memory: "12Gi"
   cephConfig:
     osd:
-      osd_memory_target: "15032385536"
+      osd_memory_target: "12884901888"
+      osd_memory_target_autotune: "false"
+      osd_mclock_override_recovery_settings: "true"
+      osd_recovery_max_active_hdd: "2"
+      osd_recovery_max_active_ssd: "8"
   network:
     provider: host
     connections:
