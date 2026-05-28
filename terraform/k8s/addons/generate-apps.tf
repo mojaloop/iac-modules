@@ -41,6 +41,7 @@ resource "local_file" "config-file" {
 resource "local_file" "addon-file" {
   for_each = toset([for _,filename in fileset(path.module, "*/*/*/**") : filename if
     alltrue([for name in split("/", filename) : !startswith(name, ".")]) && # exclude hidden files and folders
+    lower(basename(filename)) != "readme.md" && # exclude README.md files
     fileexists("${path.module}/${filename}") &&
     (
       split("/", filename)[1] == "app-yamls" ?

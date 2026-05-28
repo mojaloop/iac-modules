@@ -44,6 +44,9 @@ spec:
         - --mysqld.address=${externalservice_name}.${namespace}:${port}
         - --mysqld.username=${db_username}
         - --tls.insecure-skip-verify
+# %{ for arg in mysql_exporter_args }
+        - ${arg}
+# %{ endfor }
         ports:
         - name: http
           containerPort: 9104
