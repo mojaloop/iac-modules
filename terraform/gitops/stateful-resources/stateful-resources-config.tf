@@ -265,7 +265,7 @@ resource "local_file" "dbaas-crs-mysql" {
       backup_pvc                   = jsonencode(each.value.dbaas_resource_config.backup_pvc)
       pxc_annotations              = jsonencode(each.value.dbaas_resource_config.pxc_annotations)
       pxc_volume_spec              = jsonencode(each.value.dbaas_resource_config.pxc_volume_spec)
-      mysql_configuration          = try(each.value.dbaas_resource_config.pitr_enabled, false) ? regexreplace(each.value.dbaas_resource_config.mysql_config, "(?m)^\\s*skip[-_]log[-_]bin\\s*(=.*)?\\s*\\n?", "") : each.value.dbaas_resource_config.mysql_config
+      mysql_configuration          = try(each.value.dbaas_resource_config.pitr_enabled, false) ? join("\n", [for line in split("\n", each.value.dbaas_resource_config.mysql_config) : line if length(regexall("^\\s*skip[-_]log[-_]bin\\s*(=.*)?\\s*$", line)) == 0]) : each.value.dbaas_resource_config.mysql_config
       istio_nb_egress_waypoint_name   = var.istio_nb_egress_waypoint_name
       istio_nb_egress_waypoint_namespace = var.istio_nb_egress_waypoint_namespace
   })
