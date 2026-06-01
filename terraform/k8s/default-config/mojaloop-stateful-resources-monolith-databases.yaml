@@ -50,6 +50,7 @@ common_platform_db:
     pitr_timeout_seconds: 3600
     pitr_binlog_retention_days: 7
     pitr_backup_retention_days: 14
+    pitr_backup_retention_count: 14
     pxc_annotations: {}
     pxc_volume_spec: {}
     #https://docs.percona.com/percona-xtradb-cluster/8.4/wsrep-provider-index.html
@@ -196,6 +197,7 @@ common_mojaloop_db:
     pitr_timeout_seconds: 3600
     pitr_binlog_retention_days: 7
     pitr_backup_retention_days: 14
+    pitr_backup_retention_count: 14
     pxc_annotations: {}
     pxc_volume_spec: {}
     #https://docs.percona.com/percona-xtradb-cluster/8.4/wsrep-provider-index.html

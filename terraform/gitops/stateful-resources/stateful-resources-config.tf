@@ -251,7 +251,7 @@ resource "local_file" "dbaas-crs-mysql" {
       backup_verify_tls            = each.value.dbaas_resource_config.backup_verify_tls
       backup_schedule_name         = each.value.dbaas_resource_config.backup_schedule_name
       backup_cron_schedule         = each.value.dbaas_resource_config.backup_cron_schedule
-      backup_retention             = each.value.dbaas_resource_config.backup_retention
+      backup_retention             = try(each.value.dbaas_resource_config.pitr_enabled, false) ? try(each.value.dbaas_resource_config.pitr_backup_retention_count, each.value.dbaas_resource_config.backup_retention) : each.value.dbaas_resource_config.backup_retention
       pitr_enabled                 = try(each.value.dbaas_resource_config.pitr_enabled, false)
       pitr_time_between_uploads    = try(each.value.dbaas_resource_config.pitr_time_between_uploads, 60)
       pitr_timeout_seconds         = try(each.value.dbaas_resource_config.pitr_timeout_seconds, 3600)
