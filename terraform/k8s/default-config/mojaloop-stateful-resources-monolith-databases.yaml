@@ -45,6 +45,12 @@ common_platform_db:
     backup_cron_schedule: "0 0 * * *"                            # Cron expression for daily backup at midnight
     backup_retention: "3"                                        # Number of backups to retain
     backup_pvc: {}
+    pitr_enabled: false
+    pitr_time_between_uploads: 60
+    pitr_timeout_seconds: 3600
+    pitr_binlog_retention_days: 7
+    pitr_backup_retention_days: 14
+    pitr_backup_retention_count: 14
     pxc_annotations: {}
     pxc_volume_spec: {}
     #https://docs.percona.com/percona-xtradb-cluster/8.4/wsrep-provider-index.html
@@ -66,7 +72,6 @@ common_platform_db:
         innodb_buffer_pool_in_core_file=OFF
         mysql_native_password=ON
         require_secure_transport=ON
-        skip-log-bin
         wsrep_provider_options="gcache.size = 1G;"
         wsrep_sst_method=xtrabackup-v2
     replica_external_service_name: "common-platform-db-replica"
@@ -187,6 +192,12 @@ common_mojaloop_db:
     backup_cron_schedule: "0 0 * * *"                            # Cron expression for daily backup at midnight
     backup_retention: "3"                                        # Number of backups to retain
     backup_pvc: {}
+    pitr_enabled: false
+    pitr_time_between_uploads: 60
+    pitr_timeout_seconds: 3600
+    pitr_binlog_retention_days: 7
+    pitr_backup_retention_days: 14
+    pitr_backup_retention_count: 14
     pxc_annotations: {}
     pxc_volume_spec: {}
     #https://docs.percona.com/percona-xtradb-cluster/8.4/wsrep-provider-index.html
@@ -208,7 +219,6 @@ common_mojaloop_db:
         innodb_buffer_pool_in_core_file=OFF
         mysql_native_password=ON
         require_secure_transport=ON
-        skip-log-bin
         wsrep_provider_options="gcache.size = 1G;"
         wsrep_sst_method=xtrabackup-v2
     replica_external_service_name: "common-mojaloop-db-replica"

@@ -92,6 +92,12 @@ spec:
       cronScheduleExpression: "${backup_cron_schedule}"
       backupRetention: ${backup_retention}
       pvc: ${backup_pvc}
+      pitr:
+        enabled: ${pitr_enabled}
+        timeBetweenUploads: ${pitr_time_between_uploads}
+        timeoutSeconds: ${pitr_timeout_seconds}
+        binlogRetentionDays: ${pitr_binlog_retention_days}
+        backupRetentionDays: ${pitr_backup_retention_days}
 
     dns:
       name: ${dns_name}

@@ -105,10 +105,10 @@ crossplane_functions_kcl_version: "0.11.3"
 crossplane_functions_auto_ready_version: "0.4.2"
 crossplane_functions_extra_resources_version: "0.0.3"
 crossplane_packages_utils_version: "v0.8.0"
-crossplane_packages_objectstores_version: "v0.2.0"
+crossplane_packages_objectstores_version: "v0.5.0-pr127-26518437626"
 crossplane_packages_aws_documentdb_version: "v0.6.0"
 crossplane_packages_aws_rds_version: "v0.4.0"
-crossplane_packages_sc_mysql_version: "v0.10.0"
+crossplane_packages_sc_mysql_version: "v0.9.0-pr127-26755702863"
 crossplane_packages_sc_mongodb_version: "v0.6.0"
 max_pods_per_node: 110
 velero_plugin_version: 'v1.12.1'
