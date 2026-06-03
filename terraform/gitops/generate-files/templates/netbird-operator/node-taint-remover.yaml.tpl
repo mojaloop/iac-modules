@@ -42,7 +42,9 @@ spec:
                       jq -r '.items[] | select(.status.phase=="Running") | .status.conditions[] | select(.type=="Ready") | .status' | grep -q True && echo "yes" || echo "no")
                   ISTIO_CNI_READY=$(kubectl get pod -n istio-system --field-selector spec.nodeName="$NODE_NAME" -l k8s-app=istio-cni-node -o json | \
                       jq -r '.items[] | select(.status.phase=="Running") | .status.conditions[] | select(.type=="Ready") | .status' | grep -q True && echo "yes" || echo "no")
-                  if [ "$NETBIRD_READY" = "yes" ] && [ "$WAYPOINT_READY" = "yes" ]  && [ "$ISTIO_CNI_READY" = "yes" ]; then
+                  ZTUNNEL_READY=$(kubectl get pod -n istio-system --field-selector spec.nodeName="$NODE_NAME" -l app=ztunnel -o json | \
+                      jq -r '.items[] | select(.status.phase=="Running") | .status.conditions[] | select(.type=="Ready") | .status' | grep -q True && echo "yes" || echo "no")
+                  if [ "$NETBIRD_READY" = "yes" ] && [ "$WAYPOINT_READY" = "yes" ]  && [ "$ISTIO_CNI_READY" = "yes" ] && [ "$ZTUNNEL_READY" = "yes" ]; then
                       kubectl taint node "$NODE_NAME" netbird/ready:NoExecute- || true
                       kubectl taint node "$NODE_NAME" netbird/ready:NoSchedule- || true
                       sleep 120
