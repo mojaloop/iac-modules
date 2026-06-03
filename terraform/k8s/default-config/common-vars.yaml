@@ -20,6 +20,8 @@ mojaloop_enabled: true
 pm4ml_enabled: false
 proxy_pm4ml_enabled: false
 vnext_enabled: false
+pm4ml_service_ingress_waypoint_replicas: 1
+istio_ztunnel_readiness_timeout: 5
 mailpit_enabled: false
 grafana_crd_version_tag: v5.20.0
 opentelemetry_chart_version: 0.95.0

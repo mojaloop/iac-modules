@@ -162,6 +162,7 @@ module "pm4ml" {
   traces_endpoint                          = var.traces_endpoint
   pm4ml_chart_repo                         = local.pm4ml_chart_repo
   mojaloop_charts_repo                     = local.mojaloop_charts_repo
+  pm4ml_service_ingress_waypoint_replicas  = try(var.common_var_map.pm4ml_service_ingress_waypoint_replicas, 3)
 }
 
 module "proxy_pm4ml" {

@@ -10,6 +10,29 @@ spec:
   - name: mesh
     port: 15008
     protocol: HBONE
+  infrastructure:
+    parametersRef:
+      group: ""
+      kind: ConfigMap
+      name: service-ingress-waypoint
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: service-ingress-waypoint
+data:
+  deployment: |
+    spec:
+      replicas: ${pm4ml_service_ingress_waypoint_replicas}
+      template:
+        spec:
+          topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: "kubernetes.io/hostname"
+            whenUnsatisfiable: DoNotSchedule
+            labelSelector:
+              matchLabels:
+                gateway.networking.k8s.io/gateway-name: service-ingress-waypoint
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService

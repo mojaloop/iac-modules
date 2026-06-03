@@ -123,6 +123,11 @@ variable "istio_create_ingress_gateways" {
   default     = true
 }
 
+variable "pm4ml_service_ingress_waypoint_replicas" {
+  type        = number
+  description = "Number of replicas for PM4ML service ingress waypoint deployments"
+}
+
 variable "istio_internal_gateway_namespace" {
   type        = string
   description = "istio_internal_gateway_namespace"
