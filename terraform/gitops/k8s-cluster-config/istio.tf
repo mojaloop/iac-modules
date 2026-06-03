@@ -36,6 +36,7 @@ module "generate_istio_files" {
     argocd_namespace                     = var.argocd_namespace
     istio_proxy_log_level                = try(var.common_var_map.istio_proxy_log_level, local.istio_proxy_log_level)
     istio_ztunnel_log_level              = try(var.common_var_map.istio_ztunnel_log_level, "warn")
+    istio_ztunnel_readiness_timeout      = try(var.common_var_map.istio_ztunnel_readiness_timeout, 5)
     kiali_chart_version                  = var.kiali_chart_version
     kiali_chart_repo                     = local.kiali_chart_repo
     kiali_fqdn                           = local.kiali_fqdn

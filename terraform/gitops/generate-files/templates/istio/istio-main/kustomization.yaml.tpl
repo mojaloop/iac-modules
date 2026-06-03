@@ -37,3 +37,7 @@ patches:
   - path: toleration-patch.yaml
     target:
       kind: DaemonSet
+  - path: ztunnel-readiness-probe-patch.yaml
+    target:
+      kind: DaemonSet
+      name: ztunnel
