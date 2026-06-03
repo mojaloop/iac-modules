@@ -103,6 +103,7 @@ module "generate_pm4ml_files" {
     pm4ml_istio_gateway_namespace                   = local.pm4ml_istio_gateway_namespaces[each.key]
     pm4ml_istio_wildcard_gateway_name               = local.pm4ml_istio_wildcard_gateway_names[each.key]
     pm4ml_istio_gateway_name                        = local.pm4ml_istio_gateway_names[each.key]
+    pm4ml_service_ingress_waypoint_replicas         = var.pm4ml_service_ingress_waypoint_replicas
     cluster_name                                    = var.cluster_name
     traces_endpoint                                 = var.traces_endpoint
     cluster                                         = var.cluster
