@@ -51,6 +51,9 @@ spec:
           - name: "gitlab_helm_version"
             value: "${ARGOCD_ENV_gitlab_gitlab_helm_version}"
 
+          - name: "gitlab_output_limit"
+            value: "${ARGOCD_ENV_gitlab_gitlab_output_limit}"
+
           - name: "gitlab_istio_gateway_namespace"
             value: "${ARGOCD_ENV_gitlab_gitlab_istio_gateway_namespace}"
 
