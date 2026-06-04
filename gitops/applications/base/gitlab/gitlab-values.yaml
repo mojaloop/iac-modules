@@ -1324,6 +1324,7 @@ gitlab-runner:
     secret: "gitlab-runner-cache-secret"
     config: |
       [[runners]]
+        output_limit = ${ARGOCD_ENV_gitlab_output_limit}
         [runners.kubernetes]
         image = "ubuntu:22.04"
         [runners.cache]

@@ -427,6 +427,7 @@ argocd_override:
       sub_apps:
         gitlab:
           helm_version: "${gitlab_helm_version}"
+          output_limit: "${gitlab_output_limit}"
           public_ingress_access_domain: "${gitlab_public_access}"
           terraform_modules_tag: "${iac_terraform_modules_tag}"
           gitaly_storage_size: "${gitaly_storage_size}"
