@@ -30,8 +30,11 @@ metadata:
   namespace: "${ARGOCD_ENV_stunner_impl_namespace}"
   annotations:
     stunner.l7mp.io/service-type: NodePort
-    stunner.l7mp.io/nodeport: '{"udp-listener": ${ARGOCD_ENV_stunner_nodeport_port} }'
-    stunner.l7mp.io/external-traffic-policy: local
+    #stunner.l7mp.io/port-preservation: "true"
+    stunner.l7mp.io/nodeport: |
+      {
+        "udp-listener": ${ARGOCD_ENV_stunner_nodeport_port}
+      }
 spec:
   gatewayClassName: stunner-gatewayclass
   listeners:
@@ -47,25 +50,36 @@ metadata:
 spec:
   parentRefs:
     - name: udp-gateway
+    - kind: Service
+      name: stunner-internal-mirror 
   rules:
     - backendRefs:
-        - name: udp-gateway
-          namespace: "${ARGOCD_ENV_stunner_impl_namespace}"
+        - group: stunner.l7mp.io
+          kind: StaticService
+          name: all-internal-pods
+---
+apiVersion: stunner.l7mp.io/v1
+kind: StaticService
+metadata:
+  name: all-internal-pods
+  namespace: "${ARGOCD_ENV_stunner_impl_namespace}"
+spec:
+  # Replace with your actual K8s Pod CIDR for better security
+  # Or use 0.0.0.0/0 for absolute wildcard access
+  prefixes:
+    - 0.0.0.0/0
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: stunner-health
+  name: stunner-internal-mirror
   namespace: "${ARGOCD_ENV_stunner_impl_namespace}"
 spec:
-  type: NodePort
-  externalTrafficPolicy: Local
+  type: ClusterIP
   selector:
-    app: stunner
     stunner.l7mp.io/related-gateway-name: udp-gateway
-    stunner.l7mp.io/related-gateway-namespace: "${ARGOCD_ENV_stunner_impl_namespace}"
   ports:
-    - name: health
-      port: 8086
-      targetPort: 8086
-      nodePort: ${ARGOCD_ENV_stunner_health_nodeport}
+    - name: stun-udp
+      protocol: UDP
+      port: 31821       # Match the external port Netbird expects
+      targetPort: 3478  # Match STUNner's internal port

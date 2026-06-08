@@ -36,6 +36,8 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
       - PruneLast=true
+      - ServerSideApply=true
+      - RespectIgnoreDifferences=true
   destination:
     server: "https://kubernetes.default.svc"
     namespace: ${ARGOCD_ENV_utils_app_namespace}
@@ -88,3 +90,9 @@ spec:
 
         - name: "istio_ztunnel_log_level"
           value: "${ARGOCD_ENV_utils_istio_ztunnel_log_level}"
+
+        - name: "istio_cni_istio_owned_cni_config"
+          value: "${ARGOCD_ENV_utils_istio_istio_owned_cni_config}"
+
+        - name: "istio_cni_platform"
+          value: "${ARGOCD_ENV_utils_istio_cni_platform}"

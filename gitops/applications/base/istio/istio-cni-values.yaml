@@ -18,12 +18,11 @@ global:
     requests:
       cpu: 100m
       memory: 100Mi
+  platform: ${ARGOCD_ENV_istio_cni_platform}
 
 # CNI-and-platform specific path defaults.
-cniBinDir: /opt/cni/bin
-cniConfDir: /etc/cni/net.d
-cniConfFileName: ""
-cniNetnsDir: "/var/run/netns"
+cni:
+  istioOwnedCNIConfig: ${ARGOCD_ENV_istio_cni_istio_owned_cni_config}
 
 excludeNamespaces:
   - kube-system

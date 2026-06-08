@@ -38,3 +38,17 @@ cleanupController:
     requests:
       cpu: 100m
       memory: 128Mi
+
+admissionController:
+  rbac:
+    coreClusterRole:
+      extraResources:
+        - apiGroups:
+            - "hostport.rmb938.com"
+          resources:
+            - "hostportclaims"
+            - "hostports"
+          verbs:
+            - get
+            - list
+            - watch

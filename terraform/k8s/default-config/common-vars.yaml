@@ -10,7 +10,7 @@ vault_config_operator_helm_chart_version: 0.8.28
 nginx_helm_chart_version: 4.6.1
 keycloak_operator_version: 22.0.2
 keycloak_jdk_image: eclipse-temurin:21-jdk
-istio_chart_version: 1.27.5
+istio_chart_version: 1.28.3
 external_secrets_version: 0.8.2
 argocd_version: 3.0.5
 argocd_lovely_plugin_version: 0.18.0
@@ -124,9 +124,9 @@ loki_canary_chart_version: 0.14.0
 loki_canary_repo: https://grafana.github.io/helm-charts
 internal_cc_hosts: 'vault,grafana,loki,mimir,traces'
 internal_sc_hosts: 'cephobjectstore'
-netbird_target_labels: 'app=rook-ceph-operator,app=csi-rbdplugin-provisioner,app=csi-rbdplugin,app=csi-cephfsplugin-provisioner,app=csi-cephfsplugin'
+netbird_target_labels: 'app=rook-ceph-operator,app=csi-rbdplugin-provisioner,app=csi-rbdplugin,app=csi-cephfsplugin-provisioner,app=csi-cephfsplugin,gateway.networking.k8s.io/gateway-name=nb-egress-waypoint'
 opt_out_namespace_list: 'strimzi,storage'
-netbird_image_version: '0.60.3'
+netbird_image_version: '0.66.0'
 netbird_operator_helm_version: '0.1.15'
 kyverno_chart_version: '3.5.2'
 vault_backup_schedule: "0 */12 * * *" # Every 12 hours

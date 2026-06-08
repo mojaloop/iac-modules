@@ -78,6 +78,12 @@ spec:
           - name: "netbird_image_version"
             value: "${ARGOCD_ENV_security_netbird_image_version}"
 
+          - name: "netbird_operator_router_port_range"
+            value: "${ARGOCD_ENV_security_netbird_operator_router_port_range}"
+
+          - name: "netbird_operator_router_replica_count"
+            value: "${ARGOCD_ENV_security_netbird_operator_router_replica_count}"
+
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
       path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_utils_capi_cloud_provider}/storage-provider/netbird-operator

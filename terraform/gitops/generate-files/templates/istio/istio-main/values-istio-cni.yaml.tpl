@@ -22,11 +22,14 @@ global:
 %{ endif ~}
 
 # CNI-and-platform specific path defaults.
-cniBinDir: /opt/cni/bin
-cniConfDir: /etc/cni/net.d
-cniConfFileName: ""
-cniNetnsDir: "/var/run/netns"
-istioOwnedCNIConfig : true
+%{ if istio_cni_platform == "none" ~}
+cni:
+  istioOwnedCNIConfig : true
+%{ endif ~}
+%{ if istio_cni_platform == "microk8s" ~}
+cni:
+  istioOwnedCNIConfig : false
+%{ endif ~}
 
 excludeNamespaces:
   - kube-system
@@ -43,7 +46,7 @@ ambient:
   # If enabled, and ambient is enabled, enables ipv6 support
   ipv6: false
   # If enabled, and ambient is enabled, the CNI agent will reconcile incompatible iptables rules and chains at startup.
-  reconcileIptablesOnStartup: true
+  reconcileIptablesOnStartup: false
   # If enabled, and ambient is enabled, the CNI agent will always share the network namespace of the host node it is running on
   shareHostNetworkNamespace: false
 

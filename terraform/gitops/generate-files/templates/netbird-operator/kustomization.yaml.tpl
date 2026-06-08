@@ -5,6 +5,7 @@ resources:
   - kyverno-policy.yaml
   - netbird-access-key-external-secret.yaml
   - node-taint-remover.yaml
+  - hostport-crs.yaml
 
 helmCharts:
   - name: kubernetes-operator

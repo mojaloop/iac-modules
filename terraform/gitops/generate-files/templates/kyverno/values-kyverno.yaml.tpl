@@ -52,6 +52,18 @@ backgroundController:
             - create
             - update
             - delete
+        - apiGroups:
+            - "hostport.rmb938.com"
+          resources:
+            - "hostportclaims"
+            - "hostports"
+          verbs:
+            - get
+            - list
+            - watch
+            - create
+            - update
+            - delete
 cleanupController:
   tolerations:
     - key: "netbird/ready"
@@ -77,6 +89,15 @@ admissionController:
             - ""
           resources:
             - secrets
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - "hostport.rmb938.com"
+          resources:
+            - "hostportclaims"
+            - "hostports"
           verbs:
             - get
             - list
