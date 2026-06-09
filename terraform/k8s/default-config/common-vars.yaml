@@ -16,6 +16,8 @@ argocd_version: 3.0.5
 argocd_lovely_plugin_version: 0.18.0
 argocd_reconciliation_timeout: "10s"
 mcm_enabled: true
+# Can be set to "migrate-and-seed" to enable auto-seeding of DFSPs in MCM.
+mcm_migration_script: "migrate"
 mojaloop_enabled: true
 pm4ml_enabled: false
 proxy_pm4ml_enabled: false

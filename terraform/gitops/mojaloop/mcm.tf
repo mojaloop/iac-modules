@@ -57,6 +57,7 @@ module "generate_mcm_files" {
     pki_base_domain                      = var.public_subdomain
     mcm_chart_repo                       = var.mcm_chart_repo
     mcm_chart_version                    = var.mcm_chart_version
+    mcm_migration_script                 = var.mcm_migration_script
     mcm_namespace                        = var.mcm_namespace
     mcm_api_replica_count                = try(var.app_var_map.mcm_api_replica_count, 1)
     gitlab_project_url                   = var.gitlab_project_url
