@@ -83,7 +83,7 @@ ingress:
     nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
 migrations:
   enabled: true
-  script: migrate
+  script: ${mcm_migration_script}
   deletePolicy: ""
 
 config:

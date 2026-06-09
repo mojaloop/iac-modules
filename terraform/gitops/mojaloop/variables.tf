@@ -66,6 +66,11 @@ variable "external_secret_sync_wave" {
   default     = "-11"
 }
 
+variable "mcm_migration_script" {
+  type    = string
+  default = "migrate"
+}
+
 variable "properties_key_map" {
   type        = map(any)
   description = "contains keys for known properties"

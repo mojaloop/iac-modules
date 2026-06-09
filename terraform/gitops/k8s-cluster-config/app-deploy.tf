@@ -38,6 +38,7 @@ module "mojaloop" {
   istio_external_wildcard_gateway_name         = local.istio_external_wildcard_gateway_name
   istio_internal_wildcard_gateway_name         = local.istio_internal_wildcard_gateway_name
   mcm_enabled                                  = var.common_var_map.mcm_enabled
+  mcm_migration_script                         = var.common_var_map.mcm_migration_script
   mcm_chart_version                            = var.app_var_map.mcm_chart_version
   mojaloop_enabled                             = var.common_var_map.mojaloop_enabled
   bulk_enabled                                 = var.app_var_map.bulk_enabled
