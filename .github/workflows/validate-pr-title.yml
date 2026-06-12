@@ -1,0 +1,68 @@
+name: Validate PR Title
+
+on:
+  pull_request:
+    branches:
+      - feature/storage-cluster
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  validate-pr-title:
+    name: Validate PR Title
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate Conventional Commit PR title
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          allowed_types="build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test"
+          title_regex="^(${allowed_types})(\([A-Za-z0-9._/-]+\))?(!)?:[[:space:]].+"
+
+          if [[ "${PR_TITLE}" =~ ${title_regex} ]]; then
+            echo "PR title is approved: ${PR_TITLE}"
+            exit 0
+          fi
+
+          echo "::error title=Invalid PR title::This PR title is not approved. You must use Conventional Commit format."
+          {
+            echo "This PR title is not approved."
+            echo
+            echo "The PR cannot be merged into feature/storage-cluster until the title is fixed."
+            echo
+            echo "Current title:"
+            echo "  ${PR_TITLE}"
+            echo
+            echo "Required format:"
+            echo "  <type>: <description>"
+            echo "  <type>(scope): <description>"
+            echo "  <type>!: <description>"
+            echo "  <type>(scope)!: <description>"
+            echo
+            echo "Allowed types:"
+            echo "  build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test"
+            echo
+            echo "Valid examples:"
+            echo "  fix: correct storage class selector"
+            echo "  feat: add storage cluster backup support"
+            echo "  feat(storage): add OpenEBS monitoring alerts"
+            echo "  refactor!: change Helm values structure"
+            echo "  feat(storage)!: replace values layout"
+            echo
+            echo "Version impact:"
+            echo "  PATCH: fix, docs, chore, ci, test, refactor, perf, style, build, revert"
+            echo "  MINOR: feat"
+            echo "  MAJOR: any allowed type marked with !"
+          } | tee -a "${GITHUB_STEP_SUMMARY}"
+
+          exit 1
