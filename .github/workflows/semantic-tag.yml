@@ -211,3 +211,35 @@ jobs:
           } >> "${GITHUB_STEP_SUMMARY}"
 
           echo "🚀 Created and pushed ${next_tag}."
+
+      - name: "📝 Create GitHub release"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          next_tag="${{ steps.next-tag.outputs.next_tag }}"
+
+          if gh release view "${next_tag}" >/dev/null 2>&1; then
+            echo "::error title=Duplicate release::Release ${next_tag} already exists."
+            exit 1
+          fi
+
+          gh release create "${next_tag}" \
+            --verify-tag \
+            --generate-notes \
+            --latest \
+            --title "${next_tag}"
+
+          {
+            echo "## 📝 Release published"
+            echo
+            echo "| Field | Value |"
+            echo "| --- | --- |"
+            echo "| Release | \`${next_tag}\` |"
+            echo "| Latest | yes |"
+            echo "| Notes | generated automatically |"
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+          echo "📝 Published latest release ${next_tag} with generated release notes."
