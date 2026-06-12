@@ -1,4 +1,4 @@
-name: Semantic Tag
+name: "🏷️ Semantic Tag"
 
 on:
   push:
@@ -14,15 +14,15 @@ concurrency:
 
 jobs:
   create-semantic-tag:
-    name: Create Semantic Tag
+    name: "Create next semantic tag"
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: "📦 Checkout repository"
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Determine semantic title
+      - name: "🔎 Determine semantic title"
         id: semantic-title
         shell: bash
         run: |
@@ -33,6 +33,10 @@ jobs:
 
           subject="$(git log -1 --pretty=%s)"
           body="$(git log -1 --pretty=%b)"
+
+          echo "::group::Latest commit subject"
+          echo "${subject}"
+          echo "::endgroup::"
 
           semantic_title=""
           semantic_title_source=""
@@ -56,26 +60,33 @@ jobs:
           if [[ -z "${semantic_title}" ]]; then
             echo "::error title=Invalid semantic title::The latest commit does not contain an approved Conventional Commit title."
             {
-              echo "The latest commit on feature/storage-cluster does not contain an approved Conventional Commit title."
+              echo "## ❌ Semantic title rejected"
+              echo
+              echo "The latest commit on \`feature/storage-cluster\` does not contain an approved Conventional Commit title."
               echo
               echo "The semantic tag workflow reads the squash commit subject first, then scans the merge commit body."
               echo
-              echo "Commit subject:"
-              echo "  ${subject}"
+              echo "| Field | Value |"
+              echo "| --- | --- |"
+              echo "| Commit subject | \`${subject}\` |"
+              echo "| Target branch | \`feature/storage-cluster\` |"
               echo
-              echo "Required format:"
-              echo "  <type>: <description>"
-              echo "  <type>(scope): <description>"
-              echo "  <type>!: <description>"
-              echo "  <type>(scope)!: <description>"
+              echo "### Required format"
               echo
-              echo "Allowed types:"
-              echo "  build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test"
+              echo "- \`<type>: <description>\`"
+              echo "- \`<type>(scope): <description>\`"
+              echo "- \`<type>!: <description>\`"
+              echo "- \`<type>(scope)!: <description>\`"
               echo
-              echo "Examples:"
-              echo "  fix: correct storage class selector"
-              echo "  feat: add storage cluster backup support"
-              echo "  refactor!: change Helm values structure"
+              echo "### Allowed types"
+              echo
+              echo "\`build\`, \`chore\`, \`ci\`, \`docs\`, \`feat\`, \`fix\`, \`perf\`, \`refactor\`, \`revert\`, \`style\`, \`test\`"
+              echo
+              echo "### Examples"
+              echo
+              echo "- \`fix: correct storage class selector\`"
+              echo "- \`feat: add storage cluster backup support\`"
+              echo "- \`refactor!: change Helm values structure\`"
             } | tee -a "${GITHUB_STEP_SUMMARY}"
             exit 1
           fi
@@ -103,16 +114,29 @@ jobs:
             echo "bump=${bump}"
           } >> "${GITHUB_OUTPUT}"
 
-          echo "Using semantic title from ${semantic_title_source}: ${semantic_title}"
-          echo "Selected ${bump} bump."
+          {
+            echo "## ✅ Semantic title accepted"
+            echo
+            echo "| Field | Value |"
+            echo "| --- | --- |"
+            echo "| Title | \`${semantic_title}\` |"
+            echo "| Source | ${semantic_title_source} |"
+            echo "| Type | \`${commit_type}\` |"
+            echo "| Bump | \`${bump}\` |"
+          } >> "${GITHUB_STEP_SUMMARY}"
 
-      - name: Calculate next semantic tag
+          echo "✅ Using semantic title from ${semantic_title_source}: ${semantic_title}"
+          echo "📈 Selected ${bump} bump."
+
+      - name: "🧮 Calculate next semantic tag"
         id: next-tag
         shell: bash
         run: |
           set -euo pipefail
 
+          echo "::group::Fetch tags"
           git fetch --force --tags origin
+          echo "::endgroup::"
 
           valid_tag_regex="^v[0-9]+\.[0-9]+\.[0-9]+$"
           latest_tag="$(git tag --list | grep -E "${valid_tag_regex}" | sort -V | tail -n 1 || true)"
@@ -155,10 +179,22 @@ jobs:
             echo "next_tag=${next_tag}"
           } >> "${GITHUB_OUTPUT}"
 
-          echo "Latest valid semantic tag: ${latest_tag}"
-          echo "Next semantic tag: ${next_tag}"
+          {
+            echo "## 🧮 Version calculation"
+            echo
+            echo "| Field | Value |"
+            echo "| --- | --- |"
+            echo "| Latest valid tag | \`${latest_tag}\` |"
+            echo "| Bump | \`${{ steps.semantic-title.outputs.bump }}\` |"
+            echo "| Next tag | \`${next_tag}\` |"
+            echo
+            echo "Only exact \`vX.Y.Z\` tags are used as the base version."
+          } >> "${GITHUB_STEP_SUMMARY}"
 
-      - name: Create and push semantic tag
+          echo "🏷️ Latest valid semantic tag: ${latest_tag}"
+          echo "🚀 Next semantic tag: ${next_tag}"
+
+      - name: "🚀 Create and push semantic tag"
         shell: bash
         run: |
           set -euo pipefail
@@ -168,4 +204,10 @@ jobs:
           git tag "${next_tag}"
           git push origin "refs/tags/${next_tag}"
 
-          echo "Created and pushed ${next_tag}."
+          {
+            echo "## 🚀 Tag published"
+            echo
+            echo "Created and pushed \`${next_tag}\`."
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+          echo "🚀 Created and pushed ${next_tag}."

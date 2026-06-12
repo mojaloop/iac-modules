@@ -1,4 +1,4 @@
-name: Validate PR Title
+name: "✅ Validate PR Title"
 
 on:
   pull_request:
@@ -16,10 +16,10 @@ permissions:
 
 jobs:
   validate-pr-title:
-    name: Validate PR Title
+    name: "PR title policy"
     runs-on: ubuntu-latest
     steps:
-      - name: Validate Conventional Commit PR title
+      - name: "🔎 Validate Conventional Commit title"
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
         shell: bash
@@ -29,40 +29,62 @@ jobs:
           allowed_types="build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test"
           title_regex="^(${allowed_types})(\([A-Za-z0-9._/-]+\))?(!)?:[[:space:]].+"
 
+          echo "::group::PR title"
+          echo "${PR_TITLE}"
+          echo "::endgroup::"
+
           if [[ "${PR_TITLE}" =~ ${title_regex} ]]; then
-            echo "PR title is approved: ${PR_TITLE}"
+            {
+              echo "## ✅ PR title approved"
+              echo
+              echo "| Field | Value |"
+              echo "| --- | --- |"
+              echo "| Title | \`${PR_TITLE}\` |"
+              echo "| Target branch | \`feature/storage-cluster\` |"
+              echo "| Policy | Conventional Commit title |"
+            } >> "${GITHUB_STEP_SUMMARY}"
+
+            echo "✅ PR title is approved: ${PR_TITLE}"
             exit 0
           fi
 
           echo "::error title=Invalid PR title::This PR title is not approved. You must use Conventional Commit format."
           {
-            echo "This PR title is not approved."
+            echo "## ❌ PR title rejected"
             echo
-            echo "The PR cannot be merged into feature/storage-cluster until the title is fixed."
+            echo "This PR title is not approved. The PR cannot be merged into \`feature/storage-cluster\` until the title is fixed."
             echo
-            echo "Current title:"
-            echo "  ${PR_TITLE}"
+            echo "| Field | Value |"
+            echo "| --- | --- |"
+            echo "| Current title | \`${PR_TITLE}\` |"
+            echo "| Required policy | Conventional Commit title |"
             echo
-            echo "Required format:"
-            echo "  <type>: <description>"
-            echo "  <type>(scope): <description>"
-            echo "  <type>!: <description>"
-            echo "  <type>(scope)!: <description>"
+            echo "### Required format"
             echo
-            echo "Allowed types:"
-            echo "  build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test"
+            echo "- \`<type>: <description>\`"
+            echo "- \`<type>(scope): <description>\`"
+            echo "- \`<type>!: <description>\`"
+            echo "- \`<type>(scope)!: <description>\`"
             echo
-            echo "Valid examples:"
-            echo "  fix: correct storage class selector"
-            echo "  feat: add storage cluster backup support"
-            echo "  feat(storage): add OpenEBS monitoring alerts"
-            echo "  refactor!: change Helm values structure"
-            echo "  feat(storage)!: replace values layout"
+            echo "### Allowed types"
             echo
-            echo "Version impact:"
-            echo "  PATCH: fix, docs, chore, ci, test, refactor, perf, style, build, revert"
-            echo "  MINOR: feat"
-            echo "  MAJOR: any allowed type marked with !"
+            echo "\`build\`, \`chore\`, \`ci\`, \`docs\`, \`feat\`, \`fix\`, \`perf\`, \`refactor\`, \`revert\`, \`style\`, \`test\`"
+            echo
+            echo "### Valid examples"
+            echo
+            echo "- \`fix: correct storage class selector\`"
+            echo "- \`feat: add storage cluster backup support\`"
+            echo "- \`feat(storage): add OpenEBS monitoring alerts\`"
+            echo "- \`refactor!: change Helm values structure\`"
+            echo "- \`feat(storage)!: replace values layout\`"
+            echo
+            echo "### Version impact"
+            echo
+            echo "| Bump | Titles | Example result |"
+            echo "| --- | --- | --- |"
+            echo "| PATCH | \`fix\`, \`docs\`, \`chore\`, \`ci\`, \`test\`, \`refactor\`, \`perf\`, \`style\`, \`build\`, \`revert\` | \`v8.1.2\` → \`v8.1.3\` |"
+            echo "| MINOR | \`feat\` | \`v8.1.2\` → \`v8.2.0\` |"
+            echo "| MAJOR | any allowed type marked with \`!\` | \`v8.1.2\` → \`v9.0.0\` |"
           } | tee -a "${GITHUB_STEP_SUMMARY}"
 
           exit 1
