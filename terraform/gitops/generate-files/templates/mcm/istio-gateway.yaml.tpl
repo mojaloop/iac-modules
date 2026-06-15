@@ -126,6 +126,11 @@ data:
   deployment: |
     spec:
       replicas: 3
+      strategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxSurge: 0
+          maxUnavailable: 1
       template:
         spec:
           topologySpreadConstraints:
@@ -137,7 +142,7 @@ data:
                 gateway.networking.k8s.io/gateway-name: ml-egress-waypoint
           - maxSkew: 1
             topologyKey: "kubernetes.io/hostname"
-            whenUnsatisfiable: DoNotSchedule # Soft requirement for node spread
+            whenUnsatisfiable: DoNotSchedule # Hard requirement for node spread
             labelSelector:
               matchLabels:
                 gateway.networking.k8s.io/gateway-name: ml-egress-waypoint
