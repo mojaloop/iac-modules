@@ -56,6 +56,11 @@ data:
   deployment: |
     spec:
       replicas: 3
+      strategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxSurge: 0
+          maxUnavailable: 1
       template:
         spec:
           topologySpreadConstraints:
