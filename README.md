@@ -1,21 +1,65 @@
-# iac-modules
-reusable iac-modules
+# Mojaloop IaC Modules
 
-## Business Operations Framework (BOF) integration
+A comprehensive Infrastructure as Code (IaC) platform for deploying and managing [Mojaloop](https://mojaloop.io/) Hub and Payment Manager for Mojaloop (PM4ML) environments. Built with Terraform, Terragrunt, Ansible, ArgoCD, and Kubernetes.
 
-For securing backend APIs with authentication and authorisation and provide login & logout flows for frontend applications, the Business Operations Framework (BOF) is implemented for both mojaloop switch and DFSP (PM4ML) deployments.
+## Key Features
 
-Please refer to the documentation here: [BOF Documentation](./docs/BOF.md)
+- **Multi-Cloud** — Deploy on AWS (EKS) or private cloud (MicroK8s)
+- **GitOps** — ArgoCD-driven continuous delivery with phased sync waves
+- **Full Observability** — Prometheus, Grafana, Loki, Tempo, Mimir, AlertManager
+- **Zero-Trust Security** — Istio mTLS, Vault secrets, Kyverno policies, BOF RBAC
+- **Multi-Tenancy** — Multiple PM4ML (DFSP) instances on a single cluster
+- **Layered Configuration** — Deep-merge system with profiles and environment overrides
 
-## Profiles
+## Documentation
 
-Profiles provide a way to apply repeating configurations to different
-environments.
+| Document | Description |
+|----------|-------------|
+| **Getting Started** | |
+| [Product Overview](./docs/product-overview.md) | Capabilities, technology stack, repository structure |
+| [Architecture Guide](./docs/architecture.md) | System architecture, component relationships, data flows |
+| [Getting Started](./docs/getting-started.md) | Prerequisites, setup, and first deployment |
+| **Deployment & Configuration** | |
+| [Deployment Guide](./docs/deployment-guide.md) | Step-by-step deployment for AWS and private cloud |
+| [Configuration Reference](./docs/configuration-reference.md) | All configuration files, variables, and merge system |
+| [Profiles](./docs/profiles.md) | Reusable configuration profiles |
+| [Addons](./docs/addons.md) | Optional add-on applications |
+| **Reference** | |
+| [Terraform Modules](./docs/terraform-modules.md) | All Terraform module documentation |
+| [GitOps Applications](./docs/gitops-applications.md) | ArgoCD applications, sync waves, overlays |
+| [app_var_map Structure](./docs/app_var_map.md) | Central configuration object reference |
+| **Operations** | |
+| [Operations Guide](./docs/operations-guide.md) | Day-2 ops: backup, restore, scaling, upgrades |
+| [Monitoring & Observability](./docs/monitoring-and-observability.md) | Monitoring stack, dashboards, alerting |
+| [Troubleshooting](./docs/troubleshooting.md) | Common issues and resolution procedures |
+| **Security** | |
+| [Security Architecture](./docs/security-architecture.md) | Vault, mTLS, RBAC, certificates, encryption |
+| [Business Operations Framework](./docs/BOF.md) | Authentication and authorization framework |
+| [ILP Configuration](./docs/ilp-config.md) | Interledger Protocol security settings |
+| [Tracing](./docs/tracing.md) | OpenTelemetry and distributed tracing |
 
-Please refer to the documentation here: [Profiles Documentation](./docs/profiles.md)
+## Quick Start
 
-## Tracing
+```bash
+# Clone the repository
+git clone https://github.com/mojaloop/iac-modules.git
+cd iac-modules
 
-Tracing is utilized for capturing and recording information about the execution of a given process.
+# For AWS Hub deployment
+cd terraform/k8s
+source setlocalvars.sh
+cd k8s-deploy && terragrunt apply      # Provision cluster
+cd ../k8s-store-config && terragrunt apply  # Store config
+cd ../gitops-build && terragrunt apply      # Generate GitOps manifests
+# ArgoCD syncs applications automatically
+```
 
-Please refer to the documentation here: [Tracing Documentation](./docs/tracing.md)
+> See [Getting Started](./docs/getting-started.md) for detailed setup instructions.
+
+## License
+
+See [LICENSE.md](./LICENSE.md) for license information.
+
+## Contributing
+
+This project uses [Conventional Commits](https://www.conventionalcommits.org/). PR titles are validated automatically. See [CODEOWNERS](./CODEOWNERS) for maintainers.
