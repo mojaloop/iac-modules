@@ -9,7 +9,7 @@ watchAnyNamespace: true
 
 defaultImageRegistry: quay.io
 defaultImageRepository: strimzi
-defaultImageTag: 0.51.0
+defaultImageTag: 1.1.0
 
 image:
   registry: ""
@@ -41,6 +41,7 @@ extraEnvs:
     value: "cluster.local"
 
 tolerations: []
+topologySpreadConstraints: []
 affinity: {}
 annotations: {}
 labels: {}
@@ -92,7 +93,8 @@ operatorNetworkPolicy:
   - ports:
     - protocol: TCP
       port: http
-  egress: {}
+  egress:
+  - {}
 
 # If you are using the grafana dashboard sidecar,
 # you can import some default dashboards here
@@ -140,7 +142,7 @@ kafkaBridge:
     registry: ""
     repository:
     name: kafka-bridge
-    tag: 0.33.1
+    tag: 1.0.0
 kafkaExporter:
   image:
     registry: ""
