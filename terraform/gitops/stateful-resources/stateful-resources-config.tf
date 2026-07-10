@@ -110,8 +110,8 @@ resource "local_file" "strimzi-crs" {
       tolerations                  = each.value.local_operator_config.kafka_data.tolerations
       namespace                    = each.value.local_operator_config.resource_namespace
 
-      kafka_version          = try(each.value.local_operator_config.kafka_data.kafka_version, "3.7.0")
-      kafka_metadata_version = try(each.value.local_operator_config.kafka_data.kafka_metadata_version, "3.7-IV4")
+      kafka_version          = try(each.value.local_operator_config.kafka_data.kafka_version, "4.2.0")
+      kafka_metadata_version = try(each.value.local_operator_config.kafka_data.kafka_metadata_version, "4.2-IV1")
       # Kafka broker config defaults. Override/extend via custom-config:
       #   mojaloop-kafka.local_operator_config.kafka_data.broker_config:
       #     <key>: <value>
@@ -530,7 +530,7 @@ locals {
   percona_credentials_secret_provider_key = "percona_bucket_access_key_id"
   percona_credentials_id_provider_key     = "percona_bucket_access_key_id"
 
-  strimzi_kafka_grafana_dashboards_version = "0.41.0"
+  strimzi_kafka_grafana_dashboards_version = "0.51.0"
 }
 
 variable "create_stateful_resources_ns" {
