@@ -115,9 +115,6 @@ spec:
         - name: "dashboard_datasource_name"
           value: "${ARGOCD_ENV_monitoring_grafana_dashboard_datasource_name}"
 
-        - name: "strimzi_dashboards_version"
-          value: "${ARGOCD_ENV_monitoring_grafana_strimzi_dashboards_version}"
-
         - name: "argocd_namespace"
           value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
 
