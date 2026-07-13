@@ -451,6 +451,13 @@ mojaloop-kafka:
       storage_class_name: openebs-hostpath-retain
       service_port: 9092
       replica_count: 1
+      resources:
+        requests:
+          cpu: 500m
+          memory: 2Gi
+        limits:
+          cpu: "2"
+          memory: 4Gi
       affinity_definition:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

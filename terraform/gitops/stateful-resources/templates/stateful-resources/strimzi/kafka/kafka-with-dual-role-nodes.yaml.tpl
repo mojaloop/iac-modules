@@ -10,6 +10,10 @@ spec:
   roles:
     - controller
     - broker
+%{ if length(node_pool_resources) > 0 ~}
+  resources:
+    ${indent(4, yamlencode(node_pool_resources))}
+%{ endif ~}
   storage:
     type: jbod
     volumes:
