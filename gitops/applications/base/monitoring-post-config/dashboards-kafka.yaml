@@ -2,7 +2,6 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
 metadata:
   name: kafka
-
 spec:
   allowCrossNamespaceImport: true
   instanceSelector:
@@ -13,7 +12,6 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-cruise-control
-
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -23,13 +21,12 @@ spec:
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
-  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-cruise-control.json"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/${ARGOCD_ENV_strimzi_dashboards_version}/examples/metrics/grafana-dashboards/strimzi-cruise-control.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-kafka-bridge
-
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -39,13 +36,12 @@ spec:
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
-  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka-bridge.json"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/${ARGOCD_ENV_strimzi_dashboards_version}/examples/metrics/grafana-dashboards/strimzi-kafka-bridge.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-kafka-connect
-
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -55,13 +51,12 @@ spec:
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
-  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka-connect.json"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/${ARGOCD_ENV_strimzi_dashboards_version}/examples/metrics/grafana-dashboards/strimzi-kafka-connect.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-kafka-exporter
-
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -71,13 +66,12 @@ spec:
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
-  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka-exporter.json"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/${ARGOCD_ENV_strimzi_dashboards_version}/examples/metrics/grafana-dashboards/strimzi-kafka-exporter.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-kafka-mirror-maker-2
-
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -87,13 +81,12 @@ spec:
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
-  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka-mirror-maker-2.json"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/${ARGOCD_ENV_strimzi_dashboards_version}/examples/metrics/grafana-dashboards/strimzi-kafka-mirror-maker-2.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-kafka-oauth
-
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -103,13 +96,12 @@ spec:
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
-  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka-oauth.json"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/${ARGOCD_ENV_strimzi_dashboards_version}/examples/metrics/grafana-dashboards/strimzi-kafka-oauth.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-kafka
-
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -119,13 +111,12 @@ spec:
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
-  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka.json"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/${ARGOCD_ENV_strimzi_dashboards_version}/examples/metrics/grafana-dashboards/strimzi-kafka.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-kraft
-
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -135,13 +126,12 @@ spec:
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
-  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kraft.json"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/${ARGOCD_ENV_strimzi_dashboards_version}/examples/metrics/grafana-dashboards/strimzi-kraft.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-operators
-
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -151,13 +141,12 @@ spec:
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
-  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-operators.json"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/${ARGOCD_ENV_strimzi_dashboards_version}/examples/metrics/grafana-dashboards/strimzi-operators.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-zookeeper
-
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -167,5 +156,5 @@ spec:
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
-  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-zookeeper.json"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/${ARGOCD_ENV_strimzi_dashboards_version}/examples/metrics/grafana-dashboards/strimzi-zookeeper.json"
 ---
