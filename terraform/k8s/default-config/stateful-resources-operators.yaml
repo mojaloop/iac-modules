@@ -1,10 +1,12 @@
 strimzi:
   enabled: true
   install_type: helm
+  # Keep in sync with mojaloop-kafka.local_operator_config.kafka_data.strimzi_version.
+  # Supported compatibility profiles: 0.40.0, 0.51.0, 1.1.0.
   helm_chart: strimzi-kafka-operator
   namespace: strimzi
   release_name: strimzi
-  helm_chart_version: 1.1.0
+  helm_chart_version: 0.40.0
   helm_chart_repo: https://strimzi.io/charts
   helm_chart_values_file: values-strimzi.yaml
 percona-mysql:

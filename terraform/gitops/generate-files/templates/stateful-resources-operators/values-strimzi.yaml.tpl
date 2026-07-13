@@ -9,7 +9,7 @@ watchAnyNamespace: true
 
 defaultImageRegistry: quay.io
 defaultImageRepository: strimzi
-defaultImageTag: 1.1.0
+defaultImageTag: ${strimzi_operator_version}
 
 image:
   registry: ""
@@ -142,7 +142,7 @@ kafkaBridge:
     registry: ""
     repository:
     name: kafka-bridge
-    tag: 1.0.0
+    tag: ${strimzi_operator_version == "1.1.0" ? "1.0.0" : ""}
 kafkaExporter:
   image:
     registry: ""
