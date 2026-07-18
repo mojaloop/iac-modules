@@ -7,6 +7,7 @@ module "generate_stateful_resources_operators" {
     gitlab_server_url                      = var.gitlab_server_url
     current_gitlab_project_id              = var.current_gitlab_project_id
     stateful_resources_operators           = local.enabled_stateful_resources_operators_resolved
+    strimzi_operator_version               = try(local.enabled_stateful_resources_operators.strimzi.helm_chart_version, "0.40.0")
     stateful_resources_operators_ns        = local.enabled_stateful_resources_operators_ns
     stateful_resources_operators_namespace = var.stateful_resources_operators_namespace
     stateful_resources_operators_sync_wave = var.stateful_resources_operators_sync_wave

@@ -3,11 +3,21 @@
 # Default replicas for the cluster operator
 replicas: 1
 
-# If you set `watchNamespaces` to the same value as ``.Release.Namespace` (e.g. `helm ... --namespace $NAMESPACE`),
-# the chart will fail because duplicate RoleBindings will be attempted to be created in the same namespace
+# Contains `.Release.Namespace` by default
 watchNamespaces: []
 watchAnyNamespace: true
 
+defaultImageRegistry: quay.io
+defaultImageRepository: strimzi
+defaultImageTag: ${strimzi_operator_version}
+
+image:
+  registry: ""
+  repository: ""
+  name: operator
+  tag: ""
+  # imagePullSecrets:
+  #   - name: secretname
 
 logVolume: co-config-volume
 logConfigMap: strimzi-cluster-operator
@@ -31,12 +41,17 @@ extraEnvs:
     value: "cluster.local"
 
 tolerations: []
+topologySpreadConstraints: []
 affinity: {}
 annotations: {}
 labels: {}
 nodeSelector: {}
+deploymentAnnotations: {}
+deploymentLabels: {}
+deploymentStrategy: {}
 priorityClassName: ""
 
+hostUsers: NULL
 podSecurityContext: {}
 securityContext: {}
 rbac:
@@ -50,7 +65,10 @@ leaderElection:
 # https://kubernetes.io/docs/tasks/run-application/configure-pdb/
 podDisruptionBudget:
   enabled: false
-  # The PDB definition only has two attributes to control the availability requirements: minAvailable or maxUnavailable (mutually exclusive).
+  # The PDB definition three attributes to control the availability requirements:
+  # minAvailable or maxUnavailable (mutually exclusive).
+  # unhealthyPodEvictionPolicy
+  #
   # Field maxUnavailable tells how many pods can be down and minAvailable tells how many pods must be running in a cluster.
 
   # The pdb template will check values according to below order
@@ -65,6 +83,18 @@ podDisruptionBudget:
   # If both values are set, the template will use the first one and ignore the second one. currently by default minAvailable is set to 1
   minAvailable: 1
   maxUnavailable:
+  unhealthyPodEvictionPolicy: IfHealthyBudget
+
+operatorNetworkPolicy:
+  # If enabled, this will generate a networkPolicy for the strimzi-operator.
+  # This flag DOES NOT control operator generated networkPolicies.
+  enabled: false
+  ingress:
+  - ports:
+    - protocol: TCP
+      port: http
+  egress:
+  - {}
 
 # If you are using the grafana dashboard sidecar,
 # you can import some default dashboards here
@@ -76,6 +106,79 @@ dashboards:
   annotations: {}
   extraLabels: {}
 
+# Docker images that operator uses to provision various components of Strimzi.
+kafka:
+  image:
+    registry: ""
+    repository: ""
+    name: kafka
+    tagPrefix: ""
+kafkaConnect:
+  image:
+    registry: ""
+    repository: ""
+    name: kafka
+    tagPrefix: ""
+topicOperator:
+  image:
+    registry: ""
+    repository: ""
+    name: operator
+    tag: ""
+userOperator:
+  image:
+    registry:
+    repository:
+    name: operator
+    tag: ""
+kafkaInit:
+  image:
+    registry: ""
+    repository: ""
+    name: operator
+    tag: ""
+kafkaBridge:
+  image:
+    registry: ""
+    repository:
+    name: kafka-bridge
+    tag: ${strimzi_operator_version == "1.1.0" ? "1.0.0" : ""}
+kafkaExporter:
+  image:
+    registry: ""
+    repository: ""
+    name: kafka
+    tagPrefix: ""
+kafkaMirrorMaker2:
+  image:
+    registry: ""
+    repository: ""
+    name: kafka
+    tagPrefix: ""
+cruiseControl:
+  image:
+    registry: ""
+    repository: ""
+    name: kafka
+    tagPrefix: ""
+kanikoExecutor:
+  image:
+    registry: ""
+    repository: ""
+    name: kaniko-executor
+    tag: ""
+buildah:
+  image:
+    registry: ""
+    repository: ""
+    name: buildah
+    tag: ""
+mavenBuilder:
+  image:
+    registry: ""
+    repository: ""
+    name: maven-builder
+    tag: ""
 
 resources:
   limits:
@@ -101,3 +204,5 @@ labelsExclusionPattern: ""
 generateNetworkPolicy: true
 # Override the value for Connect build timeout
 connectBuildTimeoutMs: 300000
+# Controls whether Strimzi generates pod disruption budget resources (By default true)
+generatePodDisruptionBudget: true

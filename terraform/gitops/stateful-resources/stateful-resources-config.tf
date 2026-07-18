@@ -107,11 +107,22 @@ resource "local_file" "strimzi-crs" {
       node_pool_storage_size       = each.value.local_operator_config.kafka_data.storage_size
       node_pool_storage_class_name = each.value.local_operator_config.kafka_data.storage_class_name
       node_pool_affinity           = each.value.local_operator_config.kafka_data.affinity_definition
+      node_pool_resources          = try(each.value.local_operator_config.kafka_data.resources, {})
       tolerations                  = each.value.local_operator_config.kafka_data.tolerations
       namespace                    = each.value.local_operator_config.resource_namespace
 
-      kafka_version          = try(each.value.local_operator_config.kafka_data.kafka_version, "3.7.0")
-      kafka_metadata_version = try(each.value.local_operator_config.kafka_data.kafka_metadata_version, "3.7-IV4")
+      strimzi_api_version                = local.strimzi_compatibility_by_resource[each.key].api_version
+      strimzi_requires_kraft_annotations = local.strimzi_compatibility_by_resource[each.key].requires_kraft_annotations
+      strimzi_requires_kraft_metadata    = local.strimzi_compatibility_by_resource[each.key].requires_kraft_metadata
+
+      kafka_version = try(
+        each.value.local_operator_config.kafka_data.kafka_version,
+        local.strimzi_compatibility_by_resource[each.key].kafka_version
+      )
+      kafka_metadata_version = try(
+        each.value.local_operator_config.kafka_data.kafka_metadata_version,
+        local.strimzi_compatibility_by_resource[each.key].kafka_metadata_version
+      )
       # Kafka broker config defaults. Override/extend via custom-config:
       #   mojaloop-kafka.local_operator_config.kafka_data.broker_config:
       #     <key>: <value>
@@ -128,7 +139,7 @@ resource "local_file" "strimzi-crs" {
       )
       kafka_topics = each.value.logical_service_config.post_install_schema_config.kafka_provisioning.enabled ? each.value.logical_service_config.post_install_schema_config.kafka_provisioning.topics : {}
 
-      strimzi_kafka_grafana_dashboards_version = local.strimzi_kafka_grafana_dashboards_version
+      strimzi_kafka_grafana_dashboards_version = local.strimzi_compatibility_by_resource[each.key].dashboards_version
       strimzi_kafka_grafana_dashboards_list = [
         "strimzi-cruise-control", "strimzi-kafka-bridge", "strimzi-kafka-connect",
         "strimzi-kafka-exporter", "strimzi-kafka-mirror-maker-2", "strimzi-kafka-oauth",
@@ -136,6 +147,16 @@ resource "local_file" "strimzi-crs" {
       ]
   })
   filename = "${local.stateful_resources_output_path}/kafka-with-dual-role-nodes-${each.key}.yaml"
+
+  lifecycle {
+    precondition {
+      condition = contains(
+        keys(local.strimzi_compatibility_profiles),
+        try(each.value.local_operator_config.kafka_data.strimzi_version, "0.40.0")
+      )
+      error_message = "Unsupported kafka_data.strimzi_version. Supported versions: 0.40.0, 0.51.0, 1.1.0. The Strimzi operator chart must use the same version."
+    }
+  }
 }
 
 resource "local_file" "redis-crs" {
@@ -530,7 +551,40 @@ locals {
   percona_credentials_secret_provider_key = "percona_bucket_access_key_id"
   percona_credentials_id_provider_key     = "percona_bucket_access_key_id"
 
-  strimzi_kafka_grafana_dashboards_version = "0.41.0"
+  strimzi_compatibility_profiles = {
+    "0.40.0" = {
+      api_version                   = "kafka.strimzi.io/v1beta2"
+      requires_kraft_annotations    = true
+      requires_kraft_metadata       = false
+      kafka_version                 = "3.7.0"
+      kafka_metadata_version        = "3.7-IV4"
+      dashboards_version            = "0.41.0"
+    }
+    "0.51.0" = {
+      api_version                   = "kafka.strimzi.io/v1"
+      requires_kraft_annotations    = false
+      requires_kraft_metadata       = true
+      kafka_version                 = "4.2.0"
+      kafka_metadata_version        = "4.2-IV1"
+      dashboards_version            = "0.51.0"
+    }
+    "1.1.0" = {
+      api_version                   = "kafka.strimzi.io/v1"
+      requires_kraft_annotations    = false
+      requires_kraft_metadata       = true
+      kafka_version                 = "4.3.0"
+      kafka_metadata_version        = "4.3-IV0"
+      dashboards_version            = "1.1.0"
+    }
+  }
+
+  strimzi_compatibility_by_resource = {
+    for key, resource in local.strimzi_operator_stateful_resources : key => lookup(
+      local.strimzi_compatibility_profiles,
+      try(resource.local_operator_config.kafka_data.strimzi_version, "0.40.0"),
+      local.strimzi_compatibility_profiles["0.40.0"]
+    )
+  }
 }
 
 variable "create_stateful_resources_ns" {

@@ -1,4 +1,4 @@
-apiVersion: kafka.strimzi.io/v1beta2
+apiVersion: ${strimzi_api_version}
 kind: KafkaNodePool
 metadata:
   name: ${node_pool_name}
@@ -10,12 +10,19 @@ spec:
   roles:
     - controller
     - broker
+%{ if length(node_pool_resources) > 0 ~}
+  resources:
+    ${indent(4, yamlencode(node_pool_resources))}
+%{ endif ~}
   storage:
     type: jbod
     volumes:
       - id: 0
         type: persistent-claim
         size: ${node_pool_storage_size}
+%{ if strimzi_requires_kraft_metadata ~}
+        kraftMetadata: shared
+%{ endif ~}
         deleteClaim: false
 # %{ if node_pool_storage_class_name != null }
         class: ${node_pool_storage_class_name}
@@ -53,14 +60,16 @@ spec:
         ${indent(8, yamlencode(node_pool_affinity))}
 # %{ endif }
 ---
-apiVersion: kafka.strimzi.io/v1beta2
+apiVersion: ${strimzi_api_version}
 kind: Kafka
 metadata:
   name: ${kafka_cluster_name}
   namespace: ${namespace}
+%{ if strimzi_requires_kraft_annotations ~}
   annotations:
     strimzi.io/node-pools: enabled
     strimzi.io/kraft: enabled
+%{ endif ~}
 spec:
   kafka:
     template:
@@ -405,7 +414,7 @@ spec:
 # %{ endfor }
 
 # %{ for name, topic in kafka_topics }
-apiVersion: kafka.strimzi.io/v1beta2
+apiVersion: ${strimzi_api_version}
 kind: KafkaTopic
 metadata:
   name: ${name}
