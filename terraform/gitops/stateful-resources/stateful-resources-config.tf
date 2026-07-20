@@ -249,6 +249,7 @@ resource "local_file" "dbaas-crs-mysql" {
       replica_externalservice_name = each.value.dbaas_resource_config.replica_external_service_name
       db_name                      = each.value.external_resource_config.db_name
       mysql_storage_size           = each.value.dbaas_resource_config.mysql_storage_size
+      pxc_binlog_retention_days    = try(each.value.dbaas_resource_config.pxc_binlog_retention_days, 30)
       pxc_image                    = each.value.dbaas_resource_config.pxc_image
       mysql_replicas               = each.value.dbaas_resource_config.mysql_replicas
       mysql_requests_memory        = each.value.dbaas_resource_config.mysql_requests_memory
@@ -291,6 +292,18 @@ resource "local_file" "dbaas-crs-mysql" {
       istio_nb_egress_waypoint_namespace = var.istio_nb_egress_waypoint_namespace
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
+
+  lifecycle {
+    precondition {
+      condition = try(
+        tonumber(try(each.value.dbaas_resource_config.pxc_binlog_retention_days, 30)) >= 1 &&
+        tonumber(try(each.value.dbaas_resource_config.pxc_binlog_retention_days, 30)) <= 49710 &&
+        floor(tonumber(try(each.value.dbaas_resource_config.pxc_binlog_retention_days, 30))) == tonumber(try(each.value.dbaas_resource_config.pxc_binlog_retention_days, 30)),
+        false
+      )
+      error_message = "pxc_binlog_retention_days must be a whole number between 1 and 49710."
+    }
+  }
 }
 
 resource "local_file" "dbaas-crs-mongodb" {

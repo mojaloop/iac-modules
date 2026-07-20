@@ -31,6 +31,7 @@ spec:
       volumeSpec: ${pxc_volume_spec}
       imagePullPolicy: IfNotPresent
       storageSize: ${mysql_storage_size}
+      binlogRetentionDays: ${pxc_binlog_retention_days}
       replicas: ${mysql_replicas}
       resources:
         requests:

@@ -15,6 +15,7 @@ common_platform_db:
     pxc_image: "percona/percona-xtradb-cluster:8.4.6-6.1"      # Docker image for the PXC nodes
     image_pull_policy: "IfNotPresent"                          # Image pull policy for the PXC nodes
     mysql_storage_size: "30Gi"                                 # Storage size for MySQL data
+    pxc_binlog_retention_days: 30                              # Number of days to retain binary logs locally on each PXC node
     mysql_replicas: 1                                          # Number of MySQL replicas in the cluster
     mysql_requests_memory: "512Mi"                             # Memory request for MySQL pods
     mysql_requests_cpu: "300m"                                 # CPU request for MySQL pods
@@ -48,9 +49,9 @@ common_platform_db:
     pitr_enabled: false
     pitr_time_between_uploads: 60
     pitr_timeout_seconds: 3600
-    pitr_binlog_retention_days: 7
-    pitr_backup_retention_days: 14
-    pitr_backup_retention_count: 14
+    pitr_binlog_retention_days: 7                              # Number of days to retain uploaded PITR binary log objects in object storage
+    pitr_backup_retention_days: 14                              # Number of days to retain uploaded full backup objects in object storage
+    pitr_backup_retention_count: 14                             # Number of PITR-enabled backup records to retain
     pxc_annotations: {}
     pxc_volume_spec: {}
     #https://docs.percona.com/percona-xtradb-cluster/8.4/wsrep-provider-index.html
@@ -162,6 +163,7 @@ common_mojaloop_db:
     cr_version: "1.18.0"                                         # Custom Resource version for the operator
     pxc_image: "percona/percona-xtradb-cluster:8.4.6-6.1"        # Docker image for the PXC nodes
     mysql_storage_size: "30Gi"                                   # Storage size for MySQL data
+    pxc_binlog_retention_days: 30                                # Number of days to retain binary logs locally on each PXC node
     mysql_replicas: 1                                            # Number of MySQL replicas in the cluster
     mysql_requests_memory: "512Mi"                               # Memory request for MySQL pods
     mysql_requests_cpu: "300m"                                   # CPU request for MySQL pods
@@ -195,9 +197,9 @@ common_mojaloop_db:
     pitr_enabled: false
     pitr_time_between_uploads: 60
     pitr_timeout_seconds: 3600
-    pitr_binlog_retention_days: 7
-    pitr_backup_retention_days: 14
-    pitr_backup_retention_count: 14
+    pitr_binlog_retention_days: 7                                # Number of days to retain uploaded PITR binary log objects in object storage
+    pitr_backup_retention_days: 14                                # Number of days to retain uploaded full backup objects in object storage
+    pitr_backup_retention_count: 14                               # Number of PITR-enabled backup records to retain
     pxc_annotations: {}
     pxc_volume_spec: {}
     #https://docs.percona.com/percona-xtradb-cluster/8.4/wsrep-provider-index.html
