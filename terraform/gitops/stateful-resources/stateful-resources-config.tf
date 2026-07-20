@@ -249,6 +249,7 @@ resource "local_file" "dbaas-crs-mysql" {
       replica_externalservice_name = each.value.dbaas_resource_config.replica_external_service_name
       db_name                      = each.value.external_resource_config.db_name
       mysql_storage_size           = each.value.dbaas_resource_config.mysql_storage_size
+      pxc_binlog_retention_days    = try(each.value.dbaas_resource_config.pxc_binlog_retention_days, 30)
       pxc_image                    = each.value.dbaas_resource_config.pxc_image
       mysql_replicas               = each.value.dbaas_resource_config.mysql_replicas
       mysql_requests_memory        = each.value.dbaas_resource_config.mysql_requests_memory
@@ -286,11 +287,23 @@ resource "local_file" "dbaas-crs-mysql" {
       backup_pvc                   = jsonencode(each.value.dbaas_resource_config.backup_pvc)
       pxc_annotations              = jsonencode(each.value.dbaas_resource_config.pxc_annotations)
       pxc_volume_spec              = jsonencode(each.value.dbaas_resource_config.pxc_volume_spec)
-      mysql_configuration          = try(each.value.dbaas_resource_config.pitr_enabled, false) ? join("\n", [for line in split("\n", each.value.dbaas_resource_config.mysql_config) : line if length(regexall("^\\s*skip[-_]log[-_]bin\\s*(=.*)?\\s*$", line)) == 0]) : each.value.dbaas_resource_config.mysql_config
+      mysql_configuration          = try(each.value.dbaas_resource_config.pitr_enabled, false) ? join("\n", [for line in split("\n", each.value.dbaas_resource_config.mysql_config) : line if length(regexall("^\\s*skip[-_]log[-_]bin\\s*(=.*)?\\s*$", line)) == 0]) : "${join("\n", [for line in split("\n", each.value.dbaas_resource_config.mysql_config) : line if length(regexall("^\\s*skip[-_]log[-_]bin\\s*(=.*)?\\s*$", line)) == 0])}\n[mysqld]\nskip-log-bin"
       istio_nb_egress_waypoint_name   = var.istio_nb_egress_waypoint_name
       istio_nb_egress_waypoint_namespace = var.istio_nb_egress_waypoint_namespace
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
+
+  lifecycle {
+    precondition {
+      condition = try(
+        tonumber(try(each.value.dbaas_resource_config.pxc_binlog_retention_days, 30)) >= 1 &&
+        tonumber(try(each.value.dbaas_resource_config.pxc_binlog_retention_days, 30)) <= 49710 &&
+        floor(tonumber(try(each.value.dbaas_resource_config.pxc_binlog_retention_days, 30))) == tonumber(try(each.value.dbaas_resource_config.pxc_binlog_retention_days, 30)),
+        false
+      )
+      error_message = "pxc_binlog_retention_days must be a whole number between 1 and 49710."
+    }
+  }
 }
 
 resource "local_file" "dbaas-crs-mongodb" {
