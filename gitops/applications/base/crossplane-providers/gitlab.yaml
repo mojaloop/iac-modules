@@ -4,7 +4,7 @@ kind: Provider
 metadata:
   name: provider-gitlab
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-gitlab:v${ARGOCD_ENV_crossplane_providers_gitlab_version}
+  package: ghcr.io/mojaloop/infra/crossplane-contrib/provider-gitlab:v${ARGOCD_ENV_crossplane_providers_gitlab_version}
   runtimeConfigRef:
     name: crossplane-gitlab-controller
 ---
