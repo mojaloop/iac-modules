@@ -55,6 +55,7 @@ argocd_override:
           aws_route53_version: "${crossplane_providers_aws_route53_version}"
           netbird_version: "${crossplane_providers_netbird_version}"
           zitadel_version: "${crossplane_providers_zitadel_version}"
+          gitlab_version: "${crossplane_providers_gitlab_version}"
           grafana_version: "${crossplane_providers_grafana_version}"
           http_version: "${crossplane_providers_http_version}"
         crossplane_functions:
