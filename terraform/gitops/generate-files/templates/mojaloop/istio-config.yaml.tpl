@@ -586,3 +586,18 @@ data:
               matchLabels:
                 gateway.networking.k8s.io/gateway-name: service-ingress-waypoint
 # %{ endif }
+
+---
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: waypoint-connection-pool
+  namespace: ${mojaloop_namespace}
+spec:
+  host: "*.${mojaloop_namespace}.svc.cluster.local"
+  trafficPolicy:
+    connectionPool:
+      http:
+        idleTimeout: 4s # default is 1h
+      tcp:
+        connectTimeout: 5s # default is 10s
