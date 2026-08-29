@@ -18,12 +18,6 @@ variable "kubernetes_version" {
   default     = "1.32"
 }
 
-variable "eks_node_ami_version" {
-  description = "version of eks ami"
-  type        = string
-  default     = "v20241225"
-}
-
 variable "ext_interop_switch_subdomain" {
   description = "subdomain for interop ext"
   default     = "ext"
@@ -202,7 +196,23 @@ variable "dns_provider" {
 }
 
 variable "node_pools" {
-  type = any
+  description = "Node pool definitions keyed by pool name. Each pool must set node_os explicitly."
+  type = map(object({
+    master              = bool
+    instance_type       = string
+    node_count          = number
+    storage_gbs         = number
+    node_os             = string
+    node_taints         = optional(list(string), [])
+    node_labels         = optional(map(string), {})
+    create_access_entry = optional(bool)
+    extra_vol           = optional(bool)
+    extra_vols = optional(list(object({
+      name                     = string
+      size                     = number
+      extra_vol_delete_on_term = optional(bool)
+    })), [])
+  }))
 }
 
 variable "netbird_version" {

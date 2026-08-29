@@ -69,13 +69,14 @@ module "k6s_test_harness" {
 
 module "eks" {
   source      = "terraform-aws-modules/eks/aws"
-  version     = "~> 19.21"
+  version     = "~> 20.37"
   enable_irsa = true
 
   cluster_name                    = local.eks_name
   cluster_version                 = var.kubernetes_version
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = false
+  authentication_mode             = "API_AND_CONFIG_MAP"
 
   # Enable the default key policy (no need for kms_key_administrators or kms_key_owners)
   kms_key_enable_default_policy = true
@@ -163,6 +164,7 @@ resource "aws_iam_role" "eks_access_role" {
 
 locals {
   eks_name = substr(replace(local.base_domain, ".", "-"), 0, 16)
+  kubernetes_minor_version = tonumber(split(".", var.kubernetes_version)[1])
   eks_user_arns = distinct(compact([
     module.post_config.ci_user_arn,
     data.aws_caller_identity.current_user.arn
@@ -207,11 +209,55 @@ locals {
       extra_args = [for key, taint in node_pool.node_taints : "${taint}"]
     }
   }
+  node_pool_os = { for node_pool_key, node_pool in var.node_pools :
+    node_pool_key => try(lower(trimspace(node_pool.node_os)), "")
+  }
+  node_pool_ami_type = { for node_pool_key, node_os in local.node_pool_os :
+    node_pool_key => node_os == "al2023" ? "AL2023_x86_64_STANDARD" : node_os == "al2" ? "AL2_x86_64" : null
+  }
+  # Keep the legacy AL2 node pools on the same fixed EKS AMI naming path they used before this migration work.
+  legacy_al2_ami_version = "v20241225"
+  recommended_ami_ssm_parameter = {
+    AL2023_x86_64_STANDARD = "/aws/service/eks/optimized-ami/${var.kubernetes_version}/amazon-linux-2023/x86_64/standard/recommended/image_id"
+  }
+  node_pool_ami_ssm_parameter = { for node_pool_key, ami_type in local.node_pool_ami_type :
+    node_pool_key => local.recommended_ami_ssm_parameter[ami_type]
+    if ami_type == "AL2023_x86_64_STANDARD"
+  }
+  node_pool_al2_fixed_ami_name = { for node_pool_key, node_os in local.node_pool_os :
+    node_pool_key => "amazon-eks-node-${var.kubernetes_version}-${local.legacy_al2_ami_version}"
+    if node_os == "al2"
+  }
+  node_pool_create_access_entry = { for node_pool_key, node_pool in var.node_pools :
+    node_pool_key => try(node_pool.create_access_entry, local.node_pool_os[node_pool_key] == "al2023")
+  }
+  invalid_node_os_pools = [
+    for node_pool_key, node_os in local.node_pool_os : node_pool_key
+    if !contains(["al2", "al2023"], node_os)
+  ]
+  unsupported_al2_node_pools = local.kubernetes_minor_version >= 33 ? [
+    for node_pool_key, node_os in local.node_pool_os : node_pool_key
+    if node_os == "al2"
+  ] : []
+  al2023_registry_mirror_enabled = var.enable_registry_mirror && length(var.container_registry_mirrors) > 0 && trimspace(var.registry_mirror_fqdn) != ""
+  registry_mirror_basic_auth     = trimspace(var.docker_registry_username) != "" && trimspace(var.docker_registry_password) != "" ? base64encode("${var.docker_registry_username}:${var.docker_registry_password}") : ""
+  al2_post_bootstrap_user_data = templatefile("${path.module}/templates/post-bootstrap-user-data.sh.tpl", {
+    netbird_version            = var.netbird_version
+    netbird_api_host           = var.netbird_api_host
+    netbird_setup_key          = var.netbird_setup_key
+    pod_network_cidr           = var.vpc_cidr
+    container_registry_mirrors = join(" ", var.container_registry_mirrors)
+    enable_registry_mirror     = var.enable_registry_mirror
+    registry_mirror_fqdn       = var.registry_mirror_fqdn
+    docker_registry_username   = var.docker_registry_username
+    docker_registry_password   = var.docker_registry_password
+  })
 
   self_managed_node_groups = { for node_pool_key, node_pool in var.node_pools :
     node_pool_key => {
       name                            = "${local.eks_name}-${node_pool_key}"
-      ami_id                          = data.aws_ami.eks_default.id
+      ami_id                          = local.node_pool_os[node_pool_key] == "al2" ? data.aws_ami.eks_al2_fixed[node_pool_key].id : try(nonsensitive(data.aws_ssm_parameter.eks_recommended[node_pool_key].value), null)
+      ami_type                        = local.node_pool_ami_type[node_pool_key]
       instance_type                   = node_pool.instance_type
       public_ip                       = false
       max_size                        = node_pool.node_count
@@ -223,12 +269,35 @@ locals {
       launch_template_use_name_prefix = false
       iam_role_name                   = "${local.eks_name}-${node_pool_key}"
       iam_role_use_name_prefix        = false
+      create_access_entry             = local.node_pool_create_access_entry[node_pool_key]
       vpc_security_group_ids = [
         module.eks.cluster_primary_security_group_id
       ]
-      bootstrap_extra_args     = "--use-max-pods false --kubelet-extra-args '--cluster-dns=${var.coredns_bind_address} --allowed-unsafe-sysctls=net.ipv4.ip_forward --max-pods=122 --node-labels=${join(",", local.node_labels[node_pool_key].extra_args)} --register-with-taints=${join(",", local.node_taints[node_pool_key].extra_args)}'"
-      post_bootstrap_user_data = "${data.template_file.post_bootstrap_user_data.rendered}"
-      ebs_optimized            = true
+      bootstrap_extra_args     = local.node_pool_os[node_pool_key] == "al2" ? "--use-max-pods false --kubelet-extra-args '--cluster-dns=${var.coredns_bind_address} --allowed-unsafe-sysctls=net.ipv4.ip_forward --max-pods=122 --node-labels=${join(",", local.node_labels[node_pool_key].extra_args)} --register-with-taints=${join(",", local.node_taints[node_pool_key].extra_args)}'" : ""
+      pre_bootstrap_user_data  = ""
+      post_bootstrap_user_data = local.node_pool_os[node_pool_key] == "al2" ? local.al2_post_bootstrap_user_data : ""
+      cloudinit_pre_nodeadm = local.node_pool_os[node_pool_key] == "al2023" ? [
+        {
+          content_type = "application/node.eks.aws"
+          content = templatefile("${path.module}/templates/nodeadm-user-data.yaml.tpl", {
+            cluster_dns                = var.coredns_bind_address
+            node_labels                = join(",", local.node_labels[node_pool_key].extra_args)
+            node_taints                = join(",", local.node_taints[node_pool_key].extra_args)
+            configure_containerd_hosts = local.al2023_registry_mirror_enabled
+          })
+        }
+      ] : []
+      cloudinit_post_nodeadm = local.node_pool_os[node_pool_key] == "al2023" && local.al2023_registry_mirror_enabled ? [
+        {
+          content_type = "text/x-shellscript"
+          content = templatefile("${path.module}/templates/al2023-registry-mirror.sh.tpl", {
+            container_registry_mirrors = var.container_registry_mirrors
+            registry_mirror_fqdn       = var.registry_mirror_fqdn
+            registry_mirror_basic_auth = local.registry_mirror_basic_auth
+          })
+        }
+      ] : []
+      ebs_optimized = true
 
       block_device_mappings = merge(
         {
@@ -279,30 +348,39 @@ locals {
 
 data "aws_caller_identity" "current_user" {}
 
-data "template_file" "post_bootstrap_user_data" {
-  template = file("${path.module}/templates/post-bootstrap-user-data.sh.tpl")
+resource "null_resource" "validate_node_pool_configuration" {
+  lifecycle {
+    precondition {
+      condition     = length(local.invalid_node_os_pools) == 0
+      error_message = "Each node pool must set node_os to one of: al2, al2023. Invalid node pools: ${join(", ", local.invalid_node_os_pools)}"
+    }
 
-  vars = {
-    netbird_version            = var.netbird_version
-    netbird_api_host           = var.netbird_api_host
-    netbird_setup_key          = var.netbird_setup_key
-    pod_network_cidr           = var.vpc_cidr
-    container_registry_mirrors = join(" ", var.container_registry_mirrors)
-    enable_registry_mirror     = var.enable_registry_mirror
-    registry_mirror_fqdn       = var.registry_mirror_fqdn
-    docker_registry_username   = var.docker_registry_username
-    docker_registry_password   = var.docker_registry_password
+    precondition {
+      condition     = length(local.unsupported_al2_node_pools) == 0
+      error_message = "Amazon Linux 2 node pools are not supported for Kubernetes 1.33 and later. Invalid node pools: ${join(", ", local.unsupported_al2_node_pools)}"
+    }
   }
 }
 
-data "aws_ami" "eks_default" {
+data "aws_ami" "eks_al2_fixed" {
+  for_each = local.node_pool_al2_fixed_ami_name
+
   most_recent = true
   owners      = ["amazon"]
 
   filter {
     name   = "name"
-    values = ["amazon-eks-node-${var.kubernetes_version}-${var.eks_node_ami_version}"]
+    values = [each.value]
   }
+}
+
+data "aws_ssm_parameter" "eks_recommended" {
+  for_each = {
+    for node_pool_key, ssm_parameter in local.node_pool_ami_ssm_parameter : node_pool_key => ssm_parameter
+    if local.node_pool_os[node_pool_key] == "al2023"
+  }
+
+  name = each.value
 }
 
 data "aws_ami" "eks_ubuntu" {

@@ -22,16 +22,30 @@ nodes:
   master-generic:
     master: true
     instance_type: "m5.2xlarge"
-    node_count: 3
+    node_count: 4
     storage_gbs: 100
+    # Keep the existing pool on the current EKS optimized AL2 x86_64 AMI so no in-place node replacement happens.
+    node_os: "al2"
+    create_access_entry: false
     node_taints: []
-    node_labels: []
+    node_labels: {}
     extra_vol: true
     extra_vols: []
     # To review default storage configurations for on-prem microk8s using locally attached disks
     # extra_vols:
     #   - name: "/dev/sdh"
     #     size: 100
+  # master-generic-al2023:
+  #   master: true
+  #   instance_type: "m5.2xlarge"
+  #   node_count: 1
+  #   storage_gbs: 100
+  #   node_os: "al2023"
+  #   create_access_entry: true
+  #   node_taints: []
+  #   node_labels: {}
+  #   extra_vol: true
+  #   extra_vols: []
 vpc_cidr: "10.106.0.0/23"
 master_node_supports_traffic: true
 tags:
