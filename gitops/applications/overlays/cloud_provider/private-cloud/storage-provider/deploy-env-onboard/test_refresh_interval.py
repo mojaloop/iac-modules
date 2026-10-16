@@ -9,6 +9,9 @@ import yaml
 
 
 MANIFEST = Path(__file__).with_name("push-storage-secrets-vault.yaml")
+REPOSITORY_ROOT = MANIFEST.parents[7]
+COMMON_VARS = REPOSITORY_ROOT / "terraform/ccnew/default-config/common-vars.yaml"
+ARGO_APPS_TEMPLATE = REPOSITORY_ROOT / "terraform/ccnew/ansible-k8s-deploy/templates/argoapps.yaml.tpl"
 ENV_PATTERN = re.compile(r"\$\{(?P<name>[A-Za-z_][A-Za-z0-9_]*)(?::-?(?P<default>[^}]*))?}")
 
 
@@ -18,7 +21,7 @@ def render_manifest(refresh_interval=None):
         "ARGOCD_ENV_storage_namespace": "rook-ceph",
     }
     if refresh_interval is not None:
-        environment["ARGOCD_ENV_eso_refresh_interval"] = refresh_interval
+        environment["ARGOCD_ENV_deploy_env_onboard_eso_refresh_interval"] = refresh_interval
 
     def replace(match):
         return environment.get(match.group("name"), match.group("default") or "")
@@ -41,6 +44,14 @@ class RefreshIntervalTest(unittest.TestCase):
 
     def test_explicit_value_is_preserved(self):
         self.assert_all_intervals("10m")
+
+    def test_configuration_chain_uses_the_deploy_env_onboard_namespace(self):
+        common_vars = yaml.safe_load(COMMON_VARS.read_text())
+        self.assertEqual("15m", common_vars["env_onboard_eso_refresh_interval"])
+        self.assertIn(
+            'eso_refresh_interval: "${env_onboard_eso_refresh_interval}"',
+            ARGO_APPS_TEMPLATE.read_text(),
+        )
 
 
 if __name__ == "__main__":

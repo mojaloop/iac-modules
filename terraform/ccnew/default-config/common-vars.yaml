@@ -652,3 +652,4 @@ env_onboard_iac_terraform_modules_tag: ""
 env_config_xplane_management_policies:  "'''*'''"
 
 env_onboard_config_xplane_management_policies: "'*'"
+env_onboard_eso_refresh_interval: "15m"
