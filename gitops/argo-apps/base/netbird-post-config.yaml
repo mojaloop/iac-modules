@@ -36,6 +36,9 @@ spec:
       plugin:
         name: envsubst
         env:
+          - name: "eso_refresh_interval"
+            value: "${ARGOCD_ENV_utils_external_secrets_refresh_interval}"
+
           - name: "netbird_istio_gateway_namespace"
             value: "${ARGOCD_ENV_security_netbird_istio_gateway_namespace}"
 

@@ -84,6 +84,7 @@ argocd_override:
           env_onboard_config_version: "${crossplane_packages_env_onboard_config_version}"
         external_secrets:
           helm_version: "${external_secrets_helm_version}"
+          refresh_interval: "${external_secrets_refresh_interval}"
         istio:
           proxy_log_level: "${istio_proxy_log_level}"
           helm_version: "${istio_helm_version}"

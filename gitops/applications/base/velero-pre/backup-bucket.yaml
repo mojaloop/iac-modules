@@ -84,7 +84,7 @@ metadata:
   name: ${ARGOCD_ENV_object_storage_secret_name}
   namespace: ${ARGOCD_ENV_velero_namespace}
 spec:
-  refreshInterval: 1m
+  refreshInterval: ${ARGOCD_ENV_eso_refresh_interval:-15m}
 
   secretStoreRef:
     kind: SecretStore

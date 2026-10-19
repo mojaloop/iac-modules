@@ -61,7 +61,7 @@ kind: ExternalSecret
 metadata:
   name: mimir-alertmanager-config
 spec:
-  refreshInterval: 1m
+  refreshInterval: ${ARGOCD_ENV_eso_refresh_interval:-15m}
 
   secretStoreRef:
     kind: ClusterSecretStore

@@ -36,6 +36,9 @@ spec:
       plugin:
         name: envsubst
         env:
+          - name: "eso_refresh_interval"
+            value: "${ARGOCD_ENV_utils_external_secrets_refresh_interval}"
+
           - name: "zitadel_release_name"
             value: "${ARGOCD_ENV_security_zitadel_app_name}"
 
