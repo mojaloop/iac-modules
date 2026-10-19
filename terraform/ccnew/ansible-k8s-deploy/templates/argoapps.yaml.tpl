@@ -154,6 +154,7 @@ argocd_override:
           object_store_insecure_connection: "${object_storage_provider == "ceph" ? "'true'" : "'false'" }"
           object_store_insecure_skip_verify: "${object_storage_provider == "ceph" ? "'true'" : "'false'" }"
           dns_zone_id: "${private_dns_zone_id}"
+          eso_refresh_interval: "${storage_eso_refresh_interval}"
         storage_aws_provider:
           ebs_csi_driver_helm_version: "${aws_ebs_csi_driver_helm_version}"
           csi_driver_replicas: "${aws_ebs_csi_driver_replicas}"

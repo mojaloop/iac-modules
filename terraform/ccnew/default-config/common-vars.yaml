@@ -653,3 +653,4 @@ env_config_xplane_management_policies:  "'''*'''"
 
 env_onboard_config_xplane_management_policies: "'*'"
 env_onboard_eso_refresh_interval: "15m"
+storage_eso_refresh_interval: "15m"
