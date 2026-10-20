@@ -326,7 +326,7 @@ metadata:
   name: gitlab-rails-secret-lfs
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  refreshInterval: 1m
+  refreshInterval: ${ARGOCD_ENV_eso_refresh_interval:-15m}
 
   secretStoreRef:
     kind: SecretStore
@@ -367,7 +367,7 @@ metadata:
   name: gitlab-rails-secret-artifacts
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  refreshInterval: 1m
+  refreshInterval: ${ARGOCD_ENV_eso_refresh_interval:-15m}
 
   secretStoreRef:
     kind: SecretStore
@@ -408,7 +408,7 @@ metadata:
   name: gitlab-rails-secret-uploads
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  refreshInterval: 1m
+  refreshInterval: ${ARGOCD_ENV_eso_refresh_interval:-15m}
 
   secretStoreRef:
     kind: SecretStore
@@ -449,7 +449,7 @@ metadata:
   name: gitlab-rails-secret-packages
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  refreshInterval: 1m
+  refreshInterval: ${ARGOCD_ENV_eso_refresh_interval:-15m}
 
   secretStoreRef:
     kind: SecretStore
@@ -490,7 +490,7 @@ metadata:
   name: gitlab-rails-secret-mr-diffs
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  refreshInterval: 1m
+  refreshInterval: ${ARGOCD_ENV_eso_refresh_interval:-15m}
 
   secretStoreRef:
     kind: SecretStore
@@ -531,7 +531,7 @@ metadata:
   name: gitlab-rails-secret-ci-secure-files
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  refreshInterval: 1m
+  refreshInterval: ${ARGOCD_ENV_eso_refresh_interval:-15m}
 
   secretStoreRef:
     kind: SecretStore
@@ -572,7 +572,7 @@ metadata:
   name: gitlab-rails-secret-terraform-state
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  refreshInterval: 1m
+  refreshInterval: ${ARGOCD_ENV_eso_refresh_interval:-15m}
 
   secretStoreRef:
     kind: SecretStore
@@ -613,7 +613,7 @@ metadata:
   name: gitlab-rails-secret-dependency-proxy
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  refreshInterval: 1m
+  refreshInterval: ${ARGOCD_ENV_eso_refresh_interval:-15m}
 
   secretStoreRef:
     kind: SecretStore
@@ -654,7 +654,7 @@ metadata:
   name: gitlab-secret-registry
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  refreshInterval: 1m
+  refreshInterval: ${ARGOCD_ENV_eso_refresh_interval:-15m}
 
   secretStoreRef:
     kind: SecretStore
@@ -691,7 +691,7 @@ metadata:
   name: gitlab-rails-secret-backups
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  refreshInterval: 1m
+  refreshInterval: ${ARGOCD_ENV_eso_refresh_interval:-15m}
 
   secretStoreRef:
     kind: SecretStore
@@ -732,7 +732,7 @@ metadata:
   name: gitlab-rails-secret-backups-tmp
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  refreshInterval: 1m
+  refreshInterval: ${ARGOCD_ENV_eso_refresh_interval:-15m}
 
   secretStoreRef:
     kind: SecretStore
@@ -773,7 +773,7 @@ metadata:
   name: gitlab-runner-cache-secret
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  refreshInterval: 1m
+  refreshInterval: ${ARGOCD_ENV_eso_refresh_interval:-15m}
 
   secretStoreRef:
     kind: SecretStore

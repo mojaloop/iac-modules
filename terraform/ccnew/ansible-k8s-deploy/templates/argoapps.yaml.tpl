@@ -84,6 +84,7 @@ argocd_override:
           env_onboard_config_version: "${crossplane_packages_env_onboard_config_version}"
         external_secrets:
           helm_version: "${external_secrets_helm_version}"
+          refresh_interval: "${external_secrets_refresh_interval}"
         istio:
           proxy_log_level: "${istio_proxy_log_level}"
           helm_version: "${istio_helm_version}"
@@ -154,6 +155,7 @@ argocd_override:
           object_store_insecure_connection: "${object_storage_provider == "ceph" ? "'true'" : "'false'" }"
           object_store_insecure_skip_verify: "${object_storage_provider == "ceph" ? "'true'" : "'false'" }"
           dns_zone_id: "${private_dns_zone_id}"
+          eso_refresh_interval: "${storage_eso_refresh_interval}"
         storage_aws_provider:
           ebs_csi_driver_helm_version: "${aws_ebs_csi_driver_helm_version}"
           csi_driver_replicas: "${aws_ebs_csi_driver_replicas}"
@@ -610,6 +612,7 @@ argocd_override:
           tempo_bucket_storage_size: "${env_tempo_bucket_storage_size}"
           loki_bucket_storage_size: "${env_loki_bucket_storage_size}"
           xplane_management_policies: "${env_onboard_config_xplane_management_policies}"
+          eso_refresh_interval: "${env_onboard_eso_refresh_interval}"
         onboard_common_platform_db_rds_provider:
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           rdbms_azs: "${join(",", rdbms_azs)}"

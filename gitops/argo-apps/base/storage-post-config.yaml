@@ -38,6 +38,9 @@ spec:
           - name: "storage_namespace"
             value: "${ARGOCD_ENV_utils_storage_namespace}"
 
+          - name: "eso_refresh_interval"
+            value: "${ARGOCD_ENV_utils_storage_eso_refresh_interval}"
+
           - name: "block_storage_class_name"
             value: "${ARGOCD_ENV_utils_storage_block_storage_class_name}"
 

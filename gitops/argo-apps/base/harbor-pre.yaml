@@ -36,6 +36,9 @@ spec:
     plugin:
       name: envsubst
       env:
+        - name: "eso_refresh_interval"
+          value: "${ARGOCD_ENV_utils_external_secrets_refresh_interval}"
+
         - name: "harbor_namespace"
           value: "${ARGOCD_ENV_harbor_harbor_namespace}"
 
