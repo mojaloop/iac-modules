@@ -84,7 +84,7 @@ locals {
 
 variable "istio_chart_repo" {
   type        = string
-  default     = "oci://gcr.io/istio-release/charts"
+  default     = "oci://ghcr.io/istio/release/charts"
   description = "istio_chart_repo"
 }
 
